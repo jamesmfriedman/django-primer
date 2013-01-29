@@ -1,0 +1,8 @@
+{% extends 'comments/base_post.html' %}
+{% load url from future %}
+
+{% block comment_meta %}
+	{{ comment.created|timesince }} ago • 
+	<a href="{% url 'comments-like' %}" class="comment-like-link">{% if comment.likes.current_user_has_liked %}Unlike{% else %}Like{% endif %}</a>
+	<span class="comment-likes short">{% include 'comments/likes_short.html' %}</span>
+{% endblock comment_meta %}

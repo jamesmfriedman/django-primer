@@ -1,0 +1,9 @@
+{% if remaining_comments_count > 0 %}
+	<div class="comment-replies-load-more">
+		<i class="icon-comment"></i> <a href="#" class="load-more">View {{ remaining_comments_count }} more repl{{ remaining_comments_count|pluralize:'y,ies' }}.<a/>
+	</div>
+{% endif %}
+{% for comment in comments  %}
+    {% include 'comments/comments/default.html' %}
+{% endfor %}
+

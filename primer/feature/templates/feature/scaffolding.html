@@ -1,0 +1,23 @@
+{% extends app_template %}
+
+
+{% block pre_content %}
+<header class="jumbotron subhead" id="overview">
+	<div class="container">
+	<h1>Scaffolding</h1>
+	<p class="lead">Adding some tricks to Django's framework.</p>
+	</div>
+</header>
+{% endblock pre_content %}
+
+{% block feature_nav %}
+<li><a href="#database">Database</a></li>
+<li><a href="#templates">Templates</a></li>
+<li><a href="#push">Push Services</a></li>
+{% endblock feature_nav %}
+
+{% block content %}
+	{% include 'feature/scaffolding_database.html' %}
+	{% include 'feature/scaffolding_templates.html' %}
+	{% include 'feature/scaffolding_push.html' %}
+{% endblock content %}

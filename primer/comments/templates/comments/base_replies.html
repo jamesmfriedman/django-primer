@@ -1,0 +1,9 @@
+<div class="comment-replies">
+	{% with comment.children.visible_count|add:'-3' as remaining_comments_count %}
+	{% with comment.children.all|slice:':' as comments %} 
+	{% with comments|slice:'-3:' as comments %}
+	    {% include 'comments/list_replies.html' %}
+	{% endwith %}
+	{% endwith %}
+	{% endwith %}
+</div>

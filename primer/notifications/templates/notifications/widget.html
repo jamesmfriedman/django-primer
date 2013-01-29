@@ -1,0 +1,14 @@
+{% load url from future %}
+
+<li class="dropdown notifications-center">
+	<a id="notifications-widget-toggle" href="{% url 'notifications-widget' %}" class="dropdown-toggle" data-toggle="dropdown">
+		<span class="badge badge-important {% if notifications_count %}unread-notifications{% endif %}" data-count="{{ notifications_count }}">{{ notifications_count }}</span>
+		<i class="icon-globe"></i>
+	</a>
+	<div class="dropdown-menu notifications-widget-dropdown">
+		<h3>Notifications</h3>
+		<div class="notifications-widget-dropdown-container loading">
+		</div>
+		<a href="#" class="btn btn-block notifications-view-all">View All</a>
+	</div>
+</li>

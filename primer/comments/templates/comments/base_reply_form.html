@@ -1,0 +1,11 @@
+{% load crispy_forms_tags %}
+{% if not read_only %}
+<div class="comment-reply media">
+    <div class="comment-icon comment-reply-icon pull-left">
+        {{ request.user.get_avatar }}
+    </div>
+    <div class="media-body">
+        {% crispy comment.get_reply_form %}
+    </div>
+</div>
+{% endif %}

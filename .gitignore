@@ -1,0 +1,7 @@
+*.idea
+*.pyc
+*.DS_Store
+*settings_local.py
+
+primer/static/primer/js/cache/
+static/CACHE/*

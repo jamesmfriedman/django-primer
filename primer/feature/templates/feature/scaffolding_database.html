@@ -1,0 +1,57 @@
+<section id="database">
+	<div class="page-header">
+		<h1>Database</h1>
+	</div>
+
+	<h3>Primer Model</h3>
+	<p>Primer comes with an abstract base model for you to subclass called <code>PrimerModel</code> located in <code>primer.db.models</code>. It comes with the following baked in fields.</p>
+
+	<div class="alert alert-info">
+		<strong>Attention!</strong> The following fields have been monkey patched onto Django's <code>User</code>, <code>Group</code>, and <code>Site</code> models.
+	</div>
+
+	<table class="table table-striped table-bordered">
+		<tbody>
+			<tr>
+				<td>created</td>
+				<td>Datetime that is automatically added when a record is created.</td>
+			</tr>
+			<tr>
+				<td>modified</td>
+				<td>Datetime that is automatically updated everytime a record is modified.</td>
+			</tr>
+			<tr>
+				<td>uuid</td>
+				<td>An automatically generated Unique Universal Identifier based on UUID Version 1. This gets automatically generated when a record is created.</td>
+			</tr>
+		</tbody>
+	</table>
+
+	
+	<h3>Fields</h3>
+	<p>The following field types also available in <code>primer.db.models</code>.</p>
+
+	<table class="table table-striped table-bordered">
+		<tbody>
+			<tr>
+				<td>PickleField</td>
+				<td>A field for storing pickeld (serialized) data. You can set this field to a dict and any serializeable types will be converted to a string and stored int he database. When working with model objects, the data will be returned to you as a dict.</td>
+			</tr>
+			<tr>
+				<td>UUIDField</td>
+				<td>A Unique Universal Identifier based on UUID Version 1. This gets automatically generated when a record is created if not explicitly set. There is already a UUID field included in <code>PrimerModel</code>, but the field type is there if you need it.</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Examples</h3>
+<pre class="prettyprint linenums">
+from primer.db.models import PrimerModel, PickleField, UUIDField
+
+class MyModel(PrimerModel):
+	data = PickleField(blank = True, null = True)
+	hash = UUIDField()
+</pre>
+
+
+</section>

@@ -1,0 +1,13 @@
+{% extends 'notifications/base_notifications.html' %}
+
+{% block notifications_content %}
+	<div class="page-header">
+		<h2>Your Notifications</h2>
+	</div>
+	{% for notification in notifications %}
+		{% ifchanged notification.created|date:"d/m/y" %}
+			<h3>{{ notification.created|date:"F d" }}</h3>
+		{% endifchanged %}
+		{% include notification.template %}
+	{% endfor %}
+{% endblock notifications_content %}

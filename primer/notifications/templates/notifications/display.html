@@ -1,0 +1,7 @@
+<div id="notifications-container">
+	{% if notifications %}
+	   	{% for notification in notifications %}
+	   		{% include notification.template %}
+	    {% endfor %}
+	{% endif %}
+</div>

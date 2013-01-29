@@ -1,0 +1,54 @@
+{% load crispy_forms_tags %}
+{% load url from future %}
+<div 
+    class="comment {{comment.get_css_class}} {% block comment_class %}{% endblock comment_class %} media fade" 
+    data-pk="{{ comment.pk }}" 
+    data-liked="{{ comment.likes.current_user_has_liked|lower }}"
+    data-page="1" 
+>
+    <div class="comment-inner">
+        {% if comment.user == request.user %}
+        <a href="{% url 'comments-delete' %}" class="close comment-delete">&times;</a>
+        {% endif %}
+
+        {% block comment_icon_wrapper %}
+        <div class="comment-icon pull-left">
+            {% block comment_icon %}
+                {{ comment.user.get_avatar }}
+            {% endblock comment_icon %}
+        </div>
+        {% endblock comment_icon_wrapper %}
+        
+        <div class="media-body">
+            
+            {% block comment_author_wrapper %}
+            <div class="comment-author media-heading">
+                {% block comment_author %}<a href="{{ comment.user.get_absolute_url }}"><b>{{ comment.user.get_full_name }}</b></a>{% endblock comment_author %}
+                {% block comment_action %}{% endblock comment_action %}
+            </div>
+            {% endblock comment_author_wrapper %}
+
+            {% block comment_text_wrapper %}
+                <div class="comment-text">
+                    {% block comment_text %}
+                        {{ comment.comment }}
+                    {% endblock comment_text %}
+                </div>
+            {% endblock comment_text_wrapper %}
+            
+            {% block comment_meta_wrapper %}
+            <div class="comment-meta">
+                {% block comment_meta %}
+                    {{ comment.created|timesince }} ago
+                {% endblock comment_meta %}
+            </div>
+            {% endblock comment_meta_wrapper %}
+
+            {% block comment_network_wrapper %}
+                {% block comment_network %}
+                
+                {% endblock comment_network %}
+            {% endblock comment_network_wrapper %}
+        </div>
+    </div>
+</div>

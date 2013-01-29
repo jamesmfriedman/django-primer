@@ -1,0 +1,130 @@
+/****************************************************************
+ * Notifications Toggle Button
+ ****************************************************************/
+#notifications-widget-toggle {
+	position: relative;
+	font-size: 18px;
+	padding: 0 11px;
+	width: 20px;
+	line-height: 41px;
+	height: 40px;
+}
+
+#notifications-widget-toggle .badge {
+	visibility: hidden;
+	font-size: 10px;
+	position: absolute;
+	top: 3px;
+	right: 2px;
+	padding: 1px 6px;
+}
+
+#notifications-widget-toggle.unread-notifications {
+	
+}
+
+#notifications-widget-toggle.unread-notifications .badge {
+	visibility: visible;
+}
+
+
+/****************************************************************
+ * Notifications Widget
+ ****************************************************************/
+.notifications-widget-dropdown {
+	
+	text-align:left;
+
+	h3 {
+		padding: 0 7px 4px 7px;
+		font-size: 14px;
+		line-height: 10px;
+	}	
+
+	width: 330px;
+
+	.time {
+		display: block;
+		font-size: 10px;
+	}
+
+	.notification {
+		clear: both;
+	    color: #333333;
+	    display: block;
+	    font-weight: normal;
+	    line-height: auto;
+	    padding: 5px 10px;
+	    border-top: 1px solid #eee;
+	    text-decoration:none;
+	    white-space: normal;
+
+	    &:first-child {
+	    	border-top: 0;
+	    }
+	}
+
+	.notification:hover {
+		color: @white;
+		background-color: @linkColor;
+	}
+
+	.notifications-widget-dropdown-container {
+		overflow-y: auto;
+		border-top: 1px solid @tableBorder;
+		border-bottom: 1px solid @tableBorder;
+		margin-bottom: 5px;
+	
+		&.loaded {
+			max-height: 300px;
+			.transition(all .3s ease-in-out);
+		}	
+	}
+
+	.notifications-view-all {
+		margin: 0 5px;
+		width: auto;
+	}
+
+}
+
+/****************************************************************
+ * Notifications Page
+ ****************************************************************/
+.notifications-notifications {
+
+	h3 {
+		margin-bottom: 10px;
+	}
+
+	.time {
+		display: block;
+		font-size: 10px;
+	}
+
+	.notification {
+		clear: both;
+	    color: #333333;
+	    display: block;
+	    font-weight: normal;
+	    line-height: auto;
+	    padding: 5px 10px;
+	    border-top: 1px solid #eee;
+	    text-decoration:none;
+	    white-space: normal;
+	}
+
+	.notification:hover {
+		color: @white;
+		background-color: @linkColor;
+	}
+}
+
+/****************************************************************
+ * Notifications Container
+ ****************************************************************/
+
+#notifications-container > *, .notification {
+	.transition(all .3s);
+	max-height: 200px;
+}

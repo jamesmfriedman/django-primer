@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% block body %}
+	<div class="container">
+		<div class="well">
+			<div class="page-header">
+				<h2>{% block title %}Error{% endblock title %}</h2>
+			</div>
+			{% block content %}
+			{% endblock content %}
+		</div>
+	</div>
+{% endblock body %}

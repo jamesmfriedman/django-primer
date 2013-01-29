@@ -1,0 +1,88 @@
+// Rotate X
+.rotateX(@degrees) {
+  -webkit-transform: rotateX(@degrees);
+     -moz-transform: rotateX(@degrees);
+      -ms-transform: rotateX(@degrees);
+       -o-transform: rotateX(@degrees);
+          transform: rotateX(@degrees);
+}
+
+// Rotate Y
+.rotateY(@degrees) {
+  -webkit-transform: rotateY(@degrees);
+     -moz-transform: rotateY(@degrees);
+      -ms-transform: rotateY(@degrees);
+       -o-transform: rotateY(@degrees);
+          transform: rotateY(@degrees);
+}
+
+// Transform
+.transform(@transform) {
+  -webkit-transform: @arguments;
+     -moz-transform: @arguments;
+      -ms-transform: @arguments;
+       -o-transform: @arguments;
+          transform: @arguments;
+}
+
+// Perspective
+.perspective(@perspective) {
+  -webkit-perspective: @perspective;
+     -moz-perspective: @perspective;
+      -ms-perspective: @perspective;
+       -o-perspective: @perspective;
+          perspective: @perspective;
+}
+
+// Perspective
+.transform-style(@transformStyle) {
+  -webkit-transform-style: @transformStyle;
+     -moz-transform-style: @transformStyle;
+      -ms-transform-style: @transformStyle;
+       -o-transform-style: @transformStyle;
+          transform-style: @transformStyle;
+}
+
+// Fix Skew
+.skew(@x, @y) {
+  -webkit-transform: skewX(@x) skewY(@y);
+     -moz-transform: skewX(@x) skewY(@y);
+      -ms-transform: skewX(@x) skewY(@y);
+       -o-transform: skewX(@x) skewY(@y);
+          transform: skewX(@x) skewY(@y);
+}
+
+.backface-visibility(@visibility) {
+  -webkit-backface-visibility: @visibility;
+     -moz-backface-visibility: @visibility;
+      -ms-backface-visibility: @visibility;
+       -o-backface-visibility: @visibility;
+          backface-visibility: @visibility;
+  
+}
+
+.image-set(@imageOne, @imageTwo) {
+    background-image: url(@imageOne);
+    background-image: -webkit-image-set(url(@imageOne) 1x, url(@imageTwo) 2x);
+    background-image:    -moz-image-set(url(@imageOne) 1x, url(@imageTwo) 2x);
+    background-image:     -ms-image-set(url(@imageOne) 1x, url(@imageTwo) 2x);
+    background-image:      -o-image-set(url(@imageOne) 1x, url(@imageTwo) 2x);
+    background-image:         image-set(url(@imageOne) 1x, url(@imageTwo) 2x);
+}
+
+// Draggable cursor
+.dragCursor() {
+    
+    &:hover {
+      cursor: url('/static/primer/img/cursors/openhand.cur'), default !important;
+      cursor: grab;  
+      cursor: -moz-grab;
+    }
+    
+    &:active {
+      cursor: url('/static/primer/img/cursors/closedhand.cur'), default !important;
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+    }
+}
+

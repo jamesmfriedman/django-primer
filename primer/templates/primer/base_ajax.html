@@ -1,0 +1,15 @@
+{% load compress %}
+
+{# WE INCLUDE MULTIPLE TAGS HERE TO SUPPORT MULTIPLE LAYERS OF AJAXING IN PAGES #}
+{% block ajax_content %}
+{% endblock ajax_content %}
+
+{% compress js %}
+	{% block page_scripts %}
+	{% endblock page_scripts %}
+	{% block header_scripts %}
+	{% endblock header_scripts %}
+{% endcompress %}
+
+{% block external_scripts %}
+{% endblock external_scripts %}

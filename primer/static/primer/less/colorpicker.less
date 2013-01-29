@@ -1,0 +1,25 @@
+.color-picker {
+	.color-picker-widget {
+		display:block;
+		float:left;
+		width: 35px;
+		height: 35px;
+		outline:none;
+		margin: 2px;
+		position: relative;
+		.transition(all .2s ease-in-out);
+	}
+
+	.color-picker-widget:hover,
+	.color-picker-widget.active:hover {
+		.transform(scale(1.4));
+		.box-shadow(0 0 7px 3px @linkColor);		
+		z-index: 2;
+	}
+
+	.color-picker-widget.active {
+		.transform(scale(1.2));
+		z-index: 1;
+		.box-shadow(0 0 5px 2px @linkColor);		
+	}
+}

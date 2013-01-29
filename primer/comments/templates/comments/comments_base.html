@@ -1,0 +1,63 @@
+{% load url from future %}
+{% load crispy_forms_tags %}
+
+<div 
+	class="comments {{ css_class_name }} 
+        {% if read_only %}comments-read-only{% endif %} 
+        {% if is_reversed %}comments-list-reversed{% endif %} 
+        {% if login_required and not request.user.is_authenticated %}comments-login-required{% endif %}" 
+	data-content="{{ comment_hash }}" 
+	data-page="1" 
+	data-limit="{{ limit }}" 
+	data-load-url="{% url 'comments-load' %}" 
+	data-type="{{ comments_type }}"
+    data-reversed="{% if is_reversed %}1{% else %}0{% endif %}"
+>
+	{# IF OUR LIST IS REVERSED, PLACED THE CONTAINER FIRST #}
+	{% if is_reversed %}
+        <div class="comments-container loading">
+        	{% if not login_required or request.user.is_authenticated %}
+                {% include 'comments/placeholder.html' %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    
+    <div class="comment-forms">
+    {% if not login_required or request.user.is_authenticated %}
+        {% if not read_only and comment_forms %}
+            {% if comment_forms|length > 1 %}
+                <ul class="nav {{ tab_class }}">
+                    {% for comment_form in comment_forms %}
+                        <li class="{% if forloop.first %}active{% endif %}"><a href="#{{ comment_form.get_class_name }}" data-toggle="tab">{{ comment_form.form_title }}</a></li>
+                    {% endfor %}
+                </ul>
+
+                <div class="tab-content">
+                {% for comment_form in comment_forms %}
+                    <div class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ comment_form.get_class_name }}">
+                        {% crispy comment_form %}
+                    </div>
+                {% endfor %}
+                </div>
+            
+            {% else %}
+                {% crispy comment_forms.0 %}
+            {% endif %}
+        {% endif %}
+    {% elif not read_only and comment_forms %}
+        {% include 'comments/login_required.html' %}
+    {% endif %}
+    </div>
+    
+
+    {# THE LIST IS NOT REVERSED, PLACE THE COMMENTS AFTER THE FORM #}
+    {% if not is_reversed %}
+        {% if not login_required or request.user.is_authenticated %}
+            <div class="comments-container loading">
+                {% include 'comments/placeholder.html' %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+</div>

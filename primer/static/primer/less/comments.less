@@ -1,0 +1,601 @@
+/*********************************************************************************
+ * Base Comment Styles
+ *********************************************************************************/
+.comments {
+
+	//hide the placeholder if our content is loading or if we have comments
+	.comments-container {
+		&.has-comments .place-holder, &.loading .place-holder {
+			display: none;
+		}
+	}
+
+	//hide our delete bubonts for read only comments
+	&.comments-read-only {
+		.comment-delete {
+			display: none;
+		}
+	}
+
+	.comments-container > .comment:last-of-type > .comment-inner {
+		border-bottom: none;
+	} 
+
+
+	.btn.load-more {
+		display: block;
+		clear:both;
+		position: relative;
+		z-index: 1;
+	}
+
+
+
+	/**
+	 * Comments
+	 */
+	.comment {
+		position: relative;
+		overflow: visible;	
+		
+		.comment-inner {
+			padding: 10px;
+			border-bottom: 1px solid @tableBorder;
+			background: @white;
+		}
+
+		.comment-delete {
+			position: absolute;
+			top: 10px;
+			right:10px;
+			opacity:0;
+			width: 20px;
+			height: 20px;
+		}
+
+		.comment-author {
+			margin-bottom:0;
+		}
+
+		&:hover > .comment-inner > .comment-delete {
+			opacity: .4;
+		}
+
+		.comment-meta {
+			color: #aaa;
+			font-size: 12px;
+		}
+
+		.comment-network {
+			background: @tableBackgroundHover;
+			margin-top: 10px;
+		}
+
+		.comment-icon {
+			width: 35px;
+			height: 35px;		
+		}
+	}
+
+	.comments-container > .comment > .comment-inner > .comment-icon {
+		width: 50px;
+		height: 50px;
+		text-align: center;
+	}
+
+	/**
+	 * Comment Network Boxes
+	 */
+	.comment-likes, .comment-replies .comment .comment-inner, 
+	.comment-reply, .comment-replies-load-more {
+		padding: 6px 8px;
+		border-bottom: 1px solid @bodyBackground;
+		font-size: 12px;	
+	}
+
+
+	/**
+	 * Comment Replies
+	 */
+	.comment-replies .comment {
+		margin-top:0;
+
+		.comment-inner {
+			background: none;
+			padding-right: 25px;
+		}
+
+		.comment-likes {
+			padding: 0;
+		}
+
+		.comment-likes .tooltip .tooltip-inner {
+			text-align: left;
+		}
+
+		.comment-author, .comment-text {
+			display: inline;
+			font-weight: normal;
+			margin:0;
+		}
+	}
+
+	
+	/**
+	 * Comment Reply Forms
+	 */
+	.comment-reply {
+	
+		margin-top:0;
+
+		.control-group, form, textarea {
+			margin-bottom:0;
+		}
+
+		label, .form-actions {
+			display: none;
+		}
+
+		.controls {
+			padding-right: 18px;
+		}
+
+		textarea {
+			width: 100%;
+			height: 20px;
+			margin-top:3px;
+		}
+	}
+
+
+	/**
+	 * emotion wall post styles
+	 */
+	.comment-emotion {
+		.comment-icon .emotion {
+			background: black;
+			width: 50px;
+			height: 50px;
+			line-height: 45px;
+			font-weight: bold;
+			font-size: 30px;
+
+
+			&.emotion-sad {
+				background: aliceblue; 
+			}
+
+			&.emotion-happy {
+				background: orange;
+			}
+
+			&.emotion-indifferent {
+				background: gainsboro;
+			}
+
+			&.emotion-loving {
+				background: pink;
+			}
+
+			&.emotion-coy {
+				background: yellow;
+			}
+
+			&.emotion-angry {
+				background: red;
+			}
+		}
+	}
+}
+
+
+/*********************************************************************************
+ * Comment Lists
+ *********************************************************************************/
+.comments.comments-list {
+
+	//styles for reversed comment lists
+	&.comments-list-reversed {
+		.comments-container {
+			margin-bottom: 5px;
+		}
+	}
+}
+
+
+/*********************************************************************************
+ * Timelines
+ *********************************************************************************/
+@timelineTrackColor: @tableBorder;
+@timelineOrbColor: @tableBorder;
+@timelineBorderColor: @tableBorder;
+@timelineOrbSize: 25px;
+@timelineOrbBorderSize: 3px;
+@timelineTrackWidth: 2px;
+
+
+.comments.comments-timeline {
+
+	/**
+	 * sets up the track
+	 */
+	.comments-container {
+		position: relative;
+
+		&.has-comments:before {
+			content:'';
+			display: block;
+			width: @timelineTrackWidth;
+			background: @timelineTrackColor;
+			position: absolute;
+			top:0;
+			bottom:0;
+			left: 50%;
+			margin-left: -@timelineTrackWidth / 2;
+		}
+
+		&.has-comments.comments-loading:before{
+			bottom:30px;
+		}
+
+		&:after {
+			content:'';
+			clear:both;
+			display: block;
+		}
+	}
+
+
+	// override the style of hiding the network from the get go
+	.comment-network {
+		display: block !important;
+	}
+
+		
+
+	/**
+	 * Main Comments
+	 */
+	.comments-container > .comment {
+		margin-top:0;
+		margin-bottom:15px;
+		position: relative;
+
+		//timeline orb
+		&:after {
+			font-family: 'Glyphicons Halflings';
+			font-style: normal;
+			content: '\e111';
+			display: block;
+			width: @timelineOrbSize;
+			height: @timelineOrbSize;
+			line-height: @timelineOrbSize;
+			text-align: center;
+			color: @white;
+			.border-radius(100px);
+			border:@timelineOrbBorderSize solid @wellBackground;
+			position: absolute;
+			background: @timelineOrbColor;
+			font-size: 12px;
+			top: 40 - (@timelineOrbSize / 2) - @timelineOrbBorderSize;
+			right: -(@timelineOrbSize + (@timelineOrbBorderSize * 2)) / 2;
+			.transition(all .5s);
+		}
+
+		&:hover:after {
+			background: @linkColor;
+			z-index: 1;
+			width: @timelineOrbSize + 10;
+			height: @timelineOrbSize + 10;
+			line-height: @timelineOrbSize + 10;
+			top: 40 - ((@timelineOrbSize + 10) / 2) - @timelineOrbBorderSize;
+			right: -(@timelineOrbSize + 10 + (@timelineOrbBorderSize * 2)) / 2;
+		}
+
+		&:hover > .comment-inner {
+			border-color: @linkColor;
+
+			&:before {
+				border-left-color: @linkColor;
+			}
+		}
+
+		//Create the arrows, adjust the base comment style
+		> .comment-inner {
+			border: 1px solid @timelineBorderColor;
+			.border-radius(@baseBorderRadius);
+			position: relative;
+			margin-right: @timelineOrbSize + 5;
+			.transition(all .5s);
+
+
+			> .media-body {
+				overflow: visible;
+			}
+
+			// Arrows
+			&:before, &:after {
+				content: '';
+				border-width: 8px;
+				border-style: solid;
+				border-color: transparent transparent transparent @white;
+				position: absolute;
+				top:30px;
+				right: -16px;
+				.transition(all .5s);
+			}
+
+			&:before {
+				border-left-color: @timelineBorderColor;
+				border-width: 9px;
+				right: -18px;
+				top: 29px;
+			}
+		}
+	}
+
+
+	/**
+	 * Center Comment Styles
+	 * Comments are left aligned by default, so we just have to adjust for center and for right styles
+	 */
+	&.comments-timeline-center {
+		
+		.comments-container > .comment {
+			width: 50%;
+			display: table-column;
+		}
+
+		.comments-container > .comment:nth-child(odd) {
+			float:left;
+			clear:left;
+		}
+
+		.comments-container > .comment:nth-child(even) {
+			float:right;
+			clear:right;
+
+			//correct timeline orb
+			&:after {
+				top: (44 + @timelineOrbSize * 1.5) - ((@timelineOrbSize - @timelineOrbBorderSize) / 2);
+			}
+
+			&:hover:after {
+				top: (44 + @timelineOrbSize * 1.5) - ((@timelineOrbSize + 10 + @timelineOrbBorderSize) / 2);
+			}
+
+			> .comment-inner {
+				
+				&:before {
+					top: 39 + @timelineOrbSize * 1.5;
+				}
+
+				&:after {
+					top: 40 + @timelineOrbSize * 1.5;
+				}
+			}
+
+		}
+	}
+
+	/**
+	 * Left only styles
+	 */
+	&.comments-timeline-left .comments-container.has-comments {
+		
+		padding-right: @timelineOrbSize / 2;
+
+		&:before {
+			right: (@timelineOrbSize - @timelineTrackWidth ) / 2;
+			left:auto;
+		}
+	}
+
+	/**
+	 * Right only styles
+	 */
+	&.comments-timeline-right .comments-container.has-comments {
+		padding-left: @timelineOrbSize / 2; 
+		&:before {
+			left:@timelineOrbSize / 2;
+		}
+	}
+
+
+	&:not(.comments-timeline-left) {
+	
+		//even comments
+		.comments-container > .comment:nth-child(even), 
+		&.comments-timeline-right .comments-container > .comment:nth-child(odd) {
+
+			//correct timeline orb
+			&:after {
+				right:auto;
+				left: -((@timelineOrbSize + (@timelineOrbBorderSize * 2)) / 2);
+			}
+
+			&:hover:after {
+				left: -(@timelineOrbSize + 10 + (@timelineOrbBorderSize * 2)) / 2;
+			}
+
+			&:hover > .comment-inner:before {
+				border-color: transparent @linkColor transparent transparent;
+			}
+
+			> .comment-inner {
+				margin-left: @timelineOrbSize + 5;
+				margin-right:0;
+
+				//Arrows
+				&:before {
+					left: -18px;
+					right: auto;
+					border-color: transparent @timelineBorderColor transparent transparent;
+				}
+
+				&:after {
+					left: -16px;
+					right: auto;
+					border-color: transparent @white transparent transparent;
+				}
+			}
+		}
+	}
+}
+
+
+
+/**
+ * Baked in Comment Form Styles
+ */
+.comments .comment-forms {
+
+	//Standard Comment Form
+	.comment-form-comment {
+		padding-right: 98px;
+		position: relative;
+		margin-bottom: 0;
+
+		.form-actions {
+			border:0;
+			background: none;
+			padding:0;
+			margin:0;
+			position: absolute;
+			top:0;
+			right:0;
+
+			input {
+				height: 30px;
+				line-height: 30px;
+				padding-top:0;
+				padding-bottom:0;
+			}
+		}
+
+		#div_id_name, #div_id_email {
+			display: inline-block;
+			width: 50%;	
+		}
+
+		#div_id_name .controls {
+			padding-right: 19px;
+		}
+
+		#div_id_email .controls {
+			padding-left: 5px;
+		}
+
+		.controls {
+			padding-right: 14px;
+		}
+
+
+		label {
+			display: none;	
+		}
+
+
+		.control-group {
+			margin-bottom: 0;
+		}
+
+		textarea, input {
+			width: 100%;
+		}
+
+		textarea {
+			height: 20px;
+		}
+	}
+
+
+	//Status and Timeline
+	.comment-form-status, .comment-form-timeline {
+
+		padding-right: 126px;
+		position: relative;
+		
+
+		label {
+			display: none;
+		}
+
+		.form-actions {
+			border:0;
+			background: none;
+			padding:0;
+			margin:0;
+			position: absolute;
+			top:0;
+			right:0;
+
+			input {
+				height: 30px;
+				line-height: 30px;
+				padding-top:0;
+				padding-bottom:0;
+			}
+		}
+
+		textarea {
+			height: 20px;
+			width: 100%;
+			margin-bottom:0;
+		}
+
+		.control-group {
+			margin-bottom:0;
+		}
+
+		.controls {
+			padding-right: 14px;
+		}
+	}
+
+
+	//Timeline Form
+	.comment-form-timeline {
+		padding-right: 82px;
+	}
+
+
+	//Emotion Form
+	.comment-form-emotion {
+
+		#div_id_emotion {
+			float:left;
+			width: 50%;
+		}
+
+		#div_id_comment {
+			float:right;
+			width: 50%;
+
+			.controls {
+				padding-right: 14px;
+			}
+		}
+
+		.control-label {
+			font-weight: bold;
+		}
+
+		.form-actions {
+			margin:0;
+			clear:both;
+			.border-radius(0 0 @baseBorderRadius @baseBorderRadius);
+		}
+
+		textarea {
+			height: 40px;
+			width: 100%;
+			margin:0;
+		}
+
+
+		
+	}
+
+
+}

@@ -1,0 +1,27 @@
+{% extends 'comments/base_post.html' %}
+{% load url from future %}
+
+{% block comment_meta %}
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'comments-like' %}" class="comment-like-link">{% if comment.likes.current_user_has_liked %}Unlike{% else %}Like{% endif %}</a> • 
+    {% endif %}
+
+    {% if not read_only %}
+        <a href="#" class="comment-reply-to">Comment</a> • 
+    {% endif %}
+    {{ comment.created|timesince }} ago
+{% endblock comment_meta %}
+
+{% block comment_network %}
+<div class="comment-network {% if not comment.children.count and not comment.likes.count %}none{% endif %}">
+    <div class="comment-likes {% if not comment.likes.count %}none{% endif %}">
+        {% block comment_likes %}
+            {% include 'comments/likes_details.html' %}
+        {% endblock comment_likes %}
+    </div>
+    
+    {% include 'comments/base_replies.html' %}
+    {% include 'comments/base_reply_form.html' %}
+    
+</div>
+{% endblock comment_network %}

@@ -1,0 +1,46 @@
+{% load primer_tags %}
+<section id="overview">
+	<div class="page-header">
+		<h1>Overview</h1>
+	</div>
+	<p>Django's built in Comments framework has a lot of great features, but the front end implementation left a lot to be desired. Primer enhances the build in Comments framework and reduces implementing comments into your webapp into a one line template tag. A lot of care has been taken to extend and enhance Django's Comments framework, with overriding its default behavior. You can use the Comment's framework as documented if you so choose, and Primer won't get in the way. You might want to read up on <a href="https://docs.djangoproject.com/en/dev/ref/contrib/comments/" target="_blank">Django's Comments framework</a> before you get started.</p>
+
+	<div class="alert alert-info"><strong>Urls:</strong> Primer uses its own custom urls and views for comments. If you want to use Django's, you'll have to include theirs.</div>
+
+	<h3>Model Additions</h3>
+	<p>These fields have been monkey patched onto the comments model.</p>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Field</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>uuid</td>
+				<td>A UUID field that gets auto generated on save.</td>
+			</tr>
+			<tr>
+				<td>created</td>
+				<td>Date created, auto added</td>
+			</tr>
+			<tr>
+				<td>modified</td>
+				<td>Date modified, auto updated</td>
+			</tr>
+			<tr>
+				<td>parent</td>
+				<td>The parent comment. This is used for walls, where comments can belong to other comments.</td>
+			</tr>
+			<tr>
+				<td>type</td>
+				<td>An arbitraty string type you can set on a comment. This is taken into account when selecting what template to render the comment with.</td>
+			</tr>
+			<tr>
+				<td>data</td>
+				<td>A PickleField for arbirary data to associate with your comment. This can be extremely useful for custom comment forms that have a lot of extra fields.</td>
+			</tr>
+		</tbody>
+	</table>
+</section>

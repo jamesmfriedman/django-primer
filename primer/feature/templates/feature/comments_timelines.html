@@ -1,0 +1,35 @@
+{% load primer_tags  %}
+{% load timeline from primer_comment_tags  %}
+<section id="timelines">
+	<div class="page-header">
+		<h1>Timelines</h1>
+	</div>
+
+	<div class="bs-docs-example" id="timeline-example-styles">
+		<div class="btn-group" data-toggle="buttons-radio">
+			<a href="#" class="btn btn-primary active" data-class="comments-timeline-center">Center</a>
+			<a href="#" class="btn btn-primary" data-class="comments-timeline-left">Left</a>
+			<a href="#" class="btn btn-primary" data-class="comments-timeline-right">Right</a>
+		</div>
+	</div>
+<pre class="prettyprint linenums">{% verbatim %}
+{% load timeline from primer_comment_tags  %}
+{% timeline target=comment_obj position="center" %}
+{% endverbatim %}</pre>
+
+	<div class="well">
+		{% timeline target=comment_obj %}
+	</div>
+
+</section>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#timeline-example-styles').on('click', 'a', function(e){
+			e.preventDefault();
+			$('.comments-timeline')
+				.removeClass('comments-timeline-left comments-timeline-right comments-timeline-center')
+				.addClass($(this).data('class'));
+		});
+	});
+</script>

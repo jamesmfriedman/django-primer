@@ -1,0 +1,9 @@
+<div class="notifications-widget">
+{% for user_link in stored_notifications %}
+	{% with user_link.notification as notification %}
+		{% include notification.template %}
+	{% endwith %}
+{% empty %}
+	<div class="place-holder">No Notifications</div>
+{% endfor %}
+</div>

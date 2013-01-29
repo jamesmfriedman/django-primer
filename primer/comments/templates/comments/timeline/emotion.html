@@ -1,0 +1,32 @@
+{% extends 'comments/timeline/default.html' %}
+
+{% block comment_action %}is feeling <b>{{ comment.data.emotion }}</b>{% endblock comment_action%}
+
+
+{% block comment_icon %}
+	<div class="emotion emotion-{{ comment.data.emotion }}">
+		{% if comment.data.emotion == 'sad' %}
+			:(
+		{% endif %}
+
+		{% if comment.data.emotion == 'happy' %}
+			:)
+		{% endif %}
+
+		{% if comment.data.emotion == 'indifferent' %}
+			:/
+		{% endif %}
+
+		{% if comment.data.emotion == 'coy' %}
+			;)
+		{% endif %}
+
+		{% if comment.data.emotion == 'loving' %}
+			:*
+		{% endif %}
+
+		{% if comment.data.emotion == 'angry' %}
+			&gt;:(
+		{% endif %}
+	</div>
+{% endblock comment_icon %}

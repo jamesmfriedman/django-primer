@@ -1,0 +1,22 @@
+{% extends "primer/skeleton.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+	<div class="container">
+		<div class="well">
+			<h1>{% block login_title %}{% endblock login_title %}</h1>
+			{% block content %}
+				<form method="post" action="">
+					{% csrf_token %}
+					{{ form|crispy }}
+					<button type="submit" value="Login" class="btn btn-large btn-primary btn-block"/>Login</button>
+					<input type="hidden" name="next" value="{{ next }}" />
+				</form>
+			{% endblock content %}
+		</div>
+	</div>
+
+	{# TODO, find a better way to clear session storage based on an actual logout #}
+	<script type="text/javascript">
+		sessionStorage.clear();
+	</script>
+{% endblock body %}

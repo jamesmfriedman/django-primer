@@ -1,0 +1,117 @@
+<!-- Primer Toolkit -->
+<section id="color-picker">
+	<div class="page-header">
+		<h1>ColorPicker</h1>
+	</div>
+	<p>There are not shortage of color pickers on the net, but when I needed one for a project, I found all of the existing ones to be needlessly complex. Primer's Color Picker lets you define a list of colors, and pick them.</p>
+
+	<div id="color-picker-example-color" class="bs-docs-example">
+		<div id="color-picker-example"></div>
+	</div>
+<pre class="prettyprint linenums">
+var exampleColor = $('#color-picker-example-color');
+		
+var colors = [];
+for (var i = 0; i < 48; i++) {
+	colors.push(ColorPicker.getRandom());
+}
+
+$('#color-picker-example').colorPicker({
+	colors: colors,
+	active: colors[Math.between(0, colors.length - 1, true)],
+	onSelect: function(color) {
+		exampleColor.css('background', color);
+	}
+});
+</pre>
+
+	<script type="text/javascript">
+		var exampleColor = $('#color-picker-example-color');
+		
+		var colors = [];
+		for (var i = 0; i < 48; i++) {
+			colors.push(ColorPicker.getRandom());
+		}
+
+		$('#color-picker-example').colorPicker({
+			colors: colors,
+			active: colors[Math.between(0, colors.length - 1, true)],
+			onSelect: function(color) {
+				exampleColor.css('background', color);
+			}
+		});
+	</script>
+
+	<h3>Options</h3>
+	<p>Primer's jQuery colorPicker plugin. Call it on any jQuery object and it will populate the contents of the element with the color picker. It takes an object with the following options</p>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<td>Option</td>
+				<td>Type</td>
+				<td>Default</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>colors</td>
+				<td>array</td>
+				<td>All of the colors in ColorPicker.colorMap</td>
+				<td>An array of colors to populate the color picker with. Colors can be either a hex value or string name (i.e. #ef3def or red).</td>
+			</tr>
+			<tr>
+				<td>active</td>
+				<td>string</td>
+				<td>null</td>
+				<td>The starting color for the picker.</td>
+			</tr>
+			<tr>
+				<td>onSelect</td>
+				<td>function</td>
+				<td>$.noop</td>
+				<td>A function to be called when a color is picked. It gets passed the picked color as a hex value.</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Methods</h3>
+	<h4>.colorPicker(options)</h4>
+<pre class="prettyprint linenums">
+$('#color-picker-example').colorPicker(options);
+</pre>
+
+	<h4>.colorPicker('getColor')</h4>
+	<p>Returns the currently selected color.</p>
+<pre class="prettyprint linenums">
+$('#color-picker-example').colorPicker('getColor');
+</pre>
+
+	<h4>.colorPicker('setColor', color)</h4>
+<pre class="prettyprint linenums">
+$('#color-picker-example').colorPicker('setColor', '#f2f2f2');
+</pre>
+
+	<h4>.colorPicker('addColor')</h4>
+	<p>Adds a color to the color picker.</p>
+<pre class="prettyprint linenums">
+$('#color-picker-example').colorPicker('addColor', 'orange');
+</pre>
+
+	<h3>Class Methods</h3>
+	<p>These are some additional utility functions that are exposed on the <code>ColorPicker</code> class.</p>
+<pre class="prettyprint linenums">
+ColorPicker.hexToRgb('#ffffff'); //returns an array of rgb values [255,255,255]
+ColorPicker.colorStringToHex('white'); //returns a color from a string name '#FFFFFF';
+ColorPicker.getRandom(); //returns a random hex color
+</pre>
+
+	<h3>Events</h3>
+	<p>The color picker will fire a 'select' event which gets passed the event and the current color</p>
+<pre class="prettyprint linenums">
+$('#color-picker-example').on('select', function(e, color){...});
+</pre>
+
+	
+
+</section>

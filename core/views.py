@@ -1,0 +1,3 @@
+def home(request):
+
+	return {}

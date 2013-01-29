@@ -1,0 +1,64 @@
+* {
+	outline:none !important;
+	-webkit-tap-highlight-color: transparent;
+}
+
+body {
+	padding-top: 70px;
+}
+
+h1 {
+	margin-bottom: 10px;
+}
+
+iframe {
+	border:0;
+}
+
+.none {
+	display:none;
+}
+
+
+.page-header .pull-left {
+	float:left;
+}
+
+.page-header .pull-right {
+	float:right;
+}
+
+/* For modern browsers */
+.page-header:before,
+.page-header:after {
+    content:"";
+    display:table;
+    height:0;
+}
+
+.page-header:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.page-header {
+    zoom:1;
+}
+
+/********************************************************
+ * Placeholder
+ ********************************************************/
+.place-holder {
+	font-size: 16px;
+	color: @placeholderTextColor;
+	text-align:center;
+	padding: 20px;
+	display: block;
+}
+
+.place-holder a {
+	color:@linkColor;
+	font-size: 13px;
+	margin-top: 3px;
+	display: block;
+}

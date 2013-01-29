@@ -1,0 +1,15 @@
+{% extends primer_template %}
+
+{% block body %}
+	{% if is_reversed and load_more %}
+		<a href="#" class="btn load-more">load previous</a>
+	{% endif %}
+	
+	{% for comment in comments %}
+		{% include comment.template %}
+	{% endfor %}
+
+	{% if not is_reversed and load_more %}
+		<a href="#" class="btn load-more">load more</a>
+	{% endif %}
+{% endblock body %}

@@ -1,0 +1,28 @@
+{% extends skeleton_template %}
+
+{% block body %}
+	<header class="header">
+		<div class="navbar {% block primer_navbar_class %}navbar-fixed-top {% endblock primer_navbar_class %}">
+			<div class="navbar-inner">
+				<div class="container">
+					{# THIS BLOCK SHOULD BE USED TO OVERRIDE THE ENTIRE CONTENTS OF THE TOP NAVBAR #}
+					{% block navbar %}
+						<a class="brand" href="#">Primer</a>
+					{% endblock navbar %}
+				</div>
+			</div>
+	  	</div>
+	</header>
+
+	<div id="main">
+		{% block app_content %}
+		{% endblock app_content %}
+	</div>
+
+	<footer class="footer">
+		<div class="container">
+		{% block footer %}
+		{% endblock footer %}
+		</div>
+	</footer>
+{% endblock body %}

@@ -1,0 +1,6 @@
+{% if comment.likes.count %}
+	• <a href="#" rel="tooltip" data-html="true" title="{% for like in comment.likes.all %}{% if like.user == request.user%}You{% else %}{{ like.user.get_full_name }}{% endif %}{% if not forloop.last %}<br>{% endif %}{% endfor %}">
+		<i class="icon-thumbs-up"></i> 
+		{{ comment.likes.count }}
+	</a>
+{% endif %}

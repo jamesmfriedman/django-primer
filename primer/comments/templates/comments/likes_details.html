@@ -1,0 +1,28 @@
+{% if comment.likes.count %}
+	{% with comment.likes.all|length as like_list_length %}
+	{% with like_list_length|add:'-2' as other_likes_length %}
+	{% with comment.likes.all|slice:':2' as like_list %}
+		<i class="icon-thumbs-up"></i> 
+		{% for like in like_list %}
+			<a href="{{ like.user.get_absolute_url }}">
+				{% if like.user == request.user%}You{% else %}{{ like.user.get_full_name }}{% endif %}</a>{% if like_list_length <= 2 %}{% if not forloop.last %} and {% endif %}{% else %}, {% if forloop.last %}and {% endif %}{% endif %} 
+		{% endfor %}
+
+		{% if other_likes_length > 0 %}
+			{% with comment.likes.all|slice:'2:' as other_likes %}
+				<a href="#" rel="tooltip" data-html="true" title="{% for like in other_likes %}{{ like.user.get_full_name }}{% if not forloop.last %}<br>{% endif %}{% endfor %}">
+					{{ other_likes_length }} other{{ other_likes_length|pluralize }}
+				</a>
+			{% endwith %}
+		{% endif %}
+
+		{% if like_list_length == 1 and like_list.0.user == request.user %}
+			like this.
+		{% else %}
+			like{{ like_list|pluralize:'s,' }} this.
+		{% endif %} 
+
+	{% endwith %}
+	{% endwith %}
+	{% endwith %}
+{% endif %}
