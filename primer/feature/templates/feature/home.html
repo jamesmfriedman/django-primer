@@ -1,14 +1,14 @@
 {% extends app_template %}
 
 
-{% block pre_content %}
+{% block app_content %}
 <div class="jumbotron masthead">
   	<div class="container">
 	    <h1>Primer</h1>
-    	<p>The basecoat for your web app.</p>
+    	<p>The base coat for your web app.</p>
     	<p>
       		<a href="assets/bootstrap.zip" class="btn btn-primary btn-large" >Download Primer</a>
-      		<a href="assets/bootstrap.zip" class="btn btn-primary btn-large" >Donate <b>$</b></a>
+      		<a href="assets/bootstrap.zip" class="btn btn-primary btn-large" >Donate <i class="icon-gift"></i></a>
     	</p>
 	    <ul class="masthead-links">
 	      	<li>
@@ -23,8 +23,36 @@
 	    </ul>
   	</div>
 </div>
-{% endblock pre_content %}
 
-{% block content %}
-This is stuff
-{% endblock content %}
+<div class="container">
+	<div class="marketing">
+
+	    <h1>What is Primer?</h1>
+	    <p class="marketing-byline">It is a framework for making web apps, with all the hard stuff done for you.</p>
+
+	    <div class="row-fluid">
+	    	<div class="span4">
+	    		<h2>Why should I use it?</h2>
+	    		<p>Plain and simple, building web apps should be easier. Even with so many great frameworks and tools, precious time is wasted on new projects doing redundant setup and rebuiling the same kinds of things over and over. Primer seeks to close that gap, and on day one, put you about 3 months ahead of schedule.</p>
+	    	</div>
+	    	<div class="span4">
+	    		<h2>Built with the best.</h2>
+	    		<p>Primer is a conglomeration of multiple open source frameworks and tools with some custom glue tying it all together. At its core, it leverages the combined powers of Django, jQuery, Bootstrap, and LESS CSS to make for the an integrated end to end development experience.</p>
+	    	</div>
+	    	<div class="span4">
+	    		<h2>From the Author</h2>
+	    		<blockquote>
+	    			<p>Building web apps should be easier. I'm giving Primer away so you can spend less time worrying about how to do full site ajax page handling, and more time making fun and expressive applications.</p>
+	    			<small>James Friedman</small>
+	    		</blockquote>
+	    	</div>
+	    </div>
+	</div>
+    
+</div>
+
+{% endblock app_content %}
+
+
+
+

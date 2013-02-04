@@ -187,5 +187,5 @@ from primer.settings import *
 
 try:
     from settings_local import *
-except Exception, e,
+except Exception, e:
     pass

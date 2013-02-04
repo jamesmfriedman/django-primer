@@ -5,7 +5,6 @@
 {% block header_css %}
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/css/primer.css"/>
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/google-code-prettify/prettify.css">
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/bootstrap/docs/assets/css/docs.css"/>
 {% endblock header_css %}
 
 
@@ -37,6 +36,7 @@ data-spy="scroll" data-target=".bs-docs-sidebar" data-offset="180"
 			<ul class="dropdown-menu">
 				<li><a data-ajax="app" href="{% url 'feature-notifications' %}">Notifications</a></li>
 				<li><a data-ajax="app" href="{% url 'feature-comments' %}">Comments</a></li>
+				<li><a data-ajax="app" href="{% url 'feature-media' %}">Media</a></li>
 			</ul>
 		</li>
 	</ul>

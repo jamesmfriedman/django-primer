@@ -48,19 +48,20 @@ PUSH_SERVICE_SETTINGS = {
 					<ul>
 						<li><strong>event</strong>: a string event name that the client side will receive and respond to, such as 'notification.new-notification'.</li>
 						<li><strong>channels</strong>: an iterable of channel_ids to broadcast to. This will get autopopulated by the users channels if users are present.</li>
-						<li><strong>users</strong>: an iterable of users. Their channel_ids will be looked up from their sessions.</li>
+						<li><strong>users</strong>: an iterable of user objects or a single user. Their channel_ids will be looked up from their sessions.</li>
 						<li><strong>data</strong>: the actual data you want to send. Should be a dict that is JSON encodeable by json.dumps.</li>
 					</ul>
 				</td>
 			</tr>
 			<tr>
 				<td>subscribe(channel)</td>
-				<td>This method must be implemented by the PushService class you are using. It will subscribe to a current channel for the server to listen to. When data is receved, it will broadcast the <code>message_received</code> signal located in <code>primer.push.services</code></td>
+				<td>This method can be implemented by the PushService class you are using if you want the server to be able to receive push events as well. When data is received, it will broadcast the <code>message_received</code> signal located in <code>primer.push.services</code></td>
 			</tr>
 		</tbody>
 	</table>
 
 <pre class="prettyprint linenums">
+# example of how to push data to the current logged in user in a view
 from primer.push.services import PushService
 
 def myview(request):

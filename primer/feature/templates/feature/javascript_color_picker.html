@@ -3,10 +3,12 @@
 	<div class="page-header">
 		<h1>ColorPicker</h1>
 	</div>
-	<p>There are not shortage of color pickers on the net, but when I needed one for a project, I found all of the existing ones to be needlessly complex. Primer's Color Picker lets you define a list of colors, and pick them.</p>
+	<p>There are not shortage of color pickers on the net, but when I needed one for a project, I found all of the existing ones to be needlessly complex. Primer's Color Picker lets you define a list of colors, and pick them. It also responds to touch events for handheld devices, so you can press a finger down and start dragging over colors.</p>
 
 	<div id="color-picker-example-color" class="bs-docs-example">
 		<div id="color-picker-example"></div>
+		<br/>
+		<a href="#" id="expand-color" class="btn btn-primary">Expand Color</a>
 	</div>
 <pre class="prettyprint linenums">
 var exampleColor = $('#color-picker-example-color');
@@ -27,7 +29,8 @@ $('#color-picker-example').colorPicker({
 
 	<script type="text/javascript">
 		var exampleColor = $('#color-picker-example-color');
-		
+		var expand = false;
+
 		var colors = [];
 		for (var i = 0; i < 48; i++) {
 			colors.push(ColorPicker.getRandom());
@@ -38,6 +41,26 @@ $('#color-picker-example').colorPicker({
 			active: colors[Math.between(0, colors.length - 1, true)],
 			onSelect: function(color) {
 				exampleColor.css('background', color);
+				if (expand) {
+					$(document.body).css('background', color);
+				}
+			}
+		});
+
+		$('#expand-color').on('click', function(e){
+			e.preventDefault();
+			var btn = $(this);
+			var body = $(document.body);
+			if (btn.hasClass('active')) {
+				expand = false;
+				btn.removeClass('active');
+				body.css('background', '');
+				body.removeClass('primer-color-example-expanded');
+			} else {
+				expand = true;
+				btn.addClass('active');
+				body.addClass('primer-color-example-expanded');
+				body.css('background', $('#color-picker-example').colorPicker('getColor'));
 			}
 		});
 	</script>

@@ -6,6 +6,8 @@
 		<h1>Page Handling <small>super simple history interface</small></h1>
 	</div>
 	<p>It is very popular to "ajaxify" your entire site. Primer provides an easy integrated way to do this with browsers that support the history api. It is also integrated with the backend to provide you with the ability to load certain sections of the page. With a little setup, you can have an entire site that works with both ajax and standard page loads. Imagine an app, but with deep links.</p>
+
+	<div class="alert alert-info"><strong>Bonus:</strong> Using the page handler will also swap out the css namespace located on the html element in primer/skeleton.html.</div>
 	
 	<h3>Via Data Attributes</h3>
 	<p>You can use ajax page handling without writing any javascript. Just add <code>data-ajax=""</code> to any link to automatically ajaxify your site. By default, this will load everything up to but not including your skeleton_template. Additionally you can set the attribute to a layout value which specifies what page fragment to load, such as<code>data-ajax="app"</code>. The baked in layouts are 'app', 'view', 'section'. You can optionally set <code>data-target</code> to a css selector of what container to load the content into. You can read more on Primer's template patterns in the scaffolidng section. <a href="{% url 'feature-scaffolding' %}#templates" data-ajax="app">Primer's template patterns.</a></p>

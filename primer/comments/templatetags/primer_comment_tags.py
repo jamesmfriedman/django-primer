@@ -33,7 +33,7 @@ def timeline(context, target, position='center', **kwargs):
     return render_to_string('comments/base_comments.html', comment_data, context)
 
 
-def setup_comment_data(comments_type, target, placeholder = None, limit = 10, reversed = 0, read_only = 0, forms = None, tab_class = 'nav-pills', login_required = True, css_class_name=''):
+def setup_comment_data(comments_type, target, placeholder = None, stream = [], limit = 10, reversed = 0, read_only = 0, forms = None, tab_class = 'nav-pills', login_required = True, css_class_name=''):
     """
     Sets up comment data for walls, comment lists, timelines, etc
     Arguments
@@ -72,7 +72,9 @@ def setup_comment_data(comments_type, target, placeholder = None, limit = 10, re
 
     # add this set of data to the session and get
     # the comment hash
-    comment_hash = add_to_session(target, read_only)
+    stream = list(stream)
+    stream.extend([target])
+    comment_hash = add_to_session(stream, read_only)
 
     return {
         'target' : target,

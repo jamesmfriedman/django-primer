@@ -189,8 +189,6 @@ def load(request):
     comments_setup = request.session['primer_comment_hashes'][content_types_hash]
     content_types = comments_setup['content_types']
 
-    print comments_setup
-
     # we have an explicit object_pk, get the replies for this comment
     if object_pk:
         comments = Comment.objects.filter(parent_id = object_pk)

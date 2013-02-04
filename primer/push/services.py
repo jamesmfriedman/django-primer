@@ -98,7 +98,7 @@ class PushServiceWrapper(object):
         """
         Method that implements how to subscribe to data
         """
-        print 'Subclass must implement its own _subscribe'
+        print 'Subclass must implement its own subscribe method'
 
 
     def _receive(self, message):

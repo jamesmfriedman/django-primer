@@ -52,8 +52,18 @@
 			$(window).trigger('beforePageLoad');
 			
 			// the actual page loading handler
-			$.post(url, { layout: state.layout }, function(data){
+			$.get(url, { layout: state.layout }, function(data){
 				container.html(data);
+				
+				var namespace = $('#primer-css-namespace').remove().val();
+				if (namespace) {
+					var htmlEl = $('html');
+					htmlEl.removeClass(htmlEl.data('cssnamespace'));	
+					htmlEl.addClass(namespace);
+					htmlEl.data('cssnamespace', namespace);
+				}
+				
+				
 				//lets page anchors jump to where they are supposed to
 				if (window.location.hash) window.location.hash = window.location.hash
 				$(window).trigger('pageLoaded');
@@ -98,15 +108,15 @@
 			
 			config.data['layout'] = config.layout;
 
-			if (!config.container && config.layout == 'app') {
-				config.container = '#main';
-			} else {
-				config.container = '#body';
+			if (!config.container) {
+				if (config.layout == 'app') {
+					config.container = '#main';
+				} else {
+					config.container = '#body';
+				}	
 			}
 
 			config.data['container'] = $(config.container).selector;
-			
-
 
 			history.pushState(config.data, config.title, config.url);
 			$(window).trigger('popstate');

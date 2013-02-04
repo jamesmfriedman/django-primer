@@ -19,7 +19,7 @@ __all__ = (
 	'PUSH_SERVICE',
 	'PUSH_SERVICE_SETTINGS',
 
-	'SESSION_SAVE_EVERY_REQUEST'
+	'SESSION_SAVE_EVERY_REQUEST',
 )
 
 # additional settings used by primer
@@ -58,7 +58,8 @@ PRIMER_INSTALLED_APPS = [
 
  	# 3rd party
     'compressor',
-    'crispy_forms',    
+    'crispy_forms', 
+    'storages',   
 
     # primer
     'primer',
@@ -67,6 +68,7 @@ PRIMER_INSTALLED_APPS = [
     'primer.feature',
     'primer.avatars',
     'primer.likes',
+    'primer.media',
 ]
 
 # redfine the InstalledApps tuple

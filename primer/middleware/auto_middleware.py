@@ -50,7 +50,8 @@ class AutoMiddleware():
     
         # Skeleton Templates ############################################
         skeleton_templates = [
-            'primer/skeleton.html'
+            'primer/skeleton.html',
+            'skeleton.html'
         ]
 
         if request.is_ajax(): 
@@ -62,33 +63,25 @@ class AutoMiddleware():
         skeleton_template = select_template(skeleton_templates).name
 
 
-        # Primer templates ############################################
-        primer_templates = [
+        # Site Templates ############################################
+        site_templates = [
+            '%s/site.html' % current_site.name,
+            'site.html',
+            skeleton_template
+        ]
+
+        site_template = select_template(site_templates).name
+
+        # Base templates ############################################
+        base_templates = [
+            'base.html',
             'primer/base.html'
         ]
 
         if view_name == 'login': 
-            primer_templates.insert(0, 'primer/base_login.html')            
+            base_templates.insert(0, 'primer/base_login.html')            
         
-        primer_template = select_template(primer_templates).name
-
-
-        # Base Templates ############################################
-        base_templates = [
-            'base.html',
-            primer_template
-        ]
-
         base_template = select_template(base_templates).name
-
-
-        # Site Templates ############################################
-        site_templates = [
-            '%s/base.html' % current_site.name,
-            base_template
-        ]
-
-        site_template = select_template(site_templates).name
 
 
         # App Templates ############################################
@@ -110,9 +103,8 @@ class AutoMiddleware():
         view_template = view_templates
         
         request.primer['skeleton_template'] = skeleton_template
-        request.primer['primer_template']   = primer_template
-        request.primer['base_template']     = base_template
         request.primer['site_template']     = site_template
+        request.primer['base_template']     = base_template
         request.primer['app_template']      = app_template
         request.primer['view_template']     = view_template
 

@@ -1,4 +1,4 @@
-var ColorPicker = {}
+var ColorPicker = {};
 
 !function() {
 	$.fn.colorPicker = function(options) {
@@ -25,6 +25,7 @@ var ColorPicker = {}
 			var $this = $(this);
 			var config;
 			var public = {};
+			var currentHover = null;
 
 			var init = function() {
 				config = $.extend({}, settings, options);
@@ -34,8 +35,9 @@ var ColorPicker = {}
 				for (var i = 0; i < config.colors.length; i++) {
 					
 					var color = config.colors[i].toUpperCase();
-					var convertedColor = ColorPicker.colorStringToHex(color); 					
-					var active = config.active.toUpperCase() == color || config.active.toUpperCase() == convertedColor ? true : false;
+					var convertedColor = ColorPicker.colorStringToHex(color);
+					var active = config.active && (config.active.toUpperCase() == color || config.active.toUpperCase() == convertedColor) ? true : false;	
+					
 					public.addColor(config.colors[i], active);
 				}
 
@@ -43,6 +45,39 @@ var ColorPicker = {}
 				$this.on('click.color-picker', '.color-picker-widget', function(e){
 					e.preventDefault();
 					public.setColor($(this).data('color'));
+				});
+
+				$this.on('touchstart', function(){
+					$this.addClass('is-touch');
+				});
+
+				$this.on('touchend',function(e){
+					var el = $(document.elementFromPoint(e.originalEvent.changedTouches[0].clientX, e.originalEvent.changedTouches[0].clientY));
+					$this.removeClass('is-touch');
+					if (el.hasClass('color-picker-widget')) {
+						el.click();
+					}
+
+					$this.find('.color-picker-widget').removeClass('hover');
+				});
+
+				$this.on('touchmove',function(e){
+					
+					var el = $(document.elementFromPoint(e.originalEvent.changedTouches[0].clientX, e.originalEvent.changedTouches[0].clientY));
+					if (el.hasClass('color-picker-widget')) {
+						e.preventDefault();
+						
+						if(currentHover != el.get(0)) {
+							$(currentHover).removeClass('hover');
+							currentHover = null;
+						}
+
+						if (currentHover == null) {
+							el.addClass('hover');
+							currentHover = el.get(0);	
+						}
+						
+					}
 				});
 			};
 
@@ -61,7 +96,7 @@ var ColorPicker = {}
 
 			public.setColor = function(color) {
 				$this.find('.color-picker-widget')
-					.removeClass('active')
+					.removeClass('active hover')
 					.filter('[data-color='+ color +']')
 						.addClass('active');
 

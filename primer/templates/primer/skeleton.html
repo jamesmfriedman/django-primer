@@ -1,7 +1,7 @@
 {% load compress %}
 
 <!doctype html>
-<html class="{% block namespace %}{{ css_namespace }}{% endblock namespace %}" lang="en">
+<html class="{% block namespace %}{{ css_namespace }}{% endblock namespace %}" lang="en" data-cssnamespace="{{ css_namespace }}">
 <head>
 
 	<title>{% block title%}Primer{% endblock title %}</title>
@@ -44,6 +44,10 @@
 		<script src="{{ STATIC_URL }}primer/js/vendors/polyfills/sessionstorage.1.4.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/vendors/polyfills/history.js"></script>
 
+		{# FILEUPLOADER PLUGIN #}
+		<script src="{{ STATIC_URL }}primer/js/vendors/fileupload/jquery.iframe-transport.js"></script>
+		<script src="{{ STATIC_URL }}primer/js/vendors/fileupload/jquery.fileupload.js"></script>
+
 		{# BOOTSTRAPS PLUGINS, a bunch of useful stuff #}		
 		<script src="{{ STATIC_URL }}primer/bootstrap/js/bootstrap.min.js"></script>
 
@@ -59,7 +63,6 @@
 		<script src="{{ STATIC_URL }}primer/js/primer-betterforms.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/primer-collapse.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/primer-notifications.js"></script>
-		<script src="{{ STATIC_URL }}primer/js/primer-modal.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/primer-pushclient.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/primer-notifications-widget.js"></script>		
 
