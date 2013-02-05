@@ -22,23 +22,10 @@ def setup(request):
 
 
 def media(request):
-
     upload_form = UploadFileForm()
-
     return {
         'upload_form' : upload_form
     }
-
-def media_upload(request):
-
-    if request.method == 'POST':
-        upload_form = UploadFileForm(request.POST, request.FILES)
-        if upload_form.is_valid():
-            upload_form.handle_files()
-
-
-    return HttpResponse('')
-
 
 
 def notifications(request):

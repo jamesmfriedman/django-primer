@@ -53,7 +53,8 @@ class MediaManager(models.Manager):
             pathname = pathname,
             mimetype = mimetype,
             extension = extension,
-            storage = storage or Media.STORAGE_DEFAULT
+            storage = storage or Media.STORAGE_DEFAULT,
+            filesize = f.size
         )
 
         # handle any media links we have

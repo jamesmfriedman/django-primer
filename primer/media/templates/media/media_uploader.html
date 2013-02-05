@@ -1,0 +1,41 @@
+{% load crispy from crispy_forms_tags %}
+
+<div class="media-uploader">
+	<div class="media-uploader-files">
+		
+	</div>
+	<div class="form-actions">
+		{% crispy form %}
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+			
+		function createFileIcon(name) {
+			var split = name.split('.');
+			var ext = split.length > 1 ? split[split.length - 1].toLowerCase() : '';
+			var cssClass = ext ? 'fileicon-' + ext : 'fileicon';
+
+			var icon = $('<div class="fileicon-wrapper">' +
+							'<div class="'+ cssClass +'"><label data-ext="'+ ext.toUpperCase() +'"></label></div>' +
+							'<div class="label">'+ name +'</div>' +
+						'</div>');
+
+			return icon;
+		}
+
+		$('#id_file').fileupload({
+	        dataType: 'json',
+	        dropZone: $('.media-uploader'),
+	        add: function(e, data) {
+
+
+	        	$(data.files).each(function(){
+	        		$('.media-uploader-files').append(createFileIcon(this.name));
+	        	});
+	        	//data.submit();
+	        }
+	    });
+	});
+</script>

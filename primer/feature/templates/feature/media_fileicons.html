@@ -1,0 +1,92 @@
+
+<section id="fileicons">
+	<div class="page-header">
+		<h1>File Icons <small> nothing but CSS</small></h1>
+	</div>
+	<p>I hit a dead end on the web when trying to find some simple vector file icons. After some head scratching, it occured to me that I could make them with just CSS. In an effort to keep the markup clean and simple, they rely on gratuitous use of the <code>:before</code> and <code>:after</code> psuedo elements. They are built entirely on <code>em</code> units so you can scale them by adjusting the element's or its parent's font-size. Surprisingly, they work just fine in IE8, although they will be missing some of the bells and whistles of CSS3.</p>
+	
+	<div id="fileicon-container" class="bs-docs-example" style="font-size:10px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;">
+		<div class="fileicon"></div>
+		<div class="fileicon-txt">	<label>TXT</label>	</div>
+		<div class="fileicon-doc">	<label>DOC</label>	</div>
+		<div class="fileicon-xls">	<label>XLS</label>	</div>
+		<div class="fileicon-ppt">	<label>PPT</label>	</div>
+		<div class="fileicon-zip">	<label>ZIP</label>	</div>
+		<div class="fileicon-psd">	<label>PSD</label>	</div>
+		<div class="fileicon-ai">	<label>AI</label>	</div>
+		<div class="fileicon-pdf">	<label>PDF</label>	</div>
+		<div class="fileicon-mov">	<label>MOV</label>	</div>
+		<div class="fileicon-mp3">	<label>MP3</label>	</div>
+		<div class="fileicon-html">	<label>HTML</label>	</div>
+		<div class="fileicon-css">	<label>CSS</label>	</div>
+		<div class="fileicon-xml">	<label>XML</label>	</div>
+		<div class="fileicon-js">	<label>JS</label>	</div>
+
+		
+		<div class="btn-group" style="position:absolute;top:5px;right:5px;">
+			<a id="smaller" class="btn btn-small btn-primary"><i class="icon-minus"></i></a>
+			<a id="bigger" class="btn btn-small btn-primary"><i class="icon-plus"></i></a>
+		</div>
+		
+
+		<script type="text/javascript">
+			$(function(){
+				$('#bigger, #smaller').on('click', function(){
+					var btn = $(this);
+					var increment = btn.attr('id') == 'bigger' ? 2 : -2;
+
+					var container = $('#fileicon-container');
+					var fontSize = parseInt(container.css('font-size')) + increment;
+					fontSize = fontSize > 24 ? 24 : fontSize < 2 ? 2 : fontSize;
+					container.css('font-size', fontSize + 'px');
+				});
+			});
+		</script>
+	</div>
+<pre class="prettyprint linenums">
+&lt;!-- most common extensions are supported. Just append it to the class fileicon- --&gt;
+&lt;div class="fileicon"&gt;&lt;/div&gt;
+&lt;div class="fileicon-txt"&gt;&lt;label&gt;TXT&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-doc"&gt;&lt;label&gt;DOC&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-xls"&gt;&lt;label&gt;XLS&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-ppt"&gt;&lt;label&gt;PPT&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-zip"&gt;&lt;label&gt;ZIP&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-psd"&gt;&lt;label&gt;PSD&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-ai"&gt;&lt;label&gt;AI&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-pdf"&gt;&lt;label&gt;PDF&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-mov"&gt;&lt;label&gt;MOV&lt;/label&gt;&lt;/div&gt;
+&lt;div class="fileicon-mp3"&gt;&lt;label&gt;MP3&lt;/label&gt;&lt;/div&gt;
+</pre>
+
+	<h3>Interactive with Labels</h3>
+	<p>This resembles more of a filesystem style interaction with the icons and also allows you to add a label for the filename. You can add a class of <code>active</code> to the <code>.fileicon-wrapper</code> element to get a selected state.</p>
+	<div class="bs-docs-example">
+		<div class="fileicon-wrapper">
+			<div class="fileicon-txt"><label>TXT</label></div>
+			<div class="label">My Text File.txt</div>
+		</div>
+		<div class="fileicon-wrapper">
+			<div class="fileicon-psd"><label>PSD</label></div>
+			<div class="label">primer_mockups_rev1.psd</div>
+		</div>
+		<div class="fileicon-wrapper">
+			<div class="fileicon-ai"><label>AI</label></div>
+			<div class="label">Vector Cars.ai</div>
+		</div>
+		<div class="fileicon-wrapper">
+			<div class="fileicon-zip"><label>ZIP</label></div>
+			<div class="label">Archive.zip</div>
+		</div>
+		<div class="fileicon-wrapper">
+			<div class="fileicon-pdf"><label>PDF</label></div>
+			<div class="label">Design Guidlines.pdf</div>
+		</div>
+	</div>
+<pre class="prettyprint linenums">
+&lt;div class="fileicon-wrapper"&gt;
+	&lt;div class="fileicon-psd"&gt;&lt;label&gt;PSD&lt;/label&gt;&lt;/div&gt;
+	&lt;div class="label"&gt;primer_mockups_rev1.psd&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+</section>

@@ -17,7 +17,7 @@ class RenderMiddleware():
     def process_response(self, request, response):
         
         # auto render a dict for a standard request
-        if type(response) is dict:
+        if isinstance(response, dict):
 
             template_exists = True
             if request.is_ajax():

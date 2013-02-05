@@ -61,6 +61,14 @@
   
 }
 
+.box-reflect(@position) {
+    -webkit-box-reflect: @position;
+       -moz-box-reflect: @position;
+        -ms-box-reflect: @position;
+         -o-box-reflect: @position;
+            box-reflect: @position;
+}
+
 .image-set(@imageOne, @imageTwo) {
     background-image: url(@imageOne);
     background-image: -webkit-image-set(url(@imageOne) 1x, url(@imageTwo) 2x);
@@ -85,4 +93,5 @@
       cursor: -moz-grabbing;
     }
 }
+
 

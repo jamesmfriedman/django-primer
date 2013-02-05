@@ -11,5 +11,4 @@ urlpatterns = patterns('primer.feature.views',
     url(r'^primer/notifications-push-test/$', 'notifications_push_test', name = 'feature-notifications-push-test'),
     url(r'^primer/comments/$', 'comments', name = 'feature-comments'),
     url(r'^primer/media/$', 'media', name = 'feature-media'),
-    url(r'^primer/media-upload/$', 'media_upload', name = 'feature-media-upload'),
 )

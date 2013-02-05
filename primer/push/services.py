@@ -56,7 +56,6 @@ class PushServiceWrapper(object):
         
         # our user is not authenticated which means it must be the current logged in user
         elif user == request.user:
-            print 'TESTING'
             return [ request.session.get('push_channel_id') ]
         
         

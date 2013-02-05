@@ -12,6 +12,9 @@ urlpatterns = patterns('primer',
     # comments
     url(r'^comments/', include('primer.comments.urls', app_name = 'comments')),
 
+    # media
+    url(r'^media/', include('primer.media.urls', app_name = 'media')),
+
     # messages
     #url('', include('primer.messaging.urls', app_name = 'messaging')),
 

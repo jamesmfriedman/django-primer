@@ -1,0 +1,344 @@
+.btn-fileinput {
+	position: relative;
+	overflow: hidden;
+}
+
+.btn-fileinput input {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	transform: translate(-300px, 0) scale(4);
+	font-size: 23px;
+	direction: ltr;
+	cursor: pointer;
+}
+
+.media-uploader {
+	overflow: hidden;
+	border:1px solid @tableBorder;
+	.border-radius(@baseBorderRadius);
+
+	.form-actions {
+		padding: 10px;
+	}
+
+	.form-actions, .form-actions form, .form-actions .control-group {
+		margin:0;
+	}
+
+	.media-uploader-files {
+		font-size: 12px;
+		min-height: 100px;
+		padding: 20px;
+	}
+}
+
+
+
+[class^="fileicon"] {
+
+	width: 4em;
+	height: 5em;
+
+	display: inline-block;
+	margin:5px;
+	.border-radius(0 1.5em 0 0);
+	.box-shadow(.04em .08em .2em .02em rgba(0,0,0,.4));
+	#gradient > .vertical(#f5f5f5, white);
+	position: relative;
+	overflow: hidden;
+	vertical-align: middle;
+	.transition(all .3s ease-in-out);
+	
+	label {
+		top: 74%;
+		font-size: 1em;
+		display: block;
+		line-height: 1.5em;
+		text-align: center;
+		font-size: .7em;
+		text-shadow: 0 -1px 1px rgba(0,0,0,.3);
+		color: #ccc;
+		cursor: pointer;
+		position: absolute;
+		left:0;
+		right:0;
+		z-index: 1;
+		text-shadow:none;
+		font-weight: bold;
+	}
+
+	&:before {
+		content:'';
+		display: block;
+		position: absolute;
+		top:-1em;
+		right:-1.2em;
+		width: 2em;
+		height: 2em;
+		.box-shadow(0 1px 1px rgba(0,0,0,.3));
+		background: white; 
+		.transform(rotate(-5deg));
+		z-index: 1;
+	}
+
+	&:after {
+		font-family: 'Glyphicons Halflings';
+	  	font-style: normal;
+	  	display: block;
+	  	font-size: 1em;
+	  	width: 1em;
+	  	height: 1em;
+	  	line-height: 1;
+	  	margin:0 auto;
+	  	top: 50%;
+	  	margin-top: -.5em;
+	  	color: #ccc;
+	  	position: relative;
+	  	opacity: .3;
+	  	text-align: center;
+	}
+}
+
+/********************************
+ * Text Files
+ *********************************/
+.fileicon-txt, .fileicon-rtf, .fileicon-rtf, .fileicon-wpd, .fileicon-wps {
+	&:after {
+		content:'I have a dream that one day this nation will rise up and live out the true meaning of its creed: "We hold these truths to be self-evident: that all men are created equal."I have a dream that one day on the red hills of Georgia the sons of former slaves and the sons of former slave owners will be able to sit down together at the table of brotherhood.'; font-size: .2em; color: black;
+		width: 80%;
+		text-align: left;
+		top: 15%;
+	}
+}
+
+
+/********************************
+ * Code Icons
+ *********************************/
+.fileicon-html, .fileicon-css, .fileicon-js, .fileicon-xml {
+	&:after {
+		font-family: normal;
+		width: 100%;
+		font-size: 2em;
+	}
+}
+
+.fileicon-html {
+	&:after { content: '<br/>';}
+}
+
+.fileicon-css {
+	&:after { content: '@import';}
+}
+
+.fileicon-js {
+	&:after { content: '$(this)';}
+}
+
+.fileicon-xml {
+	&:after { content: '<node>';}
+}
+
+
+/********************************
+ * Archive Files
+ *********************************/
+.fileicon-zip, .fileicon-rar {
+	.gradientBar(#bb9e78, #d2bea3);
+	label {color: #6a4d25;}
+	&:before { background: #d2bea3;}
+	&:after { 
+		content: "\e026"; 
+		font-size:2em;
+		color: #6a4d25;
+	}
+}
+
+
+/********************************
+ * Office Icons
+ *********************************/
+.fileicon-doc, .fileicon-docx, .fileicon-xls, .fileicon-xlsx, .fileicon-ppt, .fileicon-pptx {
+	label {	color:white;}
+
+	&:after {
+		margin-top: -.7em;
+		font-size: 2em;
+	}
+}
+
+.fileicon-doc, .fileicon-docx {
+	label {.gradientBar(#063cc3, #3c72d6);}
+
+	&:after { content: "\e052"; }
+}
+
+.fileicon-xls, .fileicon-xlsx {
+	label {.gradientBar(#16871e, #16bb14);}
+
+	&:after { content: "\e011"; }
+}
+
+.fileicon-ppt, .fileicon-pptx {
+	width: 5em;
+	height: 4em;
+	label {.gradientBar(#d64505, #ee762a);}
+
+	&:after { 
+		content: "\e060";
+	}
+}
+
+
+/********************************
+ * Media Icons
+ *********************************/
+.fileicon-mov, .fileicon-m4v, .fileicon-mp4,
+.fileicon-mp3, .fileicon-aac, .fileicon-wma {
+	.gradientBar(#222, #444);
+	&:before {background: #555;}
+	label:before {
+		color:white;
+	}
+
+	&:after {
+		font-size: 2em;
+		margin-top: -.55em;
+	}
+}
+
+/**
+ * Video
+ */
+.fileicon-mov, .fileicon-m4v, .fileicon-mp4 {
+	&:after { content: "\e009"; }
+}
+
+.fileicon-mp3, .fileicon-aac, .fileicon-wma {
+	&:after { content: "\e002"; }
+}
+
+/********************************
+ * Adobe Icons
+ *********************************/
+.fileicon-psd, .fileicon-ai, .fileicon-pdf {
+	&:after {
+		font-size: 2.3em;
+		font-family: normal;
+		opacity: .65;
+	}
+}
+
+.fileicon-psd {
+	.gradientBar(#1863da, #4396e5);
+	label {	color: #f2f2f2;	}
+
+	&:before { background: #3ac9fc; }
+	&:after { 
+		content: 'Ps'; 
+		color: #3ac9fc;
+	}
+}
+
+.fileicon-ai {
+	.gradientBar(#a3450c, #e57807);
+	label {
+		color: #f2f2f2;
+	}
+
+	&:before { background: #fecc30; }
+	&:after { 
+		content: 'Ai'; 
+		color: #fecc30;
+	}
+}
+
+.fileicon-pdf {
+	.gradientBar(#8a0002, #d94d43);
+	label {
+		color: #f2f2f2;
+	}
+
+	&:before { background: #d94d43;}
+	&:after { 
+		content: 'A'; 
+		background: #333;
+	}
+}
+
+
+
+.fileicon-wrapper {
+	display: inline-block;
+	width: 6.5em;
+	height:0;
+	padding-top: 6.5em;
+	.box-shadow(none);
+	.border-radius(3px);
+	background: transparent;
+	text-align: center;
+	position: relative;
+	cursor: pointer;
+	overflow: visible;
+	margin: 0 1em 2em 1em;
+	.transition(all .2s);
+
+	&:before {
+		content: none;
+	}
+
+	&:after {
+		content:none;
+	}
+
+	&:hover, &.active {
+		z-index: 1;
+		background: darken(@tableBackgroundHover, 10%);
+		background: rgba(125,125,125,.5);
+
+		[class^="fileicon"] {
+			font-size: 1.1em;
+			.box-shadow(0 0 1em @linkColor);
+		}
+	}
+
+	[class^="fileicon"] {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -2em;
+		margin-top: -2.5em;
+	}
+
+	.fileicon-ppt, .fileicon-horizontal {
+		margin-left: -2.5em;
+		margin-top: -2em;
+	}
+
+
+	&:not(:hover):not(.active) .label {
+		background: none;
+		color: #333;
+	}
+
+	.label {
+		margin: 3px -10%;
+		max-width: 110%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-weight: normal;
+		text-shadow:none;
+	}
+
+	&:hover .label {
+		white-space:normal;
+		margin: 3px -30%;
+		max-width: 130%;
+		word-wrap: break-word;
+		background: @linkColor;
+	}
+}
