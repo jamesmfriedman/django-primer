@@ -75,7 +75,15 @@
 	overflow: hidden;
 	vertical-align: middle;
 	.transition(box-shadow .3s ease-in-out);
+
+	&.has-image {
 	
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
 	label {
 		top: 74%;
 		font-size: 1em;
@@ -124,6 +132,11 @@
 	  	opacity: .3;
 	  	text-align: center;
 	}
+}
+
+.fileicon-horizontal {
+	width: 5em;
+	height: 4em;
 }
 
 /********************************
