@@ -20,6 +20,7 @@ __all__ = (
 	'PUSH_SERVICE_SETTINGS',
 
 	'SESSION_SAVE_EVERY_REQUEST',
+	'LESS_ROOT',
 )
 
 # additional settings used by primer
@@ -105,9 +106,10 @@ TEMPLATE_CONTEXT_PROCESSORS = merge_settings(settings.TEMPLATE_CONTEXT_PROCESSOR
 # LESS CSS PATHS TO BE PROCESSED
 # Input LESS file on the left pointing to output CSS on the right
 # they should both be relative paths from the root
-LESS_CSS_PATHS = {
-    'primer/static/primer/less/docs/primer_docs.less' : 'primer/static/primer/css/primer.css'
-}
+if hasattr(settings, 'LESS_CSS_PATHS'):
+	LESS_CSS_PATHS = settings.LESS_CSS_PATHS
+else:
+	LESS_CSS_PATHS = {}
 
 # should be set to the name of a push service you want to use
 # this can be 'pubnub', 'pusher', or pointing to a custom class
@@ -115,3 +117,8 @@ PUSH_SERVICE = None
 PUSH_SERVICE_SETTINGS = {}
 
 SESSION_SAVE_EVERY_REQUEST = True
+
+if hasattr(settings, 'LESS_ROOT'):
+	LESS_ROOT = settings.LESS_ROOT
+else:
+	LESS_ROOT = APP_ROOT

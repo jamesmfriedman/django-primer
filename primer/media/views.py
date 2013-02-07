@@ -11,4 +11,4 @@ def upload(request):
             upload_form.handle_files()
 
 
-    return HttpResponse('')
+    return HttpResponse('ok')

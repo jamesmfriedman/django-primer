@@ -21,11 +21,17 @@ def get_upload_path(instance, filename):
         return os.path.join(instance.pathname, instance.filename)
 
 
+class MediaLinkManager(models.Manager):
+
+    def get_for_object(self, target):
+        return self.filter(content_type = ContentType.objects.get_for_model(target), object_id = target.pk).select_related('media')
+
+
 class MediaManager(models.Manager):
 
     def create_from_file(self, media_file, storage = None, title = None, links = None):
         """
-        Create a new Media objecy from file, works with uploaded files or any other referenced file
+        Create a new Media object from file, works with uploaded files or any other referenced file
 
         Arguments:
             media_file: the actual file that will become the media object
@@ -43,9 +49,15 @@ class MediaManager(models.Manager):
         pathname = 'media/%s/%s/' % (filename[0], filename[1])
         mimetype, extra = mimetypes.guess_type(f.name)
         mimetype = mimetype or 'text/plain'
+        extension = extension.replace('.', '').lower()
+        
+        # handle getting the user, if they are anonyous set it back to None
+        user = get_current_user()
+        if user and not user.is_authenticated():
+            user = None
 
         media = Media.objects.create(
-            user = get_current_user(),
+            user = user,
             title = title or '',
             filename = filename,
             file = f,
@@ -60,8 +72,6 @@ class MediaManager(models.Manager):
         # handle any media links we have
         if links:
             
-            links_to_create = []
-
             # convert our links into an iterable of objects
             if not hasattr(links, '__iter__'):
                 links = [links]
@@ -72,16 +82,11 @@ class MediaManager(models.Manager):
                 if not isinstance(link, models.Model):
                     raise Exception('Link must be a model instance')
 
-                media_link = MediaLink(
+                MediaLink.objects.create(
                     media = media,
                     content_type = ContentType.objects.get_for_model(link),
                     object_id = link.pk
                 )
-
-                links_to_create.append(media_link)
-            
-            # bulk create our links
-            MediaLink.objects.bulk_create(links_to_create)
 
         return media
 
@@ -261,3 +266,6 @@ class MediaLink(PrimerModel):
     object_id = models.TextField()
     owner = generic.GenericForeignKey()
     media = models.ForeignKey(Media, related_name='links')
+
+    objects = MediaLinkManager()
+

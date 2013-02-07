@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.contenttypes.models import ContentType
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 
@@ -19,10 +20,11 @@ class UploadFileForm(forms.Form):
         initial = {}
 
         if target:
-            initial['content_type'] = str(target._meta)        
+            initial['content_type'] = ContentType.objects.get_for_model(target).id
             initial['object_pk'] = str(target._get_pk_val())
 
-        kwargs['initial'] = kwargs.pop('initial', {}).update(initial)
+        kwargs['initial'] = kwargs.pop('initial', {})
+        kwargs['initial'].update(initial)
 
         super(UploadFileForm, self).__init__(*args, **kwargs)
 
@@ -38,7 +40,10 @@ class UploadFileForm(forms.Form):
 
     def handle_files(self):
         for f in self.files.getlist('file'):
-            Media.objects.create_from_file(f)
+            contenttype = ContentType.objects.get_for_id(self.cleaned_data['content_type'])
+            links = contenttype.get_object_for_this_type(pk = self.cleaned_data['object_pk'])
+
+            Media.objects.create_from_file(f, links = links)
 
 
 

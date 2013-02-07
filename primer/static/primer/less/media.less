@@ -20,6 +20,28 @@
 	overflow: hidden;
 	border:1px solid @tableBorder;
 	.border-radius(@baseBorderRadius);
+	.transition(all .5s);
+
+	&.in {
+		border-color:@linkColor;
+		.box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
+	}
+
+	[class^="fileicon"].back {
+
+		.gradientBar(#aaa, #ccc);
+		color: @linkColor;
+
+		canvas {
+			vertical-align: middle;
+		}
+		
+		> div {
+			display: table !important;
+			width: 100% !important;
+			height: 100% !important;
+		}
+	} 
 
 	.form-actions {
 		padding: 10px;
@@ -42,6 +64,7 @@
 
 	width: 4em;
 	height: 5em;
+	line-height: 5em;
 
 	display: inline-block;
 	margin:5px;
@@ -51,7 +74,7 @@
 	position: relative;
 	overflow: hidden;
 	vertical-align: middle;
-	.transition(all .3s ease-in-out);
+	.transition(box-shadow .3s ease-in-out);
 	
 	label {
 		top: 74%;
@@ -71,7 +94,7 @@
 		font-weight: bold;
 	}
 
-	&:before {
+	&:after {
 		content:'';
 		display: block;
 		position: absolute;
@@ -82,10 +105,10 @@
 		.box-shadow(0 1px 1px rgba(0,0,0,.3));
 		background: white; 
 		.transform(rotate(-5deg));
-		z-index: 1;
+		
 	}
 
-	&:after {
+	&:before {
 		font-family: 'Glyphicons Halflings';
 	  	font-style: normal;
 	  	display: block;
@@ -107,7 +130,7 @@
  * Text Files
  *********************************/
 .fileicon-txt, .fileicon-rtf, .fileicon-rtf, .fileicon-wpd, .fileicon-wps {
-	&:after {
+	&:before {
 		content:'I have a dream that one day this nation will rise up and live out the true meaning of its creed: "We hold these truths to be self-evident: that all men are created equal."I have a dream that one day on the red hills of Georgia the sons of former slaves and the sons of former slave owners will be able to sit down together at the table of brotherhood.'; font-size: .2em; color: black;
 		width: 80%;
 		text-align: left;
@@ -120,7 +143,7 @@
  * Code Icons
  *********************************/
 .fileicon-html, .fileicon-css, .fileicon-js, .fileicon-xml {
-	&:after {
+	&:before {
 		font-family: normal;
 		width: 100%;
 		font-size: 2em;
@@ -128,19 +151,19 @@
 }
 
 .fileicon-html {
-	&:after { content: '<br/>';}
+	&:before { content: '<br/>';}
 }
 
 .fileicon-css {
-	&:after { content: '@import';}
+	&:before { content: '@import';}
 }
 
 .fileicon-js {
-	&:after { content: '$(this)';}
+	&:before { content: '$(this)';}
 }
 
 .fileicon-xml {
-	&:after { content: '<node>';}
+	&:before { content: '<node>';}
 }
 
 
@@ -150,8 +173,8 @@
 .fileicon-zip, .fileicon-rar {
 	.gradientBar(#bb9e78, #d2bea3);
 	label {color: #6a4d25;}
-	&:before { background: #d2bea3;}
-	&:after { 
+	&:after { background: #d2bea3;}
+	&:before { 
 		content: "\e026"; 
 		font-size:2em;
 		color: #6a4d25;
@@ -165,7 +188,7 @@
 .fileicon-doc, .fileicon-docx, .fileicon-xls, .fileicon-xlsx, .fileicon-ppt, .fileicon-pptx {
 	label {	color:white;}
 
-	&:after {
+	&:before {
 		margin-top: -.7em;
 		font-size: 2em;
 	}
@@ -174,13 +197,13 @@
 .fileicon-doc, .fileicon-docx {
 	label {.gradientBar(#063cc3, #3c72d6);}
 
-	&:after { content: "\e052"; }
+	&:before { content: "\e052"; }
 }
 
 .fileicon-xls, .fileicon-xlsx {
 	label {.gradientBar(#16871e, #16bb14);}
 
-	&:after { content: "\e011"; }
+	&:before { content: "\e011"; }
 }
 
 .fileicon-ppt, .fileicon-pptx {
@@ -188,7 +211,7 @@
 	height: 4em;
 	label {.gradientBar(#d64505, #ee762a);}
 
-	&:after { 
+	&:before { 
 		content: "\e060";
 	}
 }
@@ -200,12 +223,9 @@
 .fileicon-mov, .fileicon-m4v, .fileicon-mp4,
 .fileicon-mp3, .fileicon-aac, .fileicon-wma {
 	.gradientBar(#222, #444);
-	&:before {background: #555;}
-	label:before {
-		color:white;
-	}
+	&:after {background: #555;}
 
-	&:after {
+	&:before {
 		font-size: 2em;
 		margin-top: -.55em;
 	}
@@ -215,18 +235,18 @@
  * Video
  */
 .fileicon-mov, .fileicon-m4v, .fileicon-mp4 {
-	&:after { content: "\e009"; }
+	&:before { content: "\e009"; }
 }
 
 .fileicon-mp3, .fileicon-aac, .fileicon-wma {
-	&:after { content: "\e002"; }
+	&:before { content: "\e002"; }
 }
 
 /********************************
  * Adobe Icons
  *********************************/
 .fileicon-psd, .fileicon-ai, .fileicon-pdf {
-	&:after {
+	&:before {
 		font-size: 2.3em;
 		font-family: normal;
 		opacity: .65;
@@ -237,8 +257,8 @@
 	.gradientBar(#1863da, #4396e5);
 	label {	color: #f2f2f2;	}
 
-	&:before { background: #3ac9fc; }
-	&:after { 
+	&:after { background: #3ac9fc; }
+	&:before { 
 		content: 'Ps'; 
 		color: #3ac9fc;
 	}
@@ -250,8 +270,8 @@
 		color: #f2f2f2;
 	}
 
-	&:before { background: #fecc30; }
-	&:after { 
+	&:after { background: #fecc30; }
+	&:before { 
 		content: 'Ai'; 
 		color: #fecc30;
 	}
@@ -263,8 +283,8 @@
 		color: #f2f2f2;
 	}
 
-	&:before { background: #d94d43;}
-	&:after { 
+	&:after { background: #d94d43;}
+	&:before { 
 		content: 'A'; 
 		background: #333;
 	}
@@ -276,6 +296,7 @@
 	display: inline-block;
 	width: 6.5em;
 	height:0;
+	line-height: 1;
 	padding-top: 6.5em;
 	.box-shadow(none);
 	.border-radius(3px);
@@ -285,7 +306,7 @@
 	cursor: pointer;
 	overflow: visible;
 	margin: 0 1em 2em 1em;
-	.transition(all .2s);
+	.transition(background .2s);
 
 	&:before {
 		content: none;
@@ -296,12 +317,10 @@
 	}
 
 	&:hover, &.active {
-		z-index: 1;
-		background: darken(@tableBackgroundHover, 10%);
+		z-index: 3;
 		background: rgba(125,125,125,.5);
 
 		[class^="fileicon"] {
-			font-size: 1.1em;
 			.box-shadow(0 0 1em @linkColor);
 		}
 	}

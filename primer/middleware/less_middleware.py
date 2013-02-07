@@ -31,7 +31,10 @@ class LessProcessorEventHandler(PatternMatchingEventHandler):
             less_input = os.path.normpath(less_input)
             css_output = os.path.normpath(css_output)
             
-            subprocess.call('cd "'+ settings.APP_ROOT +'" && lessc -x "'+ less_input + '" > "' + css_output + '"', shell=True)
+            print 'Compiling Less...'
+            print 'In:', settings.LESS_ROOT + os.sep + less_input
+            print 'Out:', settings.LESS_ROOT + os.sep + css_output
+            subprocess.call('cd "'+ settings.LESS_ROOT +'" && lessc -x "'+ less_input + '" > "' + css_output + '"', shell=True)
 
     def on_any_event(self, event):
         '''Listens for any event that happens to a less file on the filesystem'''
@@ -42,7 +45,8 @@ def watch_less():
         '''creates the watchdog observer to monitor filesystem events'''
         event_handler = LessProcessorEventHandler(patterns = ['*.less'])
         observer = Observer()
-        observer.schedule(event_handler, path=settings.APP_ROOT, recursive=True)
+        paths = settings.LESS_ROOT
+        observer.schedule(event_handler, path=settings.LESS_ROOT, recursive=True)
         observer.start()
 
         try:
@@ -55,6 +59,7 @@ def watch_less():
 # a place to store our less processing thread, only during dev
 if 'runserver' in sys.argv and settings.DEBUG:
     print 'Starting LESS processor...'
+    print 'LESS_ROOT:', settings.LESS_ROOT
     less_thread = Thread(target=watch_less, args=(), kwargs={})
     less_thread.daemon = True
     less_thread.start()
