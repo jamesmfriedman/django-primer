@@ -120,14 +120,14 @@ var Toolkit = function() {
 	/**
 	 * Trims whitepace off of the front and back of a string
 	 */
-	String.prototype.trim = function(){
+	String.prototype.trim = String.prototype.trim || function(){
 		return this.replace(/^\s+|\s+$/g, "");
 	};
 	
 	/**
 	 * Converts a string to camel case
 	 */
-	String.prototype.toCamel = function(){
+	String.prototype.toCamel = String.prototype.toCamel || function(){
 		var str = this.replace(/((\_|-|\W)[a-z])/gi, function($1){return $1.toUpperCase().replace(/-|_|\W/g,'');});
 		return str.charAt(0).toLowerCase() + str.slice(1);
 	};
@@ -135,14 +135,16 @@ var Toolkit = function() {
 	/**
 	 * Converts camel case and spaces to dashes
 	 */
-	String.prototype.toDash = function(){
-		return this.replace(/[\W_]/g, '-').replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();}).replace(/--/g, '-');
+	String.prototype.toDash = String.prototype.toDash || function(){
+		var str = this.replace(/[\W_]/g, '-').replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();}).replace(/--/g, '-');
+		if (str.charAt(0) == '-') str = str.substring(1);
+		return str
 	};
 	
 	/**
 	 * Converts anything to a class name format, camelCased with a capital first letter
 	 */
-	String.prototype.toClassName = function(){
+	String.prototype.toClassName = String.prototype.toClassName || function(){
 		var str = this.toCamel();
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -150,12 +152,14 @@ var Toolkit = function() {
 	/**
 	 * Converts a to underscores
 	 */
-	String.prototype.toUnderscore = function(){
-		return this.replace(/[\W-]/g, '_').replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();}).replace(/__/g,'_');
+	String.prototype.toUnderscore = String.prototype.toUnderscore || function(){
+		var str = this.replace(/[\W-]/g, '_').replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();}).replace(/__/g,'_');
+		if (str.charAt(0) == '_') str = str.substring(1);
+		return str
 	};
 
 
-	String.random = function(length) {
+	String.random = String.random || function(length) {
 		
 		if (!length) {
 			length = 32;
@@ -201,14 +205,14 @@ var Toolkit = function() {
 	/**
 	 * Diff two arrays
 	 */
-	Array.prototype.diff = function(b) {
+	Array.prototype.diff = Array.prototype.diff || function(b) {
 		return this.subtract(b).concat(b.subtract(this));
 	};
 
 	/**
 	 * Subract an array from the calling array
 	 */
-	Array.prototype.subtract = function(b) {
+	Array.prototype.subtract = Array.prototype.subtract || function(b) {
 		var a = this;
 		var diff = [];
 		for(var i = 0; i < a.length; i++) {
@@ -246,7 +250,7 @@ var Toolkit = function() {
 	/**
 	 * Get an int between min and max inclusive
 	 */ 
-	 Math.between = function(min, max, round) {
+	 Math.between = Math.between || function(min, max, round) {
 	 	round = round || false;
 	 	var rand = min + (max - min) * Math.random();
 	 	return round ? Math.round(rand) : rand;
