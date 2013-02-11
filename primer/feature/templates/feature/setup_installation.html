@@ -1,0 +1,25 @@
+<section id="installation">
+	<div class="page-header">
+		<h1>Installation</h1>
+	</div>
+	<p>You can install Primer using your favorite Python package manager. Primer has quite a few dependencies, so if you're not using <a href="http://pypi.python.org/pypi/virtualenv" target="_blank">virtualenv</a>, now is the time to start:</p>
+<pre class="prettyprint linenums">
+pip install django-primer
+</pre>
+
+	<p>After that, add the following to the bottom of your Django settings file.</p>
+
+<pre class="prettyprint linenums">
+# this should be the last thing in your settings file
+from primer.settings import *
+</pre>
+	
+	<p>Last but not least, add Primer's URLs to your root urls file.</p>
+<pre class="prettyprint linenums">
+# include this in your root urls file.
+url(r'', include('primer.core.urls'))
+</pre>
+
+
+<div class="alert alert-success"><strong>Time for a break!</strong> You just saved yourself a signifigant amount of development time. You deserve the to kick your feet up.</div>
+</section>

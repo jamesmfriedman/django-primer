@@ -11,13 +11,14 @@
 {% endblock pre_content %}
 
 {% block feature_nav %}
-<li><a href="#overview">Overview</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#settings">Settings</a></li>
+<li><a href="#less">LESS Compiler</a></li>
 {% endblock feature_nav %}
 
 {% block content %}
-	<section id="overview">
-		<div class="page-header">
-			<h1>Overview</h1>
-		</div>
-	</section>
+	
+	{% include 'feature/setup_installation.html' %}
+	{% include 'feature/setup_settings.html' %}
+	{% include 'feature/setup_less.html' %}
 {% endblock content %}

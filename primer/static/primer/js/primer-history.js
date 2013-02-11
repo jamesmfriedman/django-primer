@@ -47,7 +47,7 @@
 		
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
-		if (prevPath != window.location.pathname) {
+		if (prevPath.split('#')[0] != url.split('#')[0]) {
 
 			$(window).trigger('beforePageLoad');
 			
@@ -68,9 +68,14 @@
 				if (window.location.hash) window.location.hash = window.location.hash
 				$(window).trigger('pageLoaded');
 			});
+		} else if (url.split('#').length > 1) {
+			setTimeout(function(){
+				window.location.hash = window.location.hash
+			}, 1);
+			
 		}
 
-		prevPath = window.location.pathname;
+		prevPath = url;
 	}
 
 	

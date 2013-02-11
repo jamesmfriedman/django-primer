@@ -14,23 +14,17 @@ __all__ = (
 	'COMPRESS_ENABLED',
 	'COMPRESS_OFFLINE',
 
-	'LESS_CSS_PATHS',
-
 	'PUSH_SERVICE',
 	'PUSH_SERVICE_SETTINGS',
 
 	'SESSION_SAVE_EVERY_REQUEST',
+	'PRIMER_ROOT',
+
 	'LESS_ROOT',
+	'LESS_CSS_PATHS',
+	'LESS_PROCESSOR_ENABLED',
+	
 )
-
-# additional settings used by primer
-APP_ROOT = os.path.realpath('.')
-
-# django compressor settings
-COMPRESS_URL = settings.STATIC_URL
-COMPRESS_ENABLED = not settings.DEBUG
-COMPRESS_OFFLINE = False
-
 
 def merge_settings(core_settings, primer_settings):
 	"""
@@ -101,24 +95,30 @@ PRIMER_TEMPLATE_CONTEXT_PROCESSORS = [
 
 TEMPLATE_CONTEXT_PROCESSORS = merge_settings(settings.TEMPLATE_CONTEXT_PROCESSORS, PRIMER_TEMPLATE_CONTEXT_PROCESSORS)
 
+PRIMER_ROOT = os.path.abspath(os.path.dirname(__file__) + '/../')
+
+# additional settings used by primer
+APP_ROOT = os.path.realpath('.')
+
+# update the session after every request
+SESSION_SAVE_EVERY_REQUEST = True
+
+# django compressor settings
+COMPRESS_URL = getattr(settings, 'COMPRESS_URL', settings.STATIC_URL)
+COMPRESS_ENABLED = getattr(settings, 'COMPRESS_ENABLED', not settings.DEBUG)
+COMPRESS_OFFLINE = getattr(settings, 'COMPRESS_OFFLINE', False)
+
+# should be set to the name of a push service you want to use
+# this can be 'pubnub', 'pusher', or pointing to a custom class
+PUSH_SERVICE = getattr(settings, 'PUSH_SERVICE', None)
+PUSH_SERVICE_SETTINGS = getattr(settings, 'PUSH_SERVICE_SETTINGS', {})
+
 
 ##
 # LESS CSS PATHS TO BE PROCESSED
 # Input LESS file on the left pointing to output CSS on the right
 # they should both be relative paths from the root
-if hasattr(settings, 'LESS_CSS_PATHS'):
-	LESS_CSS_PATHS = settings.LESS_CSS_PATHS
-else:
-	LESS_CSS_PATHS = {}
-
-# should be set to the name of a push service you want to use
-# this can be 'pubnub', 'pusher', or pointing to a custom class
-PUSH_SERVICE = None
-PUSH_SERVICE_SETTINGS = {}
-
-SESSION_SAVE_EVERY_REQUEST = True
-
-if hasattr(settings, 'LESS_ROOT'):
-	LESS_ROOT = settings.LESS_ROOT
-else:
-	LESS_ROOT = APP_ROOT
+LESS_CSS_PATHS = getattr(settings, 'LESS_CSS_PATHS', {})
+LESS_ROOT = getattr(settings, 'LESS_ROOT', APP_ROOT)
+LESS_PROCESSOR_ENABLED = getattr(settings, 'LESS_PROCESSOR_ENABLED', settings.DEBUG)
+	

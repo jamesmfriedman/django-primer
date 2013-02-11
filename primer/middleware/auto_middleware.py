@@ -50,8 +50,8 @@ class AutoMiddleware():
     
         # Skeleton Templates ############################################
         skeleton_templates = [
-            'primer/skeleton.html',
-            'skeleton.html'
+            'skeleton.html',
+            'primer/skeleton.html'
         ]
 
         if request.is_ajax(): 
@@ -79,7 +79,7 @@ class AutoMiddleware():
         ]
 
         if view_name == 'login': 
-            base_templates.insert(0, 'primer/base_login.html')            
+            base_templates.insert(0, 'registration/login.html')            
         
         base_template = select_template(base_templates).name
 
@@ -87,7 +87,7 @@ class AutoMiddleware():
         # App Templates ############################################
         app_templates = [
             '%s/base.html' % app_name,
-            site_template
+            base_template
         ]
 
         

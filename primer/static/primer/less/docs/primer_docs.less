@@ -37,3 +37,141 @@ body .jumbotron {
 #color-picker-example-color {
 	.transition(all 1s);
 }
+
+header .navbar .brand {
+	float:right;
+	color: black;
+	font-weight: bold;
+}
+
+#template-example {
+	.t-label {
+		line-height: 200px;
+		text-align: center;
+		position: absolute;
+		width: 100%;
+		z-index: 1;
+		opacity: 0;
+		.transition(all 1s ease-out);
+	}
+
+	.template-pane {
+		margin-left:0;
+		top:0;
+		width: 300px;
+		left:0;
+		height: 200px;
+		position: absolute;
+		.transition(all 1s ease-in-out);
+	}
+
+	.template-container {
+		position: relative;
+		height: 200px;
+		.perspective(1600px);
+		margin-left: 50%;
+		left: -150px;
+		.transition(all 1s ease-in-out);
+	}
+
+	&.split {
+		.template-pane {
+			.transform(rotateY(55deg));
+			.box-shadow(0 0 5px rgba(0,0,0,.3));
+			opacity:.9;
+		}
+
+		.site-template {
+			margin-left: 15%;	
+		}
+
+		.base-template {
+			margin-left: 30%;	
+		}
+		
+		.app-template {
+			margin-left: 45%;
+		}
+
+		.view-template {
+			margin-left: 60%;
+		}
+
+		.t-label {
+			opacity:1;
+		}
+		.template-container {
+			margin-left:0;
+			left:0;
+		}
+	}	
+
+	.skeleton-template {
+		background: @linkColor;
+		width: 300px;
+		height: 200px;
+		margin-left:0 !important;
+	}
+
+	.site-template {
+		background: lighten(@linkColor, 40%);
+	}
+
+	.base-template {
+		background: #eee;
+		.t-label {line-height: 170px;}
+	}
+
+	.app-template {
+		top:20px;
+		bottom: 50px;
+		height: auto;
+
+		.t-label {line-height: 130px;}
+	}
+
+	.view-template {
+		top:20px;
+		left: 50px;
+		background: lighten(@linkColor, 40%);
+		height: 130px;
+		width: 250px;
+		.t-label {line-height: 130px;}
+	}
+
+
+	.t-header {
+		background: black;
+		height: 20px;
+		top:0;
+		width: 100%;
+		position: absolute;
+	}
+
+	.t-footer {
+		background: #ccc;
+		height: 50px;
+		bottom:0;
+		left:0;
+		right:0;
+		position: absolute;
+	}
+
+	.t-sidebar {
+		width: 50px;
+		position: absolute;
+		top:0;
+		bottom:0;
+		left:0;
+		background: lighten(@linkColor, 20%);
+	}
+
+	.t-content {
+		background: #eee;
+		position: absolute;
+		top:0;
+		width: 250px;
+		bottom:0;
+		left: 50px;
+	}
+}
