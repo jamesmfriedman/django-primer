@@ -138,9 +138,8 @@ hr.soften {
   font-weight: 200;
   color: #fff; /* redeclare to override the `.jumbotron a` */
   border: 0;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
+  .border-radius(@borderRadiusLarge);
+     
   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
      -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
           box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
@@ -321,9 +320,7 @@ hr.soften {
 .show-grid [class*="span"] {
   background-color: #eee;
   text-align: center;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+  .border-radius(@borderRadiusSmall);
   min-height: 40px;
   line-height: 40px;
 }
@@ -344,9 +341,8 @@ hr.soften {
 -------------------------------------------------- */
 .mini-layout {
   border: 1px solid #ddd;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
+  
+  .border-radius(@borderRadiusLarge);
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.075);
      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
           box-shadow: 0 1px 2px rgba(0,0,0,.075);
@@ -361,9 +357,8 @@ hr.soften {
   padding: 9px;
 }
 .mini-layout div {
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+  
+    .border-radius(@borderRadiusSmall);
 }
 .mini-layout .mini-layout-body {
   background-color: #dceaf4;
@@ -423,9 +418,8 @@ hr.soften {
   line-height: 18px;
   color: #555;
   background-color: #f9f9f9;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+  
+  .border-radius(@borderRadiusSmall);
   cursor: pointer;
 }
 .download .checkbox:hover {
@@ -467,9 +461,7 @@ hr.soften {
   font-size: 30px;
   line-height: 1;
   text-align: center;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
+  .border-radius(@borderRadiusLarge);
 }
 
 
@@ -556,9 +548,7 @@ h2 + .row {
   *padding-top: 19px;
   background-color: #fff;
   border: 1px solid #ddd;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  .border-radius(@baseBorderRadius);
 }
 
 /* Echo out a label for the example */
@@ -573,9 +563,7 @@ h2 + .row {
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   color: #9da0a4;
-  -webkit-border-radius: 4px 0 4px 0;
-     -moz-border-radius: 4px 0 4px 0;
-          border-radius: 4px 0 4px 0;
+  .border-radius(@baseBorderRadius 0 @baseBorderRadius 0);
 }
 
 /* Remove spacing between an example and it's code */
@@ -616,21 +604,16 @@ h2 + .row {
   margin-right: 0;
 }
 .bs-navbar-top-example {
-  -webkit-border-radius: 0 0 4px 4px;
-     -moz-border-radius: 0 0 4px 4px;
-          border-radius: 0 0 4px 4px;
+  .border-radius(0 0 @baseBorderRadius @baseBorderRadius);
 }
 .bs-navbar-top-example:after {
   top: auto;
   bottom: -1px;
-  -webkit-border-radius: 0 4px 0 4px;
-     -moz-border-radius: 0 4px 0 4px;
-          border-radius: 0 4px 0 4px;
+  .border-radius(0 @baseBorderRadius 0 @baseBorderRadius);
+  
 }
 .bs-navbar-bottom-example {
-  -webkit-border-radius: 4px 4px 0 0;
-     -moz-border-radius: 4px 4px 0 0;
-          border-radius: 4px 4px 0 0;
+  .border-radius(@baseBorderRadius @baseBorderRadius 0 0);
 }
 .bs-navbar-bottom-example .navbar {
   margin-bottom: 0;
@@ -715,9 +698,7 @@ form.bs-docs-example {
   color: #999;
   text-align: center;
   border: 1px solid #ddd;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  .border-radius(@baseBorderRadius);
 }
 .responsive-utilities-test li + li {
   margin-left: 10px;
@@ -728,9 +709,7 @@ form.bs-docs-example {
   left:   -1px;
   right:  -1px;
   bottom: -1px;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  .border-radius(@baseBorderRadius);
 }
 .responsive-utilities-test span {
   color: #468847;
@@ -748,9 +727,7 @@ form.bs-docs-example {
   margin: 30px 0 0;
   padding: 0;
   background-color: #fff;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
+  .border-radius(@borderRadiusLarge);
   -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
      -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
           box-shadow: 0 1px 4px rgba(0,0,0,.065);
@@ -763,14 +740,12 @@ form.bs-docs-example {
   border: 1px solid #e5e5e5;
 }
 .bs-docs-sidenav > li:first-child > a {
-  -webkit-border-radius: 6px 6px 0 0;
-     -moz-border-radius: 6px 6px 0 0;
-          border-radius: 6px 6px 0 0;
+  .border-radius(@borderRadiusLarge @borderRadiusLarge 0 0);
 }
 .bs-docs-sidenav > li:last-child > a {
-  -webkit-border-radius: 0 0 6px 6px;
-     -moz-border-radius: 0 0 6px 6px;
-          border-radius: 0 0 6px 6px;
+
+  .border-radius(0 0 @borderRadiusLarge @borderRadiusLarge);
+
 }
 .bs-docs-sidenav > .active > a {
   position: relative;

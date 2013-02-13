@@ -1,50 +1,62 @@
-@import '../variables';
+@import 'variables';
 @import '../primer';
 @import 'doc_base';
 
 body {
 	.transition(background 1s);
+	padding-top:0;
 
 	&.primer-color-example-expanded * {
 		border-color: rgba(200,200,200,.4) !important;
 	}
 
 	.tab-size(4);
+
+	.jumbotron {
+		position: relative;
+		padding-top: @navbarHeight + 40;
+		//#gradient > .horizontal(#89B4CA, #e7003e);
+		
+		&:before {
+			.transition(all 1s ease-out);
+			content:'';
+			
+			opacity:0;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+		}
+
+		&.glow:before {
+			opacity:1;
+		}
+
+		&:after {
+			background: transparent url('../img/docs/paint.png') scroll repeat left top;
+		}
+	}
 }
 
-body .jumbotron {
-	position: relative;
-	
-	
-	&:before {
-		.transition(all 1s ease-out);
-		content:'';
-		#gradient > .horizontal(#00ac6b, #e7003e);
-		opacity:0;
-		top:0;
-		left:0;
-		right:0;
-		bottom:0;
+
+header {
+	.navbar .brand {
+		float:right;
+		color: white;
+		font-weight: bold;
 	}
 
-	&.glow:before {
-		opacity:1;
-	}
-
-	&:after {
-		background: transparent url('../img/docs/paint.png') scroll repeat left top;
+	.navbar .navbar-inner {
+		#gradient > .vertical(rgba(0,0,0,1), rgba(0,0,0,.4));
+		border:0;
 	}
 }
+
 
 #color-picker-example-color {
 	.transition(all 1s);
 }
 
-header .navbar .brand {
-	float:right;
-	color: black;
-	font-weight: bold;
-}
 
 #template-example {
 	.t-label {
