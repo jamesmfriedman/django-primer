@@ -1,12 +1,12 @@
 {% load crispy_forms_tags %}
 {% load url from future %}
 <div 
-    class="comment {{comment.get_css_class}} {% block comment_class %}{% endblock comment_class %} media fade" 
+    class="comment {{comment.get_css_class}} {% block comment_class %}{% endblock comment_class %} fade" 
     data-pk="{{ comment.pk }}" 
     data-liked="{{ comment.likes.current_user_has_liked|lower }}"
     data-page="1" 
 >
-    <div class="comment-inner">
+    <div class="comment-inner media">
         {% if comment.user == request.user %}
         <a href="{% url 'comments-delete' %}" class="close comment-delete">&times;</a>
         {% endif %}
