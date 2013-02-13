@@ -9,7 +9,7 @@ def home(request):
     return {}
 
 
-def scaffolding(request):
+def get_started(request):
     return {}
 
 

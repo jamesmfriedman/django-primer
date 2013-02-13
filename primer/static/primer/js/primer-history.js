@@ -44,6 +44,7 @@
 		} else {
 			var container = $('#body');
 		}
+
 		
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
@@ -54,6 +55,8 @@
 			// the actual page loading handler
 			$.get(url, { layout: state.layout }, function(data){
 				container.html(data);
+
+				if (state.scroll || (state.layout == 'app' || !state.layout)) $(window).scrollTop(0);
 				
 				var namespace = $('#primer-css-namespace').remove().val();
 				if (namespace) {
@@ -121,13 +124,13 @@
 				}	
 			}
 
+			//set data for for pushState
 			config.data['container'] = $(config.container).selector;
+			config.data['layout'] = config.layout;
+			config.data['scroll'] = config.scroll;
 
 			history.pushState(config.data, config.title, config.url);
 			$(window).trigger('popstate');
-			
-			if (config.scroll || (config.layout == 'app' || !config.layout)) $(window).scrollTop(0);
-			
 
 		} else {
 			window.location = config.url;
