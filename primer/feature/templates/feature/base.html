@@ -1,4 +1,4 @@
-{% extends base_template %}
+{% extends site_template %}
 {% load url from future %}
 {% load notifications_widget from primer_notification_tags %}
 
@@ -27,6 +27,7 @@ data-spy="scroll" data-target=".bs-docs-sidebar" data-offset="180"
 		<li><a data-ajax="app" href="{% url 'feature-home' %}">Home</a></li>
 		<li><a data-ajax="app" href="{% url 'feature-setup' %}">Setup</a></li>
 		<li><a data-ajax="app" href="{% url 'feature-scaffolding' %}">Scaffolding</a></li>
+		<li><a data-ajax="app" href="{% url 'feature-templating' %}">Templating</a></li>
 		<li><a data-ajax="app" href="{% url 'feature-javascript' %}">JavaScript</a></li>
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">

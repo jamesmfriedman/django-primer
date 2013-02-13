@@ -63,15 +63,6 @@ class AutoMiddleware():
         skeleton_template = select_template(skeleton_templates).name
 
 
-        # Site Templates ############################################
-        site_templates = [
-            '%s/site.html' % current_site.name,
-            'site.html',
-            skeleton_template
-        ]
-
-        site_template = select_template(site_templates).name
-
         # Base templates ############################################
         base_templates = [
             'base.html',
@@ -82,6 +73,16 @@ class AutoMiddleware():
             base_templates.insert(0, 'registration/login.html')            
         
         base_template = select_template(base_templates).name
+
+
+        # Site Templates ############################################
+        site_templates = [
+            '%s/site.html' % current_site.name,
+            'site.html',
+            base_template
+        ]
+
+        site_template = select_template(site_templates).name
 
 
         # App Templates ############################################

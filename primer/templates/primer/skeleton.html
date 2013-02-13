@@ -78,13 +78,7 @@
 		{% endblock header_scripts %}
 	{% endcompress %}
 
-	{# load scripts set in urls, generated in primer/middleware.py and set in primer/common.py in render #}
 	{% compress js %}
-		{% if scripts_to_load %}
-			{% for script in scripts_to_load %}
-				<script type="text/javascript" src="{{ STATIC_URL }}{{ script }}"></script>
-			{% endfor %}
-		{% endif %}
 		{% block page_scripts %}
 		{% endblock page_scripts %}
 	{% endcompress %}

@@ -8,6 +8,8 @@ body {
 	&.primer-color-example-expanded * {
 		border-color: rgba(200,200,200,.4) !important;
 	}
+
+	.tab-size(4);
 }
 
 body .jumbotron {
@@ -81,12 +83,13 @@ header .navbar .brand {
 			opacity:.9;
 		}
 
-		.site-template {
+		.base-template {
 			margin-left: 15%;	
 		}
 
-		.base-template {
+		.site-template {
 			margin-left: 30%;	
+			opacity:1;
 		}
 		
 		.app-template {
@@ -115,6 +118,7 @@ header .navbar .brand {
 
 	.site-template {
 		background: lighten(@linkColor, 40%);
+		opacity:0;
 	}
 
 	.base-template {

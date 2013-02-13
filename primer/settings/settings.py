@@ -9,6 +9,7 @@ __all__ = (
 	'INSTALLED_APPS',
 	'MIDDLEWARE_CLASSES',
 	'TEMPLATE_CONTEXT_PROCESSORS',
+	'TEMPLATE_LOADERS',
 
 	'COMPRESS_URL',
 	'COMPRESS_ENABLED',
@@ -40,7 +41,7 @@ def merge_settings(core_settings, primer_settings):
 			index = i
 			break
 
-	return (list(core_settings)[0:index] + primer_settings + list(core_settings)[index:])
+	return tuple(list(core_settings)[0:index] + primer_settings + list(core_settings)[index:])
 
 ##
 # PRIMER APP INJECTION
@@ -73,14 +74,14 @@ INSTALLED_APPS = merge_settings(settings.INSTALLED_APPS, PRIMER_INSTALLED_APPS)
 ##
 # MIDDLEWARE INJECTION
 # inject primers middleware
-PRIMER_MIDDLEWARE_CLASSES = (
+PRIMER_MIDDLEWARE_CLASSES = [
 	'primer.middleware.AutoMiddleware',
     'primer.middleware.RenderMiddleware',
     'primer.push.middleware.PushMiddleware',
     'primer.notifications.middleware.CountMiddleware',
-)
+]
 
-MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES + PRIMER_MIDDLEWARE_CLASSES
+MIDDLEWARE_CLASSES = merge_settings(settings.MIDDLEWARE_CLASSES, PRIMER_MIDDLEWARE_CLASSES)
 
 
 ##
@@ -94,6 +95,20 @@ PRIMER_TEMPLATE_CONTEXT_PROCESSORS = [
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = merge_settings(settings.TEMPLATE_CONTEXT_PROCESSORS, PRIMER_TEMPLATE_CONTEXT_PROCESSORS)
+
+##
+# TEMPLATE LOADER INJECTION
+# inject primers template loader
+PRIMER_TEMPLATE_LOADERS = [
+    'primer.template.loaders.app_directories.Loader'
+]
+
+# turn the django template loaders into a list and remove the app directories loader
+settings.TEMPLATE_LOADERS = list(settings.TEMPLATE_LOADERS)
+settings.TEMPLATE_LOADERS.remove('django.template.loaders.app_directories.Loader')
+TEMPLATE_LOADERS = merge_settings(settings.TEMPLATE_LOADERS, PRIMER_TEMPLATE_LOADERS)
+
+
 
 PRIMER_ROOT = os.path.abspath(os.path.dirname(__file__) + '/../')
 

@@ -12,12 +12,14 @@
 
 {% block feature_nav %}
 <li><a href="#database">Database</a></li>
-<li><a href="#templates">Templates</a></li>
+<li><a href="#css">CSS</a></li>
+<li><a href="#less">LESS</a></li>
 <li><a href="#push">Push Services</a></li>
 {% endblock feature_nav %}
 
 {% block content %}
 	{% include 'feature/scaffolding_database.html' %}
-	{% include 'feature/scaffolding_templates.html' %}
+	{% include 'feature/scaffolding_css.html' %}
+	{% include 'feature/scaffolding_less.html' %}
 	{% include 'feature/scaffolding_push.html' %}
 {% endblock content %}

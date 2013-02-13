@@ -1,0 +1,26 @@
+{% extends app_template %}
+
+{% block pre_content %}
+<header class="jumbotron subhead" id="overview">
+	<div class="container">
+	<h1>Templating</h1>
+	<p class="lead">Convention meets Django's template system.</p>
+	</div>
+</header>
+{% endblock pre_content %}
+
+{% block feature_nav %}
+<li><a href="#overview">Overview</a></li>
+<li><a href="#auto-rendering">Auto-Rendering</a></li>
+<li><a href="#template-variable-names">Template Variable Names</a></li>
+<li><a href="#extension-patterns">Extension Patterns</a></li>
+<li><a href="#template-blocks">Template Blocks</a></li>
+{% endblock feature_nav %}
+
+{% block content %}
+	{% include 'feature/templating_overview.html' %}
+	{% include 'feature/templating_autorendering.html' %}
+	{% include 'feature/templating_variable_names.html' %}
+	{% include 'feature/templating_extension_patterns.html' %}
+	{% include 'feature/templating_blocks.html' %}
+{% endblock content %}

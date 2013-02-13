@@ -1,0 +1,123 @@
+{% load verbatim from primer_tags %}
+	
+<section id="extension-patterns">
+	<div class="page-header">
+		<h1>Extension Patterns</h1>
+	</div>
+	<p>Below is a visualized example of what Primer's template extension pattern seeks to provide. You can see that the main structure of your site is controlled by your <b>base_template</b>, your <b>app_template</b>, and <b>view_template</b>. The <b>site_template</b> is used mainly for adding additional site wide javascript, css, main navigation, or to override any other blocks that are present in the <b>base_template</b> or <b>skeleton_template</b>. Your <b>skeleton_template</b> is an empty barebones html skeleton for your site that has a lot of header includes, meta tags, etc.</p>
+	<div id="template-example" class="bs-docs-example">
+		
+		<a href="#" id="template-split" class="btn btn-primary">Animate</a>
+		<script type="text/javascript">
+			$(function(){
+				$('#template-split').click(function(){
+					$("#template-example").toggleClass('split');
+				});
+			});
+		</script>
+
+		<div class="template-container">
+			<div class="skeleton-template template-pane">
+				<span class="t-label">Skeleton Template</span>
+			</div>
+
+			<div class="base-template template-pane">
+				<span class="t-label">Base Template</span>
+				<div class="t-header"></div>
+				<div class="t-body">
+				</div>
+				<div class="t-footer"></div>				
+			</div>
+
+			<div class="site-template template-pane">
+				<span class="t-label">Site Template</span>
+			</div>
+
+			<div class="app-template template-pane">
+				<span class="t-label">App Template</span>
+				<div class="t-sidebar"></div> 
+				<div class="t-content"></div>
+				
+			</div>
+
+			<div class="view-template template-pane">
+				<span class="t-label">View Template</span>
+			</div>
+		</div>
+
+		<br/><br/>
+	</div>
+	
+	<h3>Examples and Useage</h3>
+	<p>Lets say you are making a painting app for your django site. You create the app, and you include the urls in your core urls file, making sure to specify the app name.</p>
+<pre class="prettyprint linenums">
+# in your main url conf
+url(r'^painter/', include('mysite.painter.urls', app_name = 'painter'))
+</pre>
+
+	<p>Now if you have a view named <code>brushes</code> as part of your painting app. Primer will look for a template called <code>painter/brushes.html</code>. This is your <code>view_template</code>. It will also look for your <code>app_template</code> located at <code>painter/base.html</code>. Your view and app templates would look something like this:</p>
+
+<pre class="prettyprint linenums lang-html">
+# this is an example view template for painter/brushes.html
+# note that it extends your app_template{% verbatim %}
+{% extends app_template %}
+
+{% block content %}
+	This is some stuff from my view {{ some_var }}
+{% endblock content %}{% endverbatim %}
+</pre>
+
+<pre class="prettyprint linenums lang-html">
+# this is an example view template for painter/base.html
+# note that it extends your base_template{% verbatim %}
+{% extends base_template %}
+
+{% block app_content %}
+	&lt;div class="menu"&gt;
+		&lt;a href="#"&gt;Item 1&lt;/a&gt;
+		&lt;a href="#"&gt;Item 2&lt;/a&gt;
+		&lt;a href="#"&gt;Item 3&lt;/a&gt;
+	&lt;/div&gt;
+	&lt;div id="content"&gt;
+		{% block content %}
+		{% endblock content %}
+	&lt;/div&gt;
+{% endblock app_content %}{% endverbatim %}
+</pre>
+
+<p>Thats pretty much it for the basic example, but this pattern can be used over and over again and obviously with infinitely more complex layouts. You can additionally proved a site_template that will inject some stuff into Primer's base_template, if you didn't create your own.</p>
+
+<pre class="prettyprint linenums lang-html">
+# An exmample site_layout{% verbatim %}
+{% extends base_template %}
+
+{% block header_css %}
+	&lt;link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}mysite/css/test.css"/&gt;
+{% endblock header_css %}
+
+{% block header_scripts %}
+	&lt;script type="text/javascript" src="{{ STATIC_URL }}mysite/js/test.js"&gt;&lt;/script&gt;
+{% endblock header_scripts %}
+
+{% block body_attrs %}
+	data-spy="scroll" data-target=".bs-docs-sidebar" data-offset="180"
+{% endblock body_attrs %}
+
+{% block navbar %}
+	&lt;a class="brand" href="#"&gt;Primer&lt;/a&gt;
+	
+	&lt;ul class="nav"&gt;
+		&lt;li&gt;&lt;a data-ajax="app" href="{% url 'feature-home' %}"&gt;Home&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a data-ajax="app" href="{% url 'feature-setup' %}"&gt;Setup&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a data-ajax="app" href="{% url 'feature-scaffolding' %}"&gt;Scaffolding&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a data-ajax="app" href="{% url 'feature-templating' %}"&gt;Templating&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a data-ajax="app" href="{% url 'feature-javascript' %}"&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;ul class="nav pull-right"&gt;
+		{% notifications_widget %}
+	&lt;/ul&gt;
+{% endblock %}{% endverbatim %}
+</pre>
+
+</section>

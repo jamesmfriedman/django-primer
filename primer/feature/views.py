@@ -21,6 +21,10 @@ def setup(request):
     return {}
 
 
+def templating(request):
+    return {}
+
+
 def media(request):
     upload_form = UploadFileForm()
     upload_obj = Session.objects.get(session_key = request.session.session_key)
