@@ -15,7 +15,12 @@ body {
 	.jumbotron {
 		position: relative;
 		padding-top: @navbarHeight + 40;
-		//#gradient > .horizontal(#89B4CA, #e7003e);
+
+		//#gradient > .horizontal(@linkColor, darken(@linkColor, 5%));
+		background: lighten(@linkColor, 5%);
+		border-bottom:0;
+		.box-shadow(0 -3px 3px rgba(0, 0, 0, .1) inset);
+		text-shadow: none;
 		
 		&:before {
 			.transition(all 1s ease-out);
@@ -33,7 +38,7 @@ body {
 		}
 
 		&:after {
-			background: transparent url('../img/docs/paint.png') scroll repeat left top;
+			background: none;// transparent url('../img/docs/paint.png') scroll repeat left top;
 		}
 	}
 	
@@ -48,7 +53,7 @@ header {
 	}
 
 	.navbar .navbar-inner {
-		#gradient > .vertical(rgba(0,0,0,1), rgba(0,0,0,.4));
+		#gradient > .vertical(rgba(0,0,0,1), rgba(0,0,0,.25));
 		border:0;
 	}
 }
