@@ -85,7 +85,7 @@ url(r'^painter/', include('mysite.painter.urls', app_name = 'painter'))
 {% endblock app_content %}{% endverbatim %}
 </pre>
 
-<p>Thats pretty much it for the basic example, but this pattern can be used over and over again and obviously with infinitely more complex layouts. You can additionally proved a site_template that will inject some stuff into Primer's base_template, if you didn't create your own.</p>
+<p>Thats pretty much it for the basic example, but this pattern can be used over and over again and obviously with infinitely more complex layouts. You can additionally proved a site_template that will inject some stuff into Primer's base_template.</p>
 
 <pre class="prettyprint linenums lang-html">
 # An exmample site_layout{% verbatim %}
@@ -117,7 +117,7 @@ url(r'^painter/', include('mysite.painter.urls', app_name = 'painter'))
 	&lt;ul class="nav pull-right"&gt;
 		{% notifications_widget %}
 	&lt;/ul&gt;
-{% endblock %}{% endverbatim %}
+{% endblock navbar %}{% endverbatim %}
 </pre>
 
 </section>
