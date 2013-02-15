@@ -1,22 +1,3 @@
-// Rotate X
-.rotateX(@degrees) {
-  -webkit-transform: rotateX(@degrees);
-     -moz-transform: rotateX(@degrees);
-      -ms-transform: rotateX(@degrees);
-       -o-transform: rotateX(@degrees);
-          transform: rotateX(@degrees);
-}
-
-// Rotate Y
-.rotateY(@degrees) {
-  -webkit-transform: rotateY(@degrees);
-     -moz-transform: rotateY(@degrees);
-      -ms-transform: rotateY(@degrees);
-       -o-transform: rotateY(@degrees);
-          transform: rotateY(@degrees);
-}
-
-// Transform
 .transform(@transform) {
   -webkit-transform: @arguments;
      -moz-transform: @arguments;
@@ -25,17 +6,6 @@
           transform: @arguments;
 }
 
-
-// Perspective
-.perspective(@perspective) {
-  -webkit-perspective: @perspective;
-     -moz-perspective: @perspective;
-      -ms-perspective: @perspective;
-       -o-perspective: @perspective;
-          perspective: @perspective;
-}
-
-// Perspective
 .transform-style(@transformStyle) {
   -webkit-transform-style: @transformStyle;
      -moz-transform-style: @transformStyle;
@@ -44,13 +14,13 @@
           transform-style: @transformStyle;
 }
 
-// Fix Skew
-.skew(@x, @y) {
-  -webkit-transform: skewX(@x) skewY(@y);
-     -moz-transform: skewX(@x) skewY(@y);
-      -ms-transform: skewX(@x) skewY(@y);
-       -o-transform: skewX(@x) skewY(@y);
-          transform: skewX(@x) skewY(@y);
+
+.perspective(@perspective) {
+  -webkit-perspective: @perspective;
+     -moz-perspective: @perspective;
+      -ms-perspective: @perspective;
+       -o-perspective: @perspective;
+          perspective: @perspective;
 }
 
 .backface-visibility(@visibility) {
@@ -62,13 +32,6 @@
   
 }
 
-.box-reflect(@position) {
-    -webkit-box-reflect: @position;
-       -moz-box-reflect: @position;
-        -ms-box-reflect: @position;
-         -o-box-reflect: @position;
-            box-reflect: @position;
-}
 
 .image-set(@imageOne, @imageTwo) {
     background-image: url(@imageOne);
@@ -92,13 +55,13 @@
 .dragCursor() {
     
     &:hover {
-      cursor: url('/static/primer/img/cursors/openhand.cur'), default !important;
+      cursor: url('/static/primer/img/cursors/openhand.cur'), default;
       cursor: grab;  
       cursor: -moz-grab;
     }
     
     &:active {
-      cursor: url('/static/primer/img/cursors/closedhand.cur'), default !important;
+      cursor: url('/static/primer/img/cursors/closedhand.cur'), default;
       cursor: grabbing;
       cursor: -moz-grabbing;
     }
