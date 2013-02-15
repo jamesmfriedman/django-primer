@@ -44,12 +44,12 @@ class LessProcessorEventHandler(PatternMatchingEventHandler):
 
             command = 'cd "%(less_root)s" && lessc --include-path="%(include_path)s" -x "%(less_input)s" > "%(css_output)s"' % less_options
             
-            print less_options
+            print '#######################################'
             print 'Compiling Less...'
             print 'In:', less_options['less_root'] + os.sep + less_options['less_input']
             print 'Out:', less_options['css_output']
+            print '#######################################'
             
-            print command
             
             #subprocess.call('cd "%(less_root)s" && lessc --include=path="%(include_path)s" --rootpath="%(include_path)s" -x -ru "%(less_input)s" > "%(css_output)s"' % less_options, shell=True)
             subprocess.call(command, shell=True)

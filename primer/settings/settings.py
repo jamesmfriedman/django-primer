@@ -1,6 +1,7 @@
 import os
-import importlib
-settings = importlib.import_module(os.environ['DJANGO_SETTINGS_MODULE'])
+import sys
+
+settings = sys.modules.get(os.environ['DJANGO_SETTINGS_MODULE'])
 
 __all__ = (
     'APP_ROOT',
@@ -24,8 +25,7 @@ __all__ = (
 
     'LESS_ROOT',
     'LESS_CSS_PATHS',
-    'LESS_PROCESSOR_ENABLED',
-    
+    'LESS_PROCESSOR_ENABLED',    
 )
 
 def unique(sequence):
