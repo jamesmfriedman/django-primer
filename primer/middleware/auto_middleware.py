@@ -21,7 +21,7 @@ class AutoMiddleware():
         resolver_match = resolve(request.path)
 
         # our view and app name
-        view_name = resolver_match.func.__name__
+        view_name = getattr(resolver_match.func, '__name__', '')
         app_name = resolver_match.app_name or 'page'
         current_site = get_current_site(request)
 
@@ -31,8 +31,8 @@ class AutoMiddleware():
 
     def get_css_namespace(self, request, view_name, app_name):
         
-        app_namespace = 'app-' + app_name
-        view_namespace = 'view-' + view_name
+        app_namespace = 'app-' + app_name.lower().replace('_','-')
+        view_namespace = 'view-' + view_name.lower().replace('_','-')
 
         request.primer['css_namespace'] = '%s %s' % (app_namespace, view_namespace)
 

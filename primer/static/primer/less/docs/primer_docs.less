@@ -2,6 +2,59 @@
 @import '../primer';
 @import 'doc_base';
 
+
+/********************************************************
+ * Hello World
+ ********************************************************/
+.app-feature.view-hello-world {
+
+	body {
+		background: #777;
+		padding-top: 70px;	
+	}
+
+	h1 {
+		margin:0;
+		text-align: center;
+		color:white;
+	}
+
+	small {
+		display: block;
+		font-size: 16px;
+		margin-top: 5px;
+		color: #f2f2f2;
+	}	
+
+	.modal {
+		overflow: hidden;
+	}
+
+	.modal-header {
+		padding-top: 25px;	
+		padding-bottom: 25px;
+		background: #2BA6CB;
+		border-color: darken(#2BA6CB, 15%);
+	}
+
+	.modal-body {
+		padding-top:0;
+	}
+
+	.alert {
+		text-align: center;
+		.border-radius(0);
+	}
+
+	.btn [class^="icon-"]:before {
+		font-size: 14px;
+	}
+}
+
+
+/********************************************************
+ * Junk
+ ********************************************************/
 body {
 	.transition(background 1s);
 	padding-top:0;
@@ -15,11 +68,9 @@ body {
 	.jumbotron {
 		position: relative;
 		padding-top: @navbarHeight + 40;
-
-		//#gradient > .horizontal(@linkColor, darken(@linkColor, 5%));
-		background: lighten(@linkColor, 5%);
+		background: #2BA6CB;
 		border-bottom:0;
-		.box-shadow(0 -3px 3px rgba(0, 0, 0, .1) inset);
+		.box-shadow(0 -3px 3px rgba(0, 0, 0, .15) inset);
 		text-shadow: none;
 		
 		&:before {
@@ -40,6 +91,18 @@ body {
 		&:after {
 			background: none;// transparent url('../img/docs/paint.png') scroll repeat left top;
 		}
+
+		.btn {
+			font-weight: bold;
+			border: 5px solid #333;
+			.border-radius(100px);
+			background: #F35757;
+			color:white;
+		}
+
+		.btn i {
+			font-size: 14px;
+		}
 	}
 	
 }
@@ -53,7 +116,7 @@ header {
 	}
 
 	.navbar .navbar-inner {
-		#gradient > .vertical(rgba(0,0,0,1), rgba(0,0,0,.25));
+		#gradient > .vertical(rgba(0,0,0,1), rgba(0,0,0,.35));
 		border:0;
 	}
 }

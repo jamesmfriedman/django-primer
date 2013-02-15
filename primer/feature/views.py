@@ -5,6 +5,11 @@ from django.http import HttpResponse
 from primer.notifications import *
 from primer.media.forms import UploadFileForm
 
+
+def hello_world(request):
+    return {}
+
+
 def home(request):
     return {}
 

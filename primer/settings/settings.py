@@ -1,8 +1,6 @@
 import os
 import importlib
-
 settings = importlib.import_module(os.environ['DJANGO_SETTINGS_MODULE'])
-
 
 __all__ = (
     'APP_ROOT',
@@ -76,6 +74,7 @@ PRIMER_INSTALLED_APPS = [
 
     # primer
     'primer',
+    'primer.core',
     'primer.notifications',
     'primer.comments',
     'primer.feature',

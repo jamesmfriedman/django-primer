@@ -5,12 +5,13 @@
 <header class="jumbotron subhead" id="overview">
 	<div class="container">
 	<h1>Get Started</h1>
-	<p class="lead">Adding some tricks to Django's framework.</p>
+	<p class="lead">Learn about all the things Primer does for you.</p>
 	</div>
 </header>
 {% endblock pre_content %}
 
 {% block feature_nav %}
+<li><a href="#overview">Overview</a></li>
 <li><a href="#database">Database</a></li>
 <li><a href="#css">CSS</a></li>
 <li><a href="#less">LESS</a></li>
@@ -18,6 +19,7 @@
 {% endblock feature_nav %}
 
 {% block content %}
+	{% include 'feature/get_started_overview.html' %}
 	{% include 'feature/get_started_database.html' %}
 	{% include 'feature/get_started_css.html' %}
 	{% include 'feature/get_started_less.html' %}

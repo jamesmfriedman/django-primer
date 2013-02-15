@@ -52,7 +52,7 @@ def foo(request):
 </pre>
 
 	<h3>App Directories Loader</h3>
-	<div class="alert alert-error"><b>IMPORTANT:</b> The following change to Django's App Directories loader might affect your Django App. The direction of the directory lookups has been reversed. Please Read.</div>
+	<div class="alert alert-warning"><b>WARNING:</b> The following change to Django's App Directories loader might affect your Django App. The direction of the directory lookups has been reversed. Please Read.</div>
 
 	<p>Django's app metaphor coupled with its app directories template loader makes template organization significantly cleaner, as it allows you to store the templates directly in the app they belong to. The main issue comes down to including apps that might augment, modify, or outright monkey patch apps that have been included before them. Primer is a living example of this, attaching itself onto Django's framework. The main issue is the direction of Django's app directories lookup.</p>
 

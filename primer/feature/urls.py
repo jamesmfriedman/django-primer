@@ -2,7 +2,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('primer.feature.views',
     
-    url(r'^$', 'home'),
+    # hello world view
+    url(r'^$', 'hello_world'),
     url(r'^primer/$', 'home', name = 'feature-home'),
     url(r'^primer/setup/$', 'setup', name = 'feature-setup'),
     url(r'^primer/get-started/$', 'get_started', name = 'feature-get-started'),

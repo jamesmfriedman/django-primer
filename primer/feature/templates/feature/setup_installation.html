@@ -2,6 +2,9 @@
 	<div class="page-header">
 		<h1>Installation</h1>
 	</div>
+
+	<h3>New Projects</h3>
+	<div class="alert alert-info"><b>Before you begin:</b> This article assumes you have a blank Django project started up with the appropriately configured database, however you should NOT run <code>./manage.py syncdb</code> until after getting Primer setup. You can follow <a href="https://docs.djangoproject.com/en/dev/intro/tutorial01/" target="_blank">Django's tutorial</a> all the way until it tells you to sync your database.</div>
 	<p>You can install Primer using your favorite Python package manager. Primer has quite a few dependencies, so if you're not using <a href="http://pypi.python.org/pypi/virtualenv" target="_blank">virtualenv</a>, now is the time to start:</p>
 <pre class="prettyprint linenums">
 pip install django-primer
@@ -14,12 +17,20 @@ pip install django-primer
 from primer.settings import *
 </pre>
 	
-	<p>Last but not least, add Primer's URLs to your root urls file.</p>
+	<p>Now you can run the syncdb command, <code>./manage.py syncdb</code>. Startup your server using <code>./manage.py runserver</code> or your favorite wsgi. If everythign went 	to plan, you should greeted by a <b>Hello World</b> page.</p>
+
+	<h3>Existing Projects</h3>
+	<p>It is recommended that you setup Primer when starting a new project, however you can add Primer to an existing project by using South or some other library that handles migrations. If you are using South, you'll have to manually specify the paths for <b>auth</b>, <b>sites</b>, and <b>sessions</b> that your migrations will be created in, otherwise they will be added to either Django or Primer in your Python site-packages and never make it into your production environment. You can read South's documentation on specifying <a href="http://south.readthedocs.org/en/latest/settings.html#setting-south-migration-modules" target="_blank">SOUTH_MIGRATION_MODLUES</a>.</p>	
+
 <pre class="prettyprint linenums">
-# include this in your root urls file.
-url(r'', include('primer.core.urls'))
+# Exmample for specifying custom migrations paths for South. 
+# Replace "core.southmigrations" with where you want migrations stored in your Django project.
+SOUTH_MIGRATION_MODULES = {
+    'auth': 'core.southmigrations.auth',
+    'sites': 'core.southmigrations.sites',
+    'sessions' : 'core.southmigrations.comments',
+}
 </pre>
 
-
-<div class="alert alert-success"><strong>Time for a break!</strong> You just saved yourself a signifigant amount of development time. You deserve the to kick your feet up.</div>
+	<p>After specifying your migration paths, you can init your migrations for those apps, and fake them. From there, follow the tutorial above for new projects, but before you run syncdb, you'll want to run <code>./manage.py schemamigration myapp --auto</code> for each of the modules we are migrating, replacing "myapp" with <b>auth</b>, <b>sites</b>, or <b>sessions</b> respectively. Once you are done with that, you can migrate using<code>./manage.py migrate</code>. At this point, you should have successfully migrated Django's built in models, and you can move on to running syncdb to fill in the rest of Primer's tables in your database.</p>
 </section>
