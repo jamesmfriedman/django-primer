@@ -1,25 +1,52 @@
-.view-login {
-	.well {
-		width: 300px;
-		margin: 0 auto;
-		
+/********************************************************
+ * Hello World
+ ********************************************************/
+.app-auth.view-login {
+
+	body {
+		background: #777;
+		padding-top: 70px;	
 	}
 
 	h1 {
-		font-size: 40px;
-		margin-bottom: 30px;
-		text-align:center;
+		margin:0;
+		text-align: center;
+		color:white;
 	}
 
-	label {
-		text-align:left;
+	small {
+		display: block;
+		font-size: 16px;
+		margin-top: 5px;
+		color: #f2f2f2;
+	}	
+
+	.modal {
+		overflow: hidden;
+		width: 400px;
+		margin-left: -200px;
 	}
 
 	input {
 		width: 100%;
 	}
 
+	.controls {
+		padding-right: 14px;
+	}
+
 	.control-group {
-		padding-right: 10px;
+		margin-bottom:0;
+	}
+
+	.modal-header {
+		padding-top: 25px;	
+		padding-bottom: 25px;
+		background: #2BA6CB;
+		border-color: darken(#2BA6CB, 15%);
+	}
+
+	.btn [class^="icon-"]:before {
+		font-size: 14px;
 	}
 }

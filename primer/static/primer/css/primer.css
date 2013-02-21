@@ -1018,11 +1018,15 @@ a.label:hover,a.label:focus,a.badge:hover,a.badge:focus{color:#ffffff;text-decor
 .show{display:block;}
 .invisible{visibility:hidden;}
 .affix{position:fixed;}
-.view-login .well{width:300px;margin:0 auto;}
-.view-login h1{font-size:40px;margin-bottom:30px;text-align:center;}
-.view-login label{text-align:left;}
-.view-login input{width:100%;}
-.view-login .control-group{padding-right:10px;}
+.app-auth.view-login body{background:#777;padding-top:70px;}
+.app-auth.view-login h1{margin:0;text-align:center;color:white;}
+.app-auth.view-login small{display:block;font-size:16px;margin-top:5px;color:#f2f2f2;}
+.app-auth.view-login .modal{overflow:hidden;width:400px;margin-left:-200px;}
+.app-auth.view-login input{width:100%;}
+.app-auth.view-login .controls{padding-right:14px;}
+.app-auth.view-login .control-group{margin-bottom:0;}
+.app-auth.view-login .modal-header{padding-top:25px;padding-bottom:25px;background:#2BA6CB;border-color:#1e728c;}
+.app-auth.view-login .btn [class^="icon-"]:before{font-size:14px;}
 #notifications-widget-toggle{position:relative;font-size:18px;padding:0 11px;text-align:center;width:40px;line-height:60px;height:60px;}
 #notifications-widget-toggle .badge{visibility:hidden;font-size:10px;position:absolute;top:3px;right:2px;padding:1px 6px;}
 #notifications-widget-toggle.unread-notifications .badge{visibility:visible;}
@@ -1482,9 +1486,7 @@ form.bs-docs-example{padding-bottom:19px;}
 .app-feature.view-hello-world .btn [class^="icon-"]:before{font-size:14px;}
 body{-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s;transition:background 1s;padding-top:0;-webkit-tab-size:4;-moz-tab-size:4;-ms-tab-size:4;-o-tab-size:4;tab-size:4;}body.primer-color-example-expanded *{border-color:rgba(200, 200, 200, 0.4) !important;}
 body .bs-docs-sidenav.affix{top:60px;}
-body .jumbotron{position:relative;padding-top:100px;background:#2BA6CB;border-bottom:0;-webkit-box-shadow:0 -3px 3px rgba(0, 0, 0, 0.15) inset;-moz-box-shadow:0 -3px 3px rgba(0, 0, 0, 0.15) inset;box-shadow:0 -3px 3px rgba(0, 0, 0, 0.15) inset;text-shadow:none;}body .jumbotron:hover{cursor:url('/static/primer/img/cursors/openhand.cur'),default;cursor:grab;cursor:-moz-grab;}
-body .jumbotron:active{cursor:url('/static/primer/img/cursors/closedhand.cur'),default;cursor:grabbing;cursor:-moz-grabbing;}
-body .jumbotron:before{-webkit-transition:all 1s ease-out;-moz-transition:all 1s ease-out;-o-transition:all 1s ease-out;transition:all 1s ease-out;content:'';opacity:0;top:0;left:0;right:0;bottom:0;}
+body .jumbotron{position:relative;padding-top:100px;background:#2BA6CB;border-bottom:0;-webkit-box-shadow:0 -3px 3px rgba(0, 0, 0, 0.15) inset;-moz-box-shadow:0 -3px 3px rgba(0, 0, 0, 0.15) inset;box-shadow:0 -3px 3px rgba(0, 0, 0, 0.15) inset;text-shadow:none;}body .jumbotron:before{-webkit-transition:all 1s ease-out;-moz-transition:all 1s ease-out;-o-transition:all 1s ease-out;transition:all 1s ease-out;content:'';opacity:0;top:0;left:0;right:0;bottom:0;}
 body .jumbotron.glow:before{opacity:1;}
 body .jumbotron:after{background:none;}
 body .jumbotron .btn{font-weight:bold;border:5px solid #333;-webkit-border-radius:100px;-moz-border-radius:100px;border-radius:100px;background:#F35757;color:white;}

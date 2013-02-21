@@ -4,7 +4,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('primer.core.views',
 
     # accounts
-    url(r'', include('primer.auth.urls', app_name = 'primer')),
+    url(r'', include('primer.auth.urls', app_name = 'auth')),
 
     # notifications
     url(r'^notifications/', include('primer.notifications.urls', app_name = 'notifications')),

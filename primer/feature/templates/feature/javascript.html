@@ -12,24 +12,15 @@
 
 {% block feature_nav %}
 <li><a href="#overview">Overview <i class="icon-chevron-right"></i></a></li>
-<li><a href="#ajax">Ajax <i class="icon-chevron-right"></i></a></li>
+<!-- <li><a href="#ajax">Ajax <i class="icon-chevron-right"></i></a></li> -->
 <li><a href="#page-handling">Page Handling <i class="icon-chevron-right"></i></a></li>
 <li><a href="#color-picker">ColorPicker <i class="icon-chevron-right"></i></a></li>
 <li><a href="#toolkit">Toolkit <i class="icon-chevron-right"></i></a></li>
 {% endblock feature_nav %}
 
 {% block content %}
-	<section id="overview">
-		<div class="page-header">
-			<h1>Overview</h1>
-		</div>
-	</section>
-
-	{% include 'feature/javascript_ajax.html' %}
+	{% include 'feature/javascript_overview.html' %}
 	{% include 'feature/javascript_page_handling.html' %}
 	{% include 'feature/javascript_color_picker.html' %}
 	{% include 'feature/javascript_toolkit.html' %}
-
-
-
 {% endblock content %}

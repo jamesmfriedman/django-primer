@@ -27,7 +27,7 @@
 
 		if (anchor.data('target')) options['container'] = anchor.data('target');
 
-		loadPage(options);
+		pushState(options);
 	}
 
 
@@ -85,7 +85,7 @@
 	/**
 	 * Core page handler
 	 */
-	function loadPage(options, callback){
+	function pushState(options, callback){
 
 		var defaults = {
 			url : null,
@@ -142,7 +142,7 @@
 	/***********************************************************************************
 	 * Public API via jQuery
 	 ***********************************************************************************/ 
-	$.loadPage = loadPage;
+	$.pushState = pushState;
 
 	//init on dom ready
 	$(__init__);

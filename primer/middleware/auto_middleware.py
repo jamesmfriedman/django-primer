@@ -70,7 +70,7 @@ class AutoMiddleware():
         ]
 
         if view_name == 'login': 
-            base_templates.insert(0, 'registration/login.html')            
+            base_templates.insert(0, 'primer/login.html')            
         
         base_template = select_template(base_templates).name
 
@@ -100,6 +100,9 @@ class AutoMiddleware():
             '%s/%s.html' % (app_name, view_name),
             '%s.html' % (view_name)
         ]
+
+        if view_name == 'login': 
+            view_templates.insert(0, 'registration/login.html')
 
         view_template = view_templates
         

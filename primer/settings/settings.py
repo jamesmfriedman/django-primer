@@ -75,6 +75,9 @@ PRIMER_INSTALLED_APPS = [
     # primer
     'primer',
     'primer.core',
+    'primer.auth',
+    'primer.sessions',
+    'primer.sites',
     'primer.notifications',
     'primer.comments',
     'primer.feature',
