@@ -14,11 +14,11 @@ Installation
 pip install git+git://github.com/jamesmfriedman/django-primer.git
 </pre>
 
-	<p>After that, add the following to the bottom of your Django settings file.</p>
+<p>After that, add the following to the bottom of your Django settings file.</p>
 
 <pre class="prettyprint linenums">
 # this should be the last thing in your settings file
 from primer.settings import *
 </pre>
 	
-	<p>Now you can run the syncdb command, <code>./manage.py syncdb</code>. Startup your server using <code>./manage.py runserver</code> or your favorite wsgi. If everythign went 	to plan, you should greeted by a <b>Hello World</b> page.</p>
+<p>Now you can run the syncdb command, <code>./manage.py syncdb</code>. Startup your server using <code>./manage.py runserver</code> or your favorite wsgi. If everythign went 	to plan, you should greeted by a <b>Hello World</b> page.</p>
