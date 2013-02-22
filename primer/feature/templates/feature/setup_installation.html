@@ -7,7 +7,7 @@
 	<div class="alert alert-info"><b>Before you begin:</b> This article assumes you have a blank Django project started up with the appropriately configured database, however you should NOT run <code>./manage.py syncdb</code> until after getting Primer setup. You can follow <a href="https://docs.djangoproject.com/en/dev/intro/tutorial01/" target="_blank">Django's tutorial</a> all the way until it tells you to sync your database.</div>
 	<p>You can install Primer using your favorite Python package manager. Primer has quite a few dependencies, so if you're not using <a href="http://pypi.python.org/pypi/virtualenv" target="_blank">virtualenv</a>, now is the time to start:</p>
 <pre class="prettyprint linenums">
-pip install django-primer
+pip install git+git://github.com/jamesmfriedman/django-primer.git
 </pre>
 
 	<p>After that, add the following to the bottom of your Django settings file.</p>
