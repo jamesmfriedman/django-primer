@@ -9,7 +9,7 @@ setup(
     url='https://github.com/jamesmfriedman/django-primer',
     license='LICENSE.txt',
     description='The base coat for your web app.',
-    long_description=open('README.txt').read(),
+    long_description=open('README.md').read(),
     install_requires=[
         'Django==1.4.5',
         'boto==2.8.0',
