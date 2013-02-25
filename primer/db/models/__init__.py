@@ -16,6 +16,6 @@ class PrimerModel(models.Model):
         abstract = True
         get_latest_by = 'created'
     
-    created = models.DateTimeField(auto_now_add=True, editable = False, blank = True, null = True)
-    modified = models.DateTimeField(auto_now=True, blank = True, null = True)
+    created = models.DateTimeField(auto_now_add=True, editable = False, blank = True, db_index = True)
+    modified = models.DateTimeField(auto_now=True, blank = True)
     uuid = UUIDField()
