@@ -1,3 +1,32 @@
+/**
+ * Via $.pushState
+ * -----------------------------
+ * $.pushState({
+ * 	url: '/some/url/'
+ * })
+ * 
+ * $.pushState has the following options
+ * url : a url to load.
+ * container : the container you are loading content into. A jQuery object or selector.
+ * data : an object of random data to get saved by the history api.
+ * title : the title of the document. You can leave this blank to keep it from changing.
+ * layout : a layout get param that will get passed to the server. ?layout=foo.
+ * callback : defaults to $.noop. A callback to happen after the load is complete.
+ * scroll : defaults to false. Whether or not to scroll back to the top of the page on load.
+ * 
+ * 
+ * Via the data api.
+ * -----------------------------
+ * Use data attributes to automatically catch ajax links. You can set data-ajax
+ * to a string that will get passed on to the server when the ajax call happens as a
+ * parameter called "layout".
+ * The following example would send a request to the server as /some/link/?layout=body
+ * 
+ * <a href="/some/link/" data-ajax="body" data-target="#content">Click Me</a>
+ * 
+ * You can also leave data-ajax set to an empty string, its no required
+ */
+
 !function() {
 
 	var prevPath = null;
