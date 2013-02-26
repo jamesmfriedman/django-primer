@@ -79,16 +79,22 @@
 	{% endcompress %}
 
 	{% compress js %}
-		{% block page_scripts %}
-		{% endblock page_scripts %}
+		{% block app_scripts %}
+		{% endblock app_scripts %}
+
+		{% block view_scripts %}
+		{% endblock view_scripts %}
+
+		{% block section_scripts %}
+		{% endblock section_scripts %}
 	{% endcompress %}
 </head>
 
 <body id="body" {% block body_attrs %}{% endblock body_attrs %}>
 	{% block body %}
 		{% block app_content %}
-			{% block content %}
-			{% endblock content %}
+			{% block view_content %}
+			{% endblock view_content %}
 		{% endblock app_content %}
 	{% endblock body %}
 

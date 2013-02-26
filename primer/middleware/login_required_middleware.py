@@ -1,3 +1,5 @@
+from functools import partial
+
 from django.shortcuts import redirect
 from django.conf import settings
 
@@ -9,7 +11,7 @@ __all__ = [
 class LoginRequiredMiddleware():
     '''
     This middleware flips Djangos default login_required usage. By default, all views are login required
-    You can use the @public decorator to make a function publically accessible
+    You can use the @public decorator loacted in primer.auth to make a function publically accessible
     '''
     def process_view(self, request, view_func, view_args, view_kwargs):
         '''Checks to see if the view is publically accessible or not'''
@@ -35,13 +37,9 @@ class LoginRequiredMiddleware():
             return function.is_public_view
         except AttributeError:                  # cache is not found
             
-            # always avoid djangos stuff
-            if function.__module__.startswith('django'):
-                result = True
-
             # here we avoide modules that have been deemed public
-            elif 'public_modules' in settings.PRIMER:
-                for module in settings.PRIMER['public_modules']:
+            if hasattr(settings, 'PUBLIC_MODULES'):
+                for module in settings.PUBLIC_MODULES:
                     if function.__module__.startswith(module):
                         result = True
                         break

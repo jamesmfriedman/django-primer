@@ -1,0 +1,37 @@
+<section id="login-required">
+	<div class="page-header">
+		<h1>Login Required <small>@public</small></h1>
+	</div>
+
+	<p>Django defaults everything to being public and has you place an <code>@login_required</code> decorator on every view that requires login. I don't know about you, but 99.99% of my web app is login required, making typing this extremely ugly and redundant. Primer has an optional middlware you can include that flips this functionality and mixes it with an <code>@public</code> decorator.</p>
+	
+	<h3>Useage</h3>
+	<p>This functionality is opt-in, so you have to include the middleware in your settings file.</p>
+<pre class="prettyprint linenums">
+MIDDLEWARE_CLASSES = (
+	...
+    'primer.middleware.LoginRequiredMiddleware',
+)
+</pre>
+
+	<p>And now, somewhere in a view...</p>
+<pre class="prettyprint linenums">
+from primer.auth import public
+
+@public
+def my_view(request):
+	...
+</pre>
+	
+	<h3>Setting Public Modules</h3>
+	<p>If you are using a third party app with views, you can set the <code>PUBLIC_MODULES</code> list in your settings file. This will allow you to make the 3rd party app public, or save you the redundancy of including the decorator over and over again in your own views if the entire module is open. Django, and the appropriate parts of Primer are added for you automatically.</p>
+
+<pre class="prettyprint linenums">
+PUBLIC_MODULES = (
+    'myapp.views',
+    'core.apps.foo',
+)
+</pre>
+
+
+</section>

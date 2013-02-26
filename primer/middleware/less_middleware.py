@@ -46,7 +46,7 @@ class LessProcessorEventHandler(PatternMatchingEventHandler):
             
             print '#######################################'
             print 'Compiling Less...'
-            print 'In:', less_options['less_root'] + os.sep + less_options['less_input']
+            print 'In:', less_options['less_input']
             print 'Out:', less_options['css_output']
             print '#######################################'
             

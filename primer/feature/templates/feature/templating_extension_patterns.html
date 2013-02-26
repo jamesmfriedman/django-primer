@@ -62,9 +62,9 @@ url(r'^painter/', include('mysite.painter.urls', app_name = 'painter'))
 # note that it extends your app_template{% verbatim %}
 {% extends app_template %}
 
-{% block content %}
+{% block view_content %}
 	This is some stuff from my view {{ some_var }}
-{% endblock content %}{% endverbatim %}
+{% endblock view_content %}{% endverbatim %}
 </pre>
 
 <pre class="prettyprint linenums lang-html">
@@ -78,9 +78,9 @@ url(r'^painter/', include('mysite.painter.urls', app_name = 'painter'))
 		&lt;a href="#"&gt;Item 2&lt;/a&gt;
 		&lt;a href="#"&gt;Item 3&lt;/a&gt;
 	&lt;/div&gt;
-	&lt;div id="content"&gt;
-		{% block content %}
-		{% endblock content %}
+	&lt;div id="view-content"&gt;
+		{% block view_content %}
+		{% endblock view_content %}
 	&lt;/div&gt;
 {% endblock app_content %}{% endverbatim %}
 </pre>

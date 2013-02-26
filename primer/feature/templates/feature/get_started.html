@@ -13,15 +13,17 @@
 {% block feature_nav %}
 <li><a href="#overview">Overview</a></li>
 <li><a href="#database">Database</a></li>
+<li><a href="#login-required">Login Required</a></li>
 <li><a href="#css">CSS</a></li>
 <li><a href="#less">LESS</a></li>
 <li><a href="#push">Push Services</a></li>
 {% endblock feature_nav %}
 
-{% block content %}
+{% block view_content %}
 	{% include 'feature/get_started_overview.html' %}
 	{% include 'feature/get_started_database.html' %}
+	{% include 'feature/get_started_login_required.html' %}
 	{% include 'feature/get_started_css.html' %}
 	{% include 'feature/get_started_less.html' %}
 	{% include 'feature/get_started_push.html' %}
-{% endblock content %}
+{% endblock view_content %}

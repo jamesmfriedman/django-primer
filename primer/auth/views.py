@@ -3,16 +3,16 @@ from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
+from primer.auth import public
 
-#@public
+@public
 def login(request, **kwargs):
     '''
     Logs a user in.
     '''
     return django_login(request)
 
-
-#@public
+@public
 def logout(request, **kwargs):
     '''
     Logs a user out, returns a redirect to the login view

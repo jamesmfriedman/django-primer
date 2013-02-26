@@ -9,9 +9,9 @@
 				{% block login_title %}<h1>Primer<small>Please Login</small></h1>{% endblock login_title %}	
 			</div>
 			<div class="modal-body">
-				{% block content %}
+				{% block view_content %}
 					{{ form|crispy }}
-				{% endblock content %}
+				{% endblock view_content %}
 		  	</div>
 		  	<div class="modal-footer">
 		  		{% csrf_token %}

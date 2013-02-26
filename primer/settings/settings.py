@@ -11,6 +11,7 @@ __all__ = (
     'STATICFILES_FINDERS',
     'TEMPLATE_CONTEXT_PROCESSORS',
     'TEMPLATE_LOADERS',
+    'PUBLIC_MODULES',
 
     'COMPRESS_URL',
     'COMPRESS_ENABLED',
@@ -27,6 +28,9 @@ __all__ = (
     'LESS_ROOT',
     'LESS_CSS_PATHS',
     'LESS_PROCESSOR_ENABLED',    
+
+    'LOGIN_URL',
+    'LOGIN_REDIRECT_URL',
 )
 
 ##
@@ -112,14 +116,21 @@ PRIMER_STATICFILES_FINDERS = [
 
 STATICFILES_FINDERS = merge_settings(settings.STATICFILES_FINDERS, PRIMER_STATICFILES_FINDERS)
 
-
-
 # turn the django template loaders into a list and remove the app directories loader
 settings.TEMPLATE_LOADERS = list(settings.TEMPLATE_LOADERS)
 settings.TEMPLATE_LOADERS.remove('django.template.loaders.app_directories.Loader')
 TEMPLATE_LOADERS = merge_settings(settings.TEMPLATE_LOADERS, PRIMER_TEMPLATE_LOADERS)
 
+LOGIN_URL = getattr(settings, 'LOGIN_URL', '/login/')
+LOGIN_REDIRECT_URL = getattr(settings, 'LOGIN_REDIRECT_URL', '/')
 
+PRIMER_PUBLIC_MODULES = [
+    'django', 
+    'primer.feature',
+    'primer.notifications',
+    'primer.comments',
+]
+PUBLIC_MODULES = merge_settings(getattr(settings, 'PUBLIC_MODULES', []), PRIMER_PUBLIC_MODULES)
 
 # additional settings used by primer
 APP_ROOT = os.path.realpath('.')

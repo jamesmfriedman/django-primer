@@ -11,10 +11,10 @@
 {% block external_scripts %}
 {% endblock external_scripts %}
 
-{% block header_scripts %}
+{% block app_scripts %}
 	<script type="text/javascript" src="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/google-code-prettify/prettify.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/application.js"></script>
-{% endblock header_scripts %}
+{% endblock app_scripts %}
 
 {% block body_attrs %}
 data-spy="scroll" data-target=".bs-docs-sidebar" data-offset="180"
@@ -65,8 +65,8 @@ navbar-fixed-top navbar-inverse
 			</div>
 			
 			<div class="span9">
-			{% block content %}
-			{% endblock content %}
+			{% block view_content %}
+			{% endblock view_content %}
 			</div>
 		</div>
 	</div>
