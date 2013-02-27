@@ -68,24 +68,30 @@
 		var url = window.location.pathname + window.location.search + window.location.hash;
 		var title = document.title;
 		
-		if (state && 'container' in state) {
-			var container = $(state.container);
-		} else {
-			var container = $('#body');
-		}
-
+		//hook for activating bootstrap tabs
+		$('a[data-toggle][href="'+ url +'"]').tab('show');
 		
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
 		if (prevPath.split('#')[0] != url.split('#')[0]) {
 
-			$(window).trigger('beforePageLoad');
-			
-			// the actual page loading handler
-			$.get(url, { layout: state.layout }, function(data){
-				container.html(data);
+			//passing the data through to the beforePage trigger allows us
+			//to modify it somewhere else before it comes back
+			var loadData = {state: state, url: url, title: title}
+			$(window).trigger('beforePageLoad', loadData);
 
-				if (state.scroll || (state.layout == 'app' || !state.layout)) $(window).scrollTop(0);
+			if ('container' in loadData.state) {
+				var container = $(loadData.state.container);
+			} else {
+				var container = $('#body');
+			}
+
+			// the actual page loading handler
+			$.get(url, { layout: loadData.state.layout }, function(data){
+				container.html(data);
+				document.title = loadData.title;
+
+				if (loadData.state.scroll || (loadData.state.layout == 'app' || !loadData.state.layout)) $(window).scrollTop(0);
 				
 				var namespace = $('#primer-css-namespace').remove().val();
 				if (namespace) {
