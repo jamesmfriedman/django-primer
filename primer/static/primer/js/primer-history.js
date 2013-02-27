@@ -68,9 +68,6 @@
 		var url = window.location.pathname + window.location.search + window.location.hash;
 		var title = document.title;
 		
-		//hook for activating bootstrap tabs
-		$('a[data-toggle][href="'+ url +'"]').tab('show');
-		
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
 		if (prevPath.split('#')[0] != url.split('#')[0]) {
