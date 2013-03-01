@@ -99,10 +99,20 @@
 					beforeSend : function(xhr) {
 						currentRequest = xhr;
 					},
-					success : function(data){
-						container.html(data);
-						document.title = title;
+					complete : function(jqXHR, status) {
+						if (status == 'success') {
+							document.title = title;
+							$(window).trigger('pageLoaded');
 
+							//lets page anchors jump to where they are supposed to
+							if (window.location.hash) window.location.hash = window.location.hash
+						}
+					},
+					
+					success : state.success || function(data){
+						
+						container.html(data);
+					
 						if (state.scroll || (state.layout == 'app' || !state.layout)) $(window).scrollTop(0);
 						
 						var namespace = $('#primer-css-namespace').remove().val();
@@ -113,9 +123,6 @@
 							htmlEl.data('cssnamespace', namespace);
 						}
 						
-						//lets page anchors jump to where they are supposed to
-						if (window.location.hash) window.location.hash = window.location.hash
-						$(window).trigger('pageLoaded');
 					}
 				});
 
@@ -142,6 +149,7 @@
 			data : {},
 			title : document.title,
 			layout : null,
+			success : false,
 			callback : $.noop,
 			scroll : false,
 			load : true
