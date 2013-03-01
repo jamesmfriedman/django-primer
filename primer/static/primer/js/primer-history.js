@@ -189,6 +189,8 @@
 			config.data['layout'] = config.layout;
 			config.data['scroll'] = config.scroll;
 			config.data['load'] = config.load;
+			config.data['success'] = config.success;
+			config.data['beforeSend'] = config.beforeSend;
 
 			history.pushState(config.data, config.title, config.url);
 			$(window).trigger('popstate');
