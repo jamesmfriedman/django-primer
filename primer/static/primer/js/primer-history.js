@@ -30,7 +30,8 @@
 !function() {
 
 	var prevPath = null;
-	var hasHistorySupport = !!(window.history && history.pushState);
+	var currentRequest = null;
+	var hasHistorySupport = !history.emulate;
 
 	/**
 	 * Constructor
@@ -83,25 +84,35 @@
 				var container = $('#body');
 			}
 
-			// the actual page loading handler
-			$.get(url, { layout: loadData.state.layout }, function(data){
-				container.html(data);
-				document.title = loadData.title;
+			//stop pending request if they switch pages again
+			if (currentRequest) currentRequest.abort();
 
-				if (loadData.state.scroll || (loadData.state.layout == 'app' || !loadData.state.layout)) $(window).scrollTop(0);
-				
-				var namespace = $('#primer-css-namespace').remove().val();
-				if (namespace) {
-					var htmlEl = $('html');
-					htmlEl.removeClass(htmlEl.data('cssnamespace'));	
-					htmlEl.addClass(namespace);
-					htmlEl.data('cssnamespace', namespace);
+			// the actual page loading handler
+			$.ajax({
+				url : url,
+				data : { layout: loadData.state.layout }, 
+				beforeSend : function(xhr) {
+					currentRequest = xhr;
+				},
+				success : function(data){
+					container.html(data);
+					document.title = loadData.title;
+
+					if (loadData.state.scroll || (loadData.state.layout == 'app' || !loadData.state.layout)) $(window).scrollTop(0);
+					
+					var namespace = $('#primer-css-namespace').remove().val();
+					if (namespace) {
+						var htmlEl = $('html');
+						htmlEl.removeClass(htmlEl.data('cssnamespace'));	
+						htmlEl.addClass(namespace);
+						htmlEl.data('cssnamespace', namespace);
+					}
+					
+					
+					//lets page anchors jump to where they are supposed to
+					if (window.location.hash) window.location.hash = window.location.hash
+					$(window).trigger('pageLoaded');
 				}
-				
-				
-				//lets page anchors jump to where they are supposed to
-				if (window.location.hash) window.location.hash = window.location.hash
-				$(window).trigger('pageLoaded');
 			});
 		} else if (url.split('#').length > 1) {
 			setTimeout(function(){

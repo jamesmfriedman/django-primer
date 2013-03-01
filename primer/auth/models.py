@@ -25,7 +25,7 @@ class Team(PrimerModel):
     Teams are Primers version of groups. They are for user facing groupings
     that support heirarchies
     """
-    name = models.CharField(_('name'), max_length=80)
+    name = models.CharField(_('name'), max_length=64)
     members = models.ManyToManyField(User, 
         blank = True,
         through = 'Membership',
@@ -33,7 +33,7 @@ class Team(PrimerModel):
     )
 
     parent = models.ForeignKey('self', null = True, blank = True, on_delete = models.SET_NULL)
-    type = models.CharField(max_length = 128, db_index = True, default = 'team')
+    type = models.CharField(max_length = 32, db_index = True, default = 'team')
     locked = models.BooleanField(default = False)
     expiration = models.DateTimeField(blank = True, null = True)
     

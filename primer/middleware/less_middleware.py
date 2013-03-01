@@ -75,7 +75,7 @@ def watch_less():
         observer.join()
 
 # a place to store our less processing thread, only during dev
-if 'runserver' in sys.argv and settings.LESS_PROCESSOR_ENABLED:
+if 'runserver' in sys.argv and getattr(settings, 'LESS_PROCESSOR_ENABLED', False):
     print 'Starting LESS processor...'
     print 'LESS_ROOT:', settings.LESS_ROOT
     less_thread = Thread(target=watch_less, args=(), kwargs={})

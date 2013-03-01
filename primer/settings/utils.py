@@ -10,7 +10,16 @@ def unique(sequence):
             yield item
 
 
-def merge_settings(core_settings, primer_settings):
+def merge_settings(core_settings, other_settings):
+    """
+    This merges generic settings together
+    """
+
+    merged_settings = unique(list(core_settings) + list(other_settings))    
+    return tuple(merged_settings)
+
+
+def merge_primer_settings(core_settings, primer_settings):
     """
     This merges primer settings in AFTER django settings
     but before any additional settings. This supports the idea

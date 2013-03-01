@@ -1,8 +1,9 @@
 import os
 import sys
-from utils import merge_settings
+from utils import merge_settings, merge_primer_settings
 
 settings = sys.modules.get(os.environ['DJANGO_SETTINGS_MODULE'])
+
 
 __all__ = (
     'APP_ROOT',
@@ -62,7 +63,7 @@ PRIMER_INSTALLED_APPS = [
 ]
 
 # redfine the InstalledApps tuple
-INSTALLED_APPS = merge_settings(settings.INSTALLED_APPS, PRIMER_INSTALLED_APPS)
+INSTALLED_APPS = merge_primer_settings(settings.INSTALLED_APPS, PRIMER_INSTALLED_APPS)
 
 
 ##
@@ -96,7 +97,7 @@ PRIMER_TEMPLATE_CONTEXT_PROCESSORS = [
 ]
 
 settings.TEMPLATE_CONTEXT_PROCESSORS = getattr(settings, 'TEMPLATE_CONTEXT_PROCESSORS', [])
-TEMPLATE_CONTEXT_PROCESSORS = merge_settings(settings.TEMPLATE_CONTEXT_PROCESSORS, PRIMER_TEMPLATE_CONTEXT_PROCESSORS)
+TEMPLATE_CONTEXT_PROCESSORS = merge_primer_settings(settings.TEMPLATE_CONTEXT_PROCESSORS, PRIMER_TEMPLATE_CONTEXT_PROCESSORS)
 
 ##
 # TEMPLATE LOADER INJECTION
@@ -114,12 +115,12 @@ PRIMER_STATICFILES_FINDERS = [
     'compressor.finders.CompressorFinder'
 ]
 
-STATICFILES_FINDERS = merge_settings(settings.STATICFILES_FINDERS, PRIMER_STATICFILES_FINDERS)
+STATICFILES_FINDERS = merge_primer_settings(settings.STATICFILES_FINDERS, PRIMER_STATICFILES_FINDERS)
 
 # turn the django template loaders into a list and remove the app directories loader
 settings.TEMPLATE_LOADERS = list(settings.TEMPLATE_LOADERS)
 settings.TEMPLATE_LOADERS.remove('django.template.loaders.app_directories.Loader')
-TEMPLATE_LOADERS = merge_settings(settings.TEMPLATE_LOADERS, PRIMER_TEMPLATE_LOADERS)
+TEMPLATE_LOADERS = merge_primer_settings(settings.TEMPLATE_LOADERS, PRIMER_TEMPLATE_LOADERS)
 
 LOGIN_URL = getattr(settings, 'LOGIN_URL', '/login/')
 LOGIN_REDIRECT_URL = getattr(settings, 'LOGIN_REDIRECT_URL', '/')
@@ -130,7 +131,7 @@ PRIMER_PUBLIC_MODULES = [
     'primer.notifications',
     'primer.comments',
 ]
-PUBLIC_MODULES = merge_settings(getattr(settings, 'PUBLIC_MODULES', []), PRIMER_PUBLIC_MODULES)
+PUBLIC_MODULES = merge_primer_settings(getattr(settings, 'PUBLIC_MODULES', []), PRIMER_PUBLIC_MODULES)
 
 # additional settings used by primer
 APP_ROOT = os.path.realpath('.')

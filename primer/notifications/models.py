@@ -58,7 +58,7 @@ class UserNotification(PrimerModel):
     notification = models.ForeignKey(NotificationStore,
         help_text = 'Link to the notification')
     
-    read = models.BooleanField(default = False,
+    read = models.BooleanField(default = False, db_index = True,
         help_text = 'Whether or not the notification has been read by the user')
 
     @classmethod
