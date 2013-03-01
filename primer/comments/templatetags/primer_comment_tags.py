@@ -121,7 +121,6 @@ def add_to_session(target, read_only):
     }
 
     request.session.save()
-    print read_only
 
     return comment_hash
 

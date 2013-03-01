@@ -27,9 +27,9 @@
  * You can also leave data-ajax set to an empty string, its no required
  */
 
-!function() {
+!function($) {
 
-	var prevPath = null;
+	var prevPath = window.location.href;
 	var currentRequest = null;
 	var hasHistorySupport = !history.emulate;
 
@@ -66,7 +66,7 @@
 	 */
 	function onStateChange(e) {
 		var state = history.state;
-		var url = window.location.pathname + window.location.search + window.location.hash;
+		var url = window.location.href;
 		var title = document.title;
 		
 		// check to see that our path actually changed. This means a real page load
@@ -107,7 +107,6 @@
 						htmlEl.addClass(namespace);
 						htmlEl.data('cssnamespace', namespace);
 					}
-					
 					
 					//lets page anchors jump to where they are supposed to
 					if (window.location.hash) window.location.hash = window.location.hash
