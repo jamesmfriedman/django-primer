@@ -29,7 +29,7 @@
 
 !function($) {
 
-	var currentPath = window.location.href;
+	var currentPath = window.location.pathname + window.location.search + window.location.hash;
 	var currentRequest = null;
 	var hasHistorySupport = !history.emulate;
 
