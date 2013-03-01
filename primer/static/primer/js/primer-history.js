@@ -98,6 +98,7 @@
 					data : { layout: state.layout }, 
 					beforeSend : function(xhr) {
 						currentRequest = xhr;
+						state.beforeSend(xhr, settings);
 					},
 					complete : function(jqXHR, status) {
 						if (status == 'success') {
@@ -108,7 +109,7 @@
 							if (window.location.hash) window.location.hash = window.location.hash
 						}
 					},
-					
+
 					success : state.success || function(data){
 						
 						container.html(data);
@@ -149,6 +150,7 @@
 			data : {},
 			title : document.title,
 			layout : null,
+			beforeSend : $.noop,
 			success : false,
 			callback : $.noop,
 			scroll : false,
