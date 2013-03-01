@@ -96,7 +96,7 @@
 				$.ajax({
 					url : url,
 					data : { layout: state.layout }, 
-					beforeSend : function(xhr) {
+					beforeSend : function(xhr, settings) {
 						currentRequest = xhr;
 						state.beforeSend(xhr, settings);
 					},
