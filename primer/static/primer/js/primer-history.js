@@ -98,7 +98,7 @@
 					data : { layout: state.layout }, 
 					beforeSend : function(xhr, settings) {
 						currentRequest = xhr;
-						state.beforeSend(xhr, settings);
+						if (state.beforeSend) state.beforeSend(xhr, settings);
 					},
 					complete : function(jqXHR, status) {
 						if (status == 'success') {
@@ -150,8 +150,6 @@
 			data : {},
 			title : document.title,
 			layout : null,
-			beforeSend : $.noop,
-			success : false,
 			callback : $.noop,
 			scroll : false,
 			load : true
@@ -189,9 +187,9 @@
 			config.data['layout'] = config.layout;
 			config.data['scroll'] = config.scroll;
 			config.data['load'] = config.load;
-			config.data['success'] = config.success;
-			config.data['beforeSend'] = config.beforeSend;
-
+			config.data['success'] = false;
+			config.data['beforeSend'] = false;
+			
 			history.pushState(config.data, config.title, config.url);
 			$(window).trigger('popstate');
 
