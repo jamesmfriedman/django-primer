@@ -29,7 +29,7 @@
 
 !function($) {
 
-	var prevPath = window.location.href;
+	var currentPath = window.location.href;
 	var currentRequest = null;
 	var hasHistorySupport = !history.emulate;
 
@@ -38,7 +38,6 @@
 	 */
 	function __init__() {
 
-		prevPath = window.location.pathname;
 		$(document).on('click.history', 'a[data-ajax]', handleAjaxLinks);
 		$(window).on('popstate', onStateChange);
 	}
@@ -71,7 +70,7 @@
 		
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
-		if (prevPath.split('#')[0] != url.split('#')[0]) {
+		if (currentPath.split('#')[0] != url.split('#')[0]) {
 
 			//passing the data through to the beforePage trigger allows us
 			//to modify it somewhere else before it comes back
@@ -120,7 +119,7 @@
 			
 		}
 
-		prevPath = url;
+		currentPath = url;
 	}
 
 	
