@@ -13,7 +13,7 @@
  * layout : a layout get param that will get passed to the server. ?layout=foo.
  * callback : defaults to $.noop. A callback to happen after the load is complete.
  * scroll : defaults to false. Whether or not to scroll back to the top of the page on load.
- * 
+ * load : whether or not you want to actually load the content, or just change the url bar
  * 
  * Via the data api.
  * -----------------------------
@@ -65,7 +65,7 @@
 	 */
 	function onStateChange(e) {
 		var state = history.state;
-		var url = window.location.href;
+		var url = window.location.pathname + window.location.search + window.location.hash;
 		var title = document.title;
 		
 		// check to see that our path actually changed. This means a real page load
@@ -77,41 +77,49 @@
 			var loadData = {state: state, url: url, title: title}
 			$(window).trigger('beforePageLoad', loadData);
 
-			if ('container' in loadData.state) {
-				var container = $(loadData.state.container);
+			//reset our params incase they changed
+			state = loadData.state;
+			url = loadData.url;
+			title = loadData.title;
+
+			if ('container' in state) {
+				var container = $(state.container);
 			} else {
 				var container = $('#body');
 			}
 
-			//stop pending request if they switch pages again
-			if (currentRequest) currentRequest.abort();
+			if (state.load) {
+				//stop pending request if they switch pages again
+				if (currentRequest) currentRequest.abort();
 
-			// the actual page loading handler
-			$.ajax({
-				url : url,
-				data : { layout: loadData.state.layout }, 
-				beforeSend : function(xhr) {
-					currentRequest = xhr;
-				},
-				success : function(data){
-					container.html(data);
-					document.title = loadData.title;
+				// the actual page loading handler
+				$.ajax({
+					url : url,
+					data : { layout: state.layout }, 
+					beforeSend : function(xhr) {
+						currentRequest = xhr;
+					},
+					success : function(data){
+						container.html(data);
+						document.title = title;
 
-					if (loadData.state.scroll || (loadData.state.layout == 'app' || !loadData.state.layout)) $(window).scrollTop(0);
-					
-					var namespace = $('#primer-css-namespace').remove().val();
-					if (namespace) {
-						var htmlEl = $('html');
-						htmlEl.removeClass(htmlEl.data('cssnamespace'));	
-						htmlEl.addClass(namespace);
-						htmlEl.data('cssnamespace', namespace);
+						if (state.scroll || (state.layout == 'app' || !state.layout)) $(window).scrollTop(0);
+						
+						var namespace = $('#primer-css-namespace').remove().val();
+						if (namespace) {
+							var htmlEl = $('html');
+							htmlEl.removeClass(htmlEl.data('cssnamespace'));	
+							htmlEl.addClass(namespace);
+							htmlEl.data('cssnamespace', namespace);
+						}
+						
+						//lets page anchors jump to where they are supposed to
+						if (window.location.hash) window.location.hash = window.location.hash
+						$(window).trigger('pageLoaded');
 					}
-					
-					//lets page anchors jump to where they are supposed to
-					if (window.location.hash) window.location.hash = window.location.hash
-					$(window).trigger('pageLoaded');
-				}
-			});
+				});
+
+			}
 		} else if (url.split('#').length > 1) {
 			setTimeout(function(){
 				window.location.hash = window.location.hash
@@ -135,7 +143,8 @@
 			title : document.title,
 			layout : null,
 			callback : $.noop,
-			scroll : false
+			scroll : false,
+			load : true
 		}
 
 		//handle optionally passing load page just a url
@@ -169,6 +178,7 @@
 			config.data['container'] = $(config.container).selector;
 			config.data['layout'] = config.layout;
 			config.data['scroll'] = config.scroll;
+			config.data['load'] = config.load;
 
 			history.pushState(config.data, config.title, config.url);
 			$(window).trigger('popstate');
