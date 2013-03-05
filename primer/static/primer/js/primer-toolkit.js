@@ -179,6 +179,18 @@ var Toolkit = function() {
 	    return str;
 	};
 
+	/**
+	 * String formatting. Example '{0}:{1}-test{2}.format('value', 'something', 'else')' => value:something-testelse
+	 * can take arbitrary arguments, an array, or an object with keys pointing to values
+	 */
+	String.prototype.format = String.prototype.format || function() {
+	    var args = arguments[0] instanceof Array || arguments[0] instanceof Object ? arguments[0] : arguments;
+
+    	return this.replace(/{([a-zA-z0-9_\-]+)}/g, function(match, key) { 
+			return typeof args[key] != 'undefined' ? args[key] : match;
+	    });	    
+	};
+
 
 	
 

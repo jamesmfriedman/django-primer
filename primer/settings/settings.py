@@ -54,6 +54,7 @@ PRIMER_INSTALLED_APPS = [
     'primer.auth',
     'primer.sessions',
     'primer.sites',
+    'primer.forms',
     'primer.notifications',
     'primer.comments',
     'primer.feature',
@@ -73,7 +74,6 @@ PRIMER_MIDDLEWARE_CLASSES = [
     'primer.middleware.AutoMiddleware',
     'primer.middleware.RenderMiddleware',
     'primer.push.middleware.PushMiddleware',
-    'primer.notifications.middleware.CountMiddleware',
 ]
 
 MIDDLEWARE_CLASSES = merge_settings(settings.MIDDLEWARE_CLASSES, PRIMER_MIDDLEWARE_CLASSES)
@@ -90,7 +90,6 @@ PRIMER_TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.static',
     'django.core.context_processors.request',
     'django.core.context_processors.tz',
-    'primer.notifications.context_processors.notifications',
     'primer.template.context_processors.primer',
     'primer.push.context_processors.push_service',
     'primer.template.context_processors.settings',

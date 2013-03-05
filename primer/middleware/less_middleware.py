@@ -39,10 +39,11 @@ class LessProcessorEventHandler(PatternMatchingEventHandler):
                 'less_input' : os.path.normpath(less_input),
                 'css_output' : os.path.normpath(css_output),
                 'include_path' : settings.PRIMER_ROOT + include_path_seperator + settings.APP_ROOT,
+                'root_path' : settings.APP_ROOT,
                 'less_root' : settings.LESS_ROOT,   
             }
 
-            command = 'cd "%(less_root)s" && lessc --include-path="%(include_path)s" -x "%(less_input)s" > "%(css_output)s"' % less_options
+            command = 'cd "%(less_root)s" && lessc --include-path="%(include_path)s" --rootpath="%(root_path)s" -x "%(less_input)s" > "%(css_output)s"' % less_options
             
             print '#######################################'
             print 'Compiling Less...'
@@ -50,8 +51,6 @@ class LessProcessorEventHandler(PatternMatchingEventHandler):
             print 'Out:', less_options['css_output']
             print '#######################################'
             
-            
-            #subprocess.call('cd "%(less_root)s" && lessc --include=path="%(include_path)s" --rootpath="%(include_path)s" -x -ru "%(less_input)s" > "%(css_output)s"' % less_options, shell=True)
             subprocess.call(command, shell=True)
 
     def on_any_event(self, event):
@@ -62,10 +61,12 @@ class LessProcessorEventHandler(PatternMatchingEventHandler):
 def watch_less():
         '''creates the watchdog observer to monitor filesystem events'''
         event_handler = LessProcessorEventHandler(patterns = ['*.less'])
-        observer = Observer()
-        paths = settings.LESS_ROOT
-        observer.schedule(event_handler, path=settings.LESS_ROOT, recursive=True)
-        observer.start()
+        paths = [settings.LESS_ROOT, settings.PRIMER_ROOT]
+        
+        for path in paths:
+            observer = Observer()
+            observer.schedule(event_handler, path=path, recursive=True)
+            observer.start()
 
         try:
             while True:

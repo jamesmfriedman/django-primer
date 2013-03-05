@@ -98,5 +98,6 @@ setup(
         'django-crispy-forms==1.2.3',
         'django-storages==1.1.6',
         'watchdog==0.6.0',
+        'dict2xml==1.0'
     ],
 )

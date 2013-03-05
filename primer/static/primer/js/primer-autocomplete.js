@@ -98,11 +98,10 @@
 				
 				results = that.getValuesList(results);
 				
-
 				items = $.grep(results, function (item) {
 					return that.matcher(item[that.searchKey])
 				});	
-
+				
 				//if there are not duplicates allowed, subract our currently selected items
 				if (!that.allowDuplicates) items = items.subtract(that.selectedItems);
 
@@ -204,10 +203,6 @@
 				.on('keyup',    $.proxy(this.keyup, this))
 				.on('keydown',  $.proxy(this.keydown, this))
 
-			if ($.browser.webkit || $.browser.msie) {
-				this.$element.on('keydown', $.proxy(this.keypress, this))
-			}
-
 			this.$menu
 				.on('click', $.proxy(this.click, this))
 				.on('mouseenter', 'li', $.proxy(this.mouseenter, this))
@@ -300,7 +295,7 @@
 			var options = typeof option == 'object' ? option : {};
 			
 			//get a source attached to the dom element
-			if ($this.data('source')) options.source = $this.data('source');
+			if ($this.data('src')) options.source = $this.data('src');
 
 			if (!data) $this.data('autocomplete', (data = new Autocomplete(this, options)));
 			if (typeof option == 'string') data[option]();

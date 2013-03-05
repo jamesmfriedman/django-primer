@@ -220,40 +220,39 @@ def load(request):
         # filter our comments with our expression
         comments = Comment.objects.filter(expression)
         
-    if comments:
-        comments = comments.select_related('user')
-        comments = comments.prefetch_related('likes', 'children__user', 'children__likes')
-        comments = comments.order_by('-created')
-        
-        # filter public and removed
-        comments = comments.filter(is_public=True)
+    
+    comments = comments.select_related('user')
+    comments = comments.prefetch_related('likes', 'children', 'children__user', 'children__likes')
+    comments = comments.order_by('-created')
+    
+    # filter public and removed
+    comments = comments.filter(is_public=True)
 
-        if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
-            comments = comments.filter(is_removed = False)
+    if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
+        comments = comments.filter(is_removed = False)
 
-        # paginate our comments
-        page = paginate(comments, limit)
-        comments = list(page.object_list)
-
-
-        if is_reversed or object_pk:
-            comments.reverse()
-
-        for comment in comments: 
-            comment.set_comment_template_dir(comments_type)
-
-        if object_pk and current_page == 1:
-            comments = comments[:-3]
-
-        # check to see if we need a load more link
-        if page.has_next():
-            load_more = True
-        elif current_page > page.paginator.num_pages:
-            comments = []
+    # paginate our comments
+    page = paginate(comments, limit)
+    comments = list(page.object_list)
 
 
-        remaining_comments_count = page.paginator.count - page.end_index()
+    if is_reversed or object_pk:
+        comments.reverse()
 
+    for comment in comments: 
+        comment.set_comment_template_dir(comments_type)
+
+    if object_pk and current_page == 1:
+        comments = comments[:-3]
+
+    # check to see if we need a load more link
+    if page.has_next():
+        load_more = True
+    elif current_page > page.paginator.num_pages:
+        comments = []
+
+
+    remaining_comments_count = page.paginator.count - page.end_index()
 
     return {
         'view_template' : view_template,

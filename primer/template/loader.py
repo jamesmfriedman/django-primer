@@ -21,6 +21,8 @@ def render(args=None, use_request_context = True, request=None):
     #make args an empty dictionary if it is none so we can merge it with kwargs
     if not args:
         args = {}
+    elif isinstance(args, list):
+        args = {'list_data' : { index: item for index, item in enumerate(args)}} 
     
     #check to see what template we should render
     #if the dev passed one, honor that, otherwise use the one determined in primer middleware

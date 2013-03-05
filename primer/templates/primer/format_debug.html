@@ -1,0 +1,28 @@
+<html>
+	<head>
+
+
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/google-code-prettify/prettify.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/css/primer.css"/>
+		<script src="{{ STATIC_URL }}primer/js/vendors/jquery.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/google-code-prettify/prettify.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				window.prettyPrint && prettyPrint();
+			});
+			
+		</script>
+
+		<style tyle="text/css">
+			pre {font-size:12px;}
+			ol.linenums li {
+				line-height: 18px;
+			}
+		</style>
+	</head>
+<body>
+<pre class="prettyprint linenums lang-js">
+{{ debug_data }}
+</pre>
+</body>
+</html>

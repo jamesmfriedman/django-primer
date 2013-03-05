@@ -1,5 +1,5 @@
 /* =========================================================
- * bootstrap-modal.js v2.3.0
+ * bootstrap-modal.js v2.3.1
  * http://twitter.github.com/bootstrap/javascript.html#modals
  * =========================================================
  * Copyright 2012 Twitter, Inc.
@@ -30,7 +30,10 @@
     this.options = options
     this.$element = $(element)
       .delegate('[data-dismiss="modal"]', 'click.dismiss.modal', $.proxy(this.hide, this))
-    this.options.remote && this.$element.find('.modal-body').load(this.options.remote)
+    var that = this
+    this.options.remote && this.$element.find('.modal-body').load(this.options.remote, function(){
+      that.$element.trigger('loaded')
+    });
   }
 
   Modal.prototype = {
@@ -148,7 +151,7 @@
       }
 
     , removeBackdrop: function () {
-        this.$backdrop.remove()
+        this.$backdrop && this.$backdrop.remove()
         this.$backdrop = null
       }
 
