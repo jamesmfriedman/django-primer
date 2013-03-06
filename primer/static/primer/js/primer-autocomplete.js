@@ -295,6 +295,8 @@
 	 * =========================== */
 
 	$.fn.autocomplete = function (option) {
+		var args = [].splice.call(arguments,0);
+
 		return this.each(function () {
 			var $this = $(this);
 			var data = $this.data('autocomplete')
@@ -304,7 +306,7 @@
 			if ($this.data('src')) options.source = $this.data('src');
 
 			if (!data) $this.data('autocomplete', (data = new Autocomplete(this, options)));
-			if (typeof option == 'string') data[option]();
+			if (typeof option == 'string') data[option].apply(data, args.slice(1));
 		});
 	};
 

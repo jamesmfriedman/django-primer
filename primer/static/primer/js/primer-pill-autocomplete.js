@@ -9,6 +9,7 @@
 		var fakeInput = $this.find('.pill-auto-complete-fake-input');
 		var container = $this.find('.pill-auto-complete-container');
 		var items = [];
+		var autocomplete = null;
 
 		function __init__() {
 
@@ -23,15 +24,48 @@
 				autoCompleteOptions['matcher'] = function() { return true;};
 			}
 
-			fakeInput.autocomplete(autoCompleteOptions);
+			autocomplete = fakeInput.autocomplete(autoCompleteOptions);
+
+			container.on('click', '.btn-pill-auto-complete', removePill);
+			fakeInput.on('keyup', keyHandler);
+		}
+
+		function removePill(e) {
+			var pill = $(this);
+			var item = pill.data('item');
+			var itemIndex = items.indexOf(format.format(item));
+
+			autocomplete.autocomplete('removeSelectedItem', item);
+
+			if (itemIndex != -1) {
+				pill.remove();
+				items.splice(itemIndex, 1);
+				updateInput();
+			}
+		}
+
+		function keyHandler(e) {
+			
+			//delete key
+			if (e.which == 8) {
+				if (fakeInput.val() == '') {
+					var pill = container.find('.btn-pill-auto-complete').last();
+					removePill.call(pill);
+				}
+			}
+		}
+
+		function updateInput() {
+			input.val(items.join(','));
 		}
 
 		function onSelect(val, item) {
 			fakeInput.val('');
 			items.push(format.format(item));
-			input.val(items.join(','));
-			var btn = $('<a href="#" class="btn btn-primary"></a>');
+			updateInput();
+			var btn = $('<a href="#" class="btn btn-primary btn-pill-auto-complete"></a>');
 			btn.text(val);
+			btn.data('item', item);
 			container.append(btn);
 		}
 
