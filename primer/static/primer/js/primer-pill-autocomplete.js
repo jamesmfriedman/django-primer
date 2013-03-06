@@ -2,24 +2,37 @@
 
 	var PillComplete = function($this) {
 		var source = $this.data('src');
+		var format = $this.data('format') || '{value}';
+		var search = $this.data('search') || 'value';
+		var match = $this.data('match');
 		var input = $this.find('.pillautocompleteinput');
 		var fakeInput = $this.find('.pill-auto-complete-fake-input');
-		var format = '{key}:{value}:{display_value}';
+		var container = $this.find('.pill-auto-complete-container');
 		var items = [];
 
 		function __init__() {
-			fakeInput.autocomplete({
+
+			var autoCompleteOptions = {
 				source : source,
-				searchProp: 'display_value',
+				searchProp: search,
 				onSelect: onSelect,
 				allowDuplicates: false
-			});
+			};
+
+			if (match == 'all') {
+				autoCompleteOptions['matcher'] = function() { return true;};
+			}
+
+			fakeInput.autocomplete(autoCompleteOptions);
 		}
 
 		function onSelect(val, item) {
 			fakeInput.val('');
 			items.push(format.format(item));
 			input.val(items.join(','));
+			var btn = $('<a href="#" class="btn btn-primary"></a>');
+			btn.text(val);
+			container.append(btn);
 		}
 
 		__init__();

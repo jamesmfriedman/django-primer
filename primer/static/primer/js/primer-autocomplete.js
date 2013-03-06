@@ -134,7 +134,7 @@
 		},
 
 		matcher: function (item) {
-			return ~(item.toLowerCase().indexOf(this.query.toLowerCase()))
+			return ~(item.toString().toLowerCase().indexOf(this.query.toLowerCase()))
 		},
 
 		sorter: function (items) {
@@ -164,7 +164,13 @@
 			var that = this
 
 			items = $(items).map(function (i, item) {
+				//this creates the actual li. 
 				i = $(that.options.item).data('value', item)
+				//Lets add our props as attributes so we can style it
+				for (key in item) {
+					i.attr('data-' + key, item[key]);
+				}
+
 				i.find('a').html(that.highlighter(item[that.searchKey]))
 				return i[0]
 			})

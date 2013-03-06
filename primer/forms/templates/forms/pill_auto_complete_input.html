@@ -1,6 +1,10 @@
-<div class="pill-auto-complete" {% if source %}data-src="{{ source }}"{% endif %}>
+<div id="{{ field_id }}" class="pill-auto-complete" 
+	{% if source %}data-src="{{ source }}"{% endif %} 
+	{% if format %}data-format="{{ format }}"{% endif %} 
+	{% if search %}data-search="{{ search }}"{% endif %}
+	{% if match %}data-match="{{ match }}"{% endif %}
+>
+	<div class="pill-auto-complete-container"></div>{{ fake_input }}{{ real_input }}
 
-	{{ real_input }}
-	{{ fake_input }}
 </div>
 	
