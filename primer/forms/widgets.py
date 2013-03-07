@@ -12,13 +12,11 @@ class PillAutoCompleteInput(HiddenInput):
 	source = None
 	format = None
 	search = None
-	match = None
 
-	def __init__(self, source = None, search = None, format = None, match = None, *args, **kwargs):
+	def __init__(self, source = None, search = None, format = None, *args, **kwargs):
 		self.source = source
 		self.search = search
 		self.format = format
-		self.match = match
 		super(PillAutoCompleteInput, self).__init__(*args, **kwargs)
 
 
@@ -41,6 +39,5 @@ class PillAutoCompleteInput(HiddenInput):
 			'source' : self.source,
 			'format' : self.format,
 			'search' : self.search,
-			'match' : self.match,
 			'field_id' : field_id,
 			})
