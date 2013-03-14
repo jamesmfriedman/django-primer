@@ -58,7 +58,9 @@ var Modal;
 
 			if (remote) {
 				modal.find('.modal-body').load(remote, function(){
-					modal.trigger('loaded');
+					setTimeout(function(){
+						modal.find('input, textarea').not(':hidden').first().focus();
+					},300);
 				});
 			}
 

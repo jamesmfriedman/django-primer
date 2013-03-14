@@ -48,6 +48,7 @@
 					fontFamily: $this.css('font-family'),
 					
 					borderColor: 'transparent',
+					visibility: 'hidden',
 
 					borderTopStyle: $this.css('border-top-style'),
 					borderBottomStyle: $this.css('border-bottom-style'),
@@ -69,8 +70,9 @@
 				updateClone();
 
 				//bind handlers
-				$this.on('keyup.autgrow', updateClone);
+				$this.on('keydown.autogrow keyup.autogrow', updateClone);
 			}
+
 
 			/**
 			 * Update the clone when text is added to the textarea
@@ -90,7 +92,7 @@
 				val = val.replace(/---NEWLINE---/g, '<br/>');
 
 				// add a non breaking space so we are always a little ahead
-				val += '&nbsp;';
+				val += '&nbsp;&nbsp;';
 				clone.html(val);
 
 				
@@ -119,6 +121,8 @@
 		$('body').on('focus.autogrow', 'textarea.autogrow', function(){
 			$(this).autoGrow();
 		});
+
+		$('textarea.autogrow').autoGrow();
 	});
 
 	
