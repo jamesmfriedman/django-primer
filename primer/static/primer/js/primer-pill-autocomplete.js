@@ -4,11 +4,12 @@
 		var source = $this.data('src');
 		var format = $this.data('format') || '{value}';
 		var search = $this.data('search') || 'value';
-		var matchAll = typeof source == 'string'; 
-		var input = $this.find('.pillautocompleteinput');
+		var matchAll = typeof source == 'string';		
 		var fakeInput = $this.find('.pill-auto-complete-fake-input');
+		var input = fakeInput.siblings('input[type="hidden"]');
 		var container = $this.closest('.pill-auto-complete');
 		var items = [];
+		var vals = [];
 		var autocomplete = null;
 
 		function __init__() {
@@ -25,7 +26,7 @@
 			}
 
 			autocomplete = fakeInput.autocomplete(autoCompleteOptions);
-
+			input.on('change', updatePills);
 			container.on('click', '.btn-pill-autocomplete', removePill);
 			fakeInput.on('keydown', keyHandler);
 			fakeInput.on('focus focusout', focusHandler).focus();
@@ -49,6 +50,7 @@
 			if (itemIndex != -1) {
 				pill.remove();
 				items.splice(itemIndex, 1);
+				vals.splice(itemIndex, 1);
 				updateInput();
 			}
 		}
@@ -65,17 +67,41 @@
 		}
 
 		function updateInput() {
-			input.val(items.join(','));
+			input.val(items.join(';'));
 		}
+
+		/**
+		 * Removes all the previous pills and resyncs them
+		 * to whatever is in the hidden input
+		 */
+		function updatePills() {
+			
+			$this.find('.btn-pill-autocomplete').remove();
+			items = []
+			vals = []
+
+			for (var i = 0; i < items.length; i++) {
+				var pill = createPill(vals[i], items[i]);
+				fakeInput.before(pill);
+			}
+		}
+
+
+		function createPill(val, item) {
+			var pill = $('<a href="#" class="btn btn-primary btn-pill-autocomplete"></a>');
+			pill.text(val);
+			pill.data('item', item);
+			return pill;
+		}
+
 
 		function onSelect(val, item) {
 			fakeInput.val('');
 			items.push(format.format(item));
+			vals.push(val);
 			updateInput();
-			var btn = $('<a href="#" class="btn btn-primary btn-pill-autocomplete"></a>');
-			btn.text(val);
-			btn.data('item', item);
-			fakeInput.before(btn);
+			var pill = createPill(val, item);
+			fakeInput.before(pill);
 		}
 
 		__init__();

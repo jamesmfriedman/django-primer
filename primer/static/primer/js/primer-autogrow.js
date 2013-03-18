@@ -36,20 +36,33 @@
 
 				//math the textareas css, plus some extra stuff to hide our clone
 				clone.css({
-					
-					lineHeight: $this.css('line-height'),
-					letterSpacing: $this.css('letter-spacing'),
 					wordWrap: 'break-word',
 					position: 'absolute',
 					zIndex: -1,
-					width: $this.width() - 2, //offset by a few pixels to make sure our text overflows
+					borderColor: 'transparent',
+					visibility: 'hidden'
+				});
 
+				//update the clone in case there is already text in our textarea
+				updateClone();
+
+				//bind handlers
+				$this.on('keydown.autogrow keyup.autogrow', updateClone);
+				$this.on('focus', resizeClone);
+				$(window).on('resize', resizeClone);
+
+				resizeClone();
+			}
+
+
+			function resizeClone() {
+				clone.css({
+					width: $this.width(),
+					lineHeight: $this.css('line-height'),
+					letterSpacing: $this.css('letter-spacing'),
 					fontSize: $this.css('font-size'),
 					fontFamily: $this.css('font-family'),
 					
-					borderColor: 'transparent',
-					visibility: 'hidden',
-
 					borderTopStyle: $this.css('border-top-style'),
 					borderBottomStyle: $this.css('border-bottom-style'),
 					borderLeftStyle: $this.css('border-left-style'),
@@ -65,12 +78,6 @@
 					paddingLeft: $this.css('padding-left'),
 					paddingRight: $this.css('padding-right')
 				});
-
-				//update the clone in case there is already text in our textarea
-				updateClone();
-
-				//bind handlers
-				$this.on('keydown.autogrow keyup.autogrow', updateClone);
 			}
 
 

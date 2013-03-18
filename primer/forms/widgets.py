@@ -25,9 +25,9 @@ class PillAutoCompleteInput(HiddenInput):
 		
 		attrs = self.build_attrs(attrs, type=self.input_type, name=name)
 
-		field_id = attrs.pop('id')
 		real_input = mark_safe(u'<input%s />' % flatatt(attrs))
 
+		field_id = attrs.pop('id')
 		attrs.pop('name')
 		attrs['type'] = 'text'
 		attrs['class'] = 'pill-auto-complete-fake-input'
