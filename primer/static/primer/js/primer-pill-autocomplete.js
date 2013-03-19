@@ -1,16 +1,23 @@
 !function($){
 
 	var PillComplete = function($this) {
+
+		if ($this.data('bound-pill-auto-complete')) return; 
+		$this.data('bound-pill-auto-complete', true);
+
 		var source = $this.data('src');
 		var format = $this.data('format') || '{value}';
 		var search = $this.data('search') || 'value';
 		var matchAll = typeof source == 'string';		
+		
+		var input = $this.find('.pill-auto-complete-real-input');
 		var fakeInput = $this.find('.pill-auto-complete-fake-input');
-		var input = fakeInput.siblings('input[type="hidden"]');
+		var dataInput = $this.find('.pill-auto-complete-data-input');
+		
 		var container = $this.closest('.pill-auto-complete');
-		var items = [];
-		var vals = [];
 		var autocomplete = null;
+
+		var items = []
 
 		function __init__() {
 
@@ -26,13 +33,16 @@
 			}
 
 			autocomplete = fakeInput.autocomplete(autoCompleteOptions);
-			input.on('change', updatePills);
+			dataInput.on('change', resync);
+			input.on('change', resync);
 			container.on('click', '.btn-pill-autocomplete', removePill);
 			fakeInput.on('keydown', keyHandler);
 			fakeInput.on('focus focusout', focusHandler).focus();
 			container.on('click', function(){
 				fakeInput.focus();
 			});
+
+			resync();
 		}
 
 		function focusHandler(e) {
@@ -42,21 +52,20 @@
 
 		function removePill(e) {
 			var pill = $(this);
-			var item = pill.data('item');
-			var itemIndex = items.indexOf(format.format(item));
 
-			autocomplete.autocomplete('removeSelectedItem', item);
+			var item = pill.data('pill');
+			var itemIndex = items.indexOf(item);
+
+			autocomplete.autocomplete('removeSelectedItem', item.data);
 
 			if (itemIndex != -1) {
 				pill.remove();
 				items.splice(itemIndex, 1);
-				vals.splice(itemIndex, 1);
-				updateInput();
+				updateInputs();
 			}
 		}
 
 		function keyHandler(e) {
-			
 			//delete key
 			if (e.which == 8) {
 				if (fakeInput.val() == '') {
@@ -66,42 +75,65 @@
 			}
 		}
 
-		function updateInput() {
-			input.val(items.join(';'));
+
+		function updateInputs() {
+			var formatted = [];
+			var data = [];
+			for (var i = 0; i < items.length; i++) {
+				data.push(JSON.stringify(items[i]));
+				formatted.push(format.format(items[i].data));
+			} 
+
+			input.val(formatted.join(';'));
+			dataInput.val(data.join(';'));
 		}
+
 
 		/**
 		 * Removes all the previous pills and resyncs them
 		 * to whatever is in the hidden input
 		 */
-		function updatePills() {
+		function resync() {
 			
 			$this.find('.btn-pill-autocomplete').remove();
-			items = []
-			vals = []
+			items = [];
+			input.val('');
+			autocomplete.autocomplete('purgeSelectedItems');
+			var data = dataInput.val().length ? dataInput.val().split(';') : [];
 
-			for (var i = 0; i < items.length; i++) {
-				var pill = createPill(vals[i], items[i]);
+			for (var i = 0; i < data.length; i++) {
+				var item = $.parseJSON(data[i]);
+				items.push(item);
+				autocomplete.autocomplete('addSelectedItem', item.data);
+				
+				var pill = createPill(item);
 				fakeInput.before(pill);
+
+				console.log(pill);
 			}
+
+			updateInputs();
 		}
 
 
-		function createPill(val, item) {
+		function createPill(data) {
 			var pill = $('<a href="#" class="btn btn-primary btn-pill-autocomplete"></a>');
-			pill.text(val);
-			pill.data('item', item);
+			pill.text(data.value);
+			pill.data('pill', data);
 			return pill;
 		}
 
+		function addItem(val, item) {
+			var data = {value: val, data: item}
+			var pill = createPill(data);
+			fakeInput.before(pill);
+			items.push(data);
+			updateInputs()
+		}
 
 		function onSelect(val, item) {
 			fakeInput.val('');
-			items.push(format.format(item));
-			vals.push(val);
-			updateInput();
-			var pill = createPill(val, item);
-			fakeInput.before(pill);
+			addItem(val, item);
 		}
 
 		__init__();
@@ -110,14 +142,17 @@
 	
 
 	$(function(){
+
 		$('body').on('click focus', '.pill-auto-complete, .pill-auto-complete input', function(e){
 			
 			var $this = $(this);
 			if (!$this.hasClass('pill-auto-complete')) $this = $this.closest('.pill-auto-complete');
 			
-			if ($this.data('bound-pill-auto-complete')) return; 
-			$this.data('bound-pill-auto-complete', true);
 			new PillComplete($this);
+		});
+		
+		$('.pill-auto-complete').each(function(){
+			new PillComplete($(this));
 		});
 	});
 

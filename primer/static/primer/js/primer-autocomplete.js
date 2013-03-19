@@ -53,6 +53,14 @@
 			}
 		},
 
+		addSelectedItem: function(item) {
+			this.selectedItems.push(item);
+		},
+
+		purgeSelectedItems: function() {
+			this.selectedItems = []
+		},
+
 		updater: function (item) {
 			return item
 		},
