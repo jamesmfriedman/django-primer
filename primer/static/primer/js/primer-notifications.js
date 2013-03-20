@@ -31,7 +31,7 @@ var Notifications = function() {
 		handleExisting();
 
 		//listen in for primer history page loads
-		$(window).on('pageLoaded', function(){
+		$(window).on('ajaxPageLoaded', function(){
 			api.container = $(containerSelector);
 			handleExisting();
 		});

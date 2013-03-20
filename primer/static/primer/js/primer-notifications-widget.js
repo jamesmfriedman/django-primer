@@ -76,7 +76,7 @@
 
 	$(function(){
 		$('#notifications-widget-toggle').notificationWidget();
-		$(window).on('pageLoaded', function(){
+		$(window).on('ajaxPageLoaded', function(){
 			$('#notifications-widget-toggle').notificationWidget();
 		});
 	});

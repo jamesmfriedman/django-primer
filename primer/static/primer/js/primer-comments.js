@@ -295,7 +295,7 @@
 		}
 
 		//primer history listener
-		$(window).on('pageLoaded', initComments);
+		$(window).on('ajaxPageLoaded', initComments);
 		initComments();
 	});
 

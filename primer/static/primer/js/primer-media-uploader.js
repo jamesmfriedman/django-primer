@@ -210,7 +210,7 @@
 			$('.media-uploader').mediaUploader();
 		};
 
-		$(window).on('pageLoaded', initUploaders);
+		$(window).on('ajaxPageLoaded', initUploaders);
 		initUploaders();
 	});
 

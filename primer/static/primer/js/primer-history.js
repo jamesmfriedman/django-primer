@@ -70,12 +70,12 @@
 		
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
-		if (currentPath.split('#')[0] != url.split('#')[0]) {
+		if ((currentPath.split('#')[0] != url.split('#')[0] && state.load) || state.force) {
 
 			//passing the data through to the beforePage trigger allows us
 			//to modify it somewhere else before it comes back
 			var loadData = {state: state, url: url, title: title}
-			$(window).trigger('beforePageLoad', loadData);
+			$(window).trigger('beforeAjaxPageLoad', loadData);
 
 			//reset our params incase they changed
 			state = loadData.state;
@@ -87,47 +87,46 @@
 			} else {
 				var container = $('#body');
 			}
+			
+			//stop pending request if they switch pages again
+			if (currentRequest) currentRequest.abort();
 
-			if (state.load) {
-				//stop pending request if they switch pages again
-				if (currentRequest) currentRequest.abort();
+			// the actual page loading handler
+			$.ajax({
+				url : url,
+				data : { layout: state.layout }, 
+				beforeSend : function(xhr, settings) {
+					currentRequest = xhr;
+					if (state.beforeSend) state.beforeSend(xhr, settings);
+				},
+				complete : function(jqXHR, status) {
+					if (status == 'success') {
+						document.title = title;
+						$(window).trigger('ajaxPageLoaded');
 
-				// the actual page loading handler
-				$.ajax({
-					url : url,
-					data : { layout: state.layout }, 
-					beforeSend : function(xhr, settings) {
-						currentRequest = xhr;
-						if (state.beforeSend) state.beforeSend(xhr, settings);
-					},
-					complete : function(jqXHR, status) {
-						if (status == 'success') {
-							document.title = title;
-							$(window).trigger('pageLoaded');
-
-							//lets page anchors jump to where they are supposed to
-							if (window.location.hash) window.location.hash = window.location.hash
-						}
-					},
-
-					success : state.success || function(data){
-						
-						container.html(data);
-					
-						if (state.scroll || (state.layout == 'app' || !state.layout)) $(window).scrollTop(0);
-						
-						var namespace = $('#primer-css-namespace').remove().val();
-						if (namespace) {
-							var htmlEl = $('html');
-							htmlEl.removeClass(htmlEl.data('cssnamespace'));	
-							htmlEl.addClass(namespace);
-							htmlEl.data('cssnamespace', namespace);
-						}
-						
+						//lets page anchors jump to where they are supposed to
+						if (window.location.hash) window.location.hash = window.location.hash
 					}
-				});
+				},
 
-			}
+				success : state.success || function(data){
+					
+					container.html(data);
+				
+					if (state.scroll || (state.layout == 'app' || !state.layout)) $(window).scrollTop(0);
+					
+					var namespace = $('#primer-css-namespace').remove().val();
+					if (namespace) {
+						var htmlEl = $('html');
+						htmlEl.removeClass(htmlEl.data('cssnamespace'));	
+						htmlEl.addClass(namespace);
+						htmlEl.data('cssnamespace', namespace);
+					}
+					
+				}
+			});
+
+			
 		} else if (url.split('#').length > 1) {
 			setTimeout(function(){
 				window.location.hash = window.location.hash
@@ -152,7 +151,8 @@
 			layout : null,
 			callback : $.noop,
 			scroll : false,
-			load : true
+			load : true,
+			force: false,
 		}
 
 		//handle optionally passing load page just a url
@@ -166,7 +166,7 @@
 		if (!config.url) return;
 
 		//handle callbacks from loadPage
-		$(window).one('pageLoaded', config.callback);
+		$(window).one('ajaxPageLoaded', config.callback);
 
 		//if we have history support, we can use pushstate,
 		//otherwise we will just redirect
@@ -187,8 +187,10 @@
 			config.data['layout'] = config.layout;
 			config.data['scroll'] = config.scroll;
 			config.data['load'] = config.load;
+			config.data['force'] = config.force;
 			config.data['success'] = false;
 			config.data['beforeSend'] = false;
+
 			
 			history.pushState(config.data, config.title, config.url);
 			$(window).trigger('popstate');
