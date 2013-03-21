@@ -43,7 +43,7 @@ class LessProcessorEventHandler(PatternMatchingEventHandler):
                 'less_root' : settings.LESS_ROOT,   
             }
 
-            command = 'cd "%(less_root)s" && lessc --include-path="%(include_path)s" --rootpath="%(root_path)s" -x "%(less_input)s" > "%(css_output)s"' % less_options
+            command = 'cd "%(less_root)s" && lessc --include-path="%(include_path)s" --yui-compress "%(less_input)s" > "%(css_output)s"' % less_options
             
             print '#######################################'
             print 'Compiling Less...'
