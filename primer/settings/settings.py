@@ -47,6 +47,7 @@ PRIMER_INSTALLED_APPS = [
     'compressor',
     'crispy_forms', 
     'storages',   
+    'mptt',  
 
     # primer
     'primer',

@@ -57,6 +57,31 @@
           tab-size: @tabSize;
 }
 
+// Fix for Placeholder text
+.placeholder(@color: @placeholderText) {
+    &:-moz-placeholder {
+        color: @color;
+        opacity:1;
+    }
+
+    &::-moz-placeholder {
+        color: @color;
+        opacity:1;
+    }
+    &:-ms-input-placeholder {
+        color: @color;
+        opacity:1;
+    }
+
+    &::-ms-input-placeholder {
+        color: @color;
+        opacity:1;
+    }
+    &::-webkit-input-placeholder {
+        color: @color;
+        opacity:1;
+    }
+}
 
 // Draggable cursor
 .dragCursor() {

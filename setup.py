@@ -99,6 +99,6 @@ setup(
         'django-storages==1.1.6',
         'watchdog==0.6.0',
         'dict2xml==1.0',
-        'parsedatetime==1.1.1',
+        'django-mptt==0.5.5',
     ],
 )
