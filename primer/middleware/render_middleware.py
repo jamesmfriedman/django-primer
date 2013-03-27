@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
 from primer.template.loader import render
-
+from django import forms
 
 
 __all__ = [
@@ -25,29 +25,61 @@ class RenderMiddleware():
             
             if request.is_ajax():
                 try:
-                    select_template(request.primer['view_template'])
+                    templates = request.primer['view_template']
+                    if isinstance(response, dict) and response.get('view_template'):
+                        templates = [response.get('view_template')]
+                    select_template(templates)
                 except TemplateDoesNotExist:
                     template_exists = False
 
-            if request.primer.get('format') == 'debug':
-                request.primer['view_template'] = 'primer/format_debug.html'
-                resp = render({'debug_data' : json.dumps(response, indent = 4)}, True, request)
-                return resp 
+            # At this point, we are dealing with json or xml data    
+            print 'TEMPLATE', template_exists, response.get('view_template')
+            if request.primer.get('format') in ['debug', 'xml', 'json'] or (request.is_ajax() and not template_exists):
 
-            elif request.primer.get('format') == 'xml':
-                request.primer['view_template'] = 'primer/format_xml.html'
-                resp = render({'xml_data' : dict2xml(response)}, True, request)
-                resp['Content-Type'] = 'application/xhtml+xml' 
-                return resp 
+                status = 200
 
-            elif request.primer.get('format') == 'json' or (request.is_ajax() and not template_exists and (isinstance(response,list) or not response.get('view_template'))):
-                request.primer['view_template'] = 'primer/format_json.html'
-                resp = render({'json_data' : json.dumps(response)}, True, request)
-                resp['Content-Type'] = 'application/json' 
-                return resp 
+                if isinstance(response, dict):
+                    response['_primer'] = response.get('_primer', {})
+
+                    for key, item in response.items():
+
+                        if isinstance(item, (forms.Form, forms.ModelForm)):
+                            form = item
+                            if not form.is_valid():
+
+                                status = 400
+
+                                #for item in dir(field): print item, getattr(field, item)
+                                response['_primer']['form_errors'] = dict.fromkeys(form.fields, [])
+                                response['_primer']['form_errors']['non_field_errors'] = form.non_field_errors()
+
+                                for field in form.visible_fields():
+                                    response['_primer']['form_errors'][field.name] = field.errors
+
+                            del response[key]                               
+
+
+
+                if request.primer.get('format') == 'debug':
+                    request.primer['view_template'] = 'primer/format_debug.html'
+                    resp = render(request, dictionary = {'debug_data' : json.dumps(response, indent = 4)}, status = status)
+                    return resp 
+
+                elif request.primer.get('format') == 'xml':
+                    request.primer['view_template'] = 'primer/format_xml.html'
+                    resp = render(request, dictionary = {'xml_data' : dict2xml(response)}, status = status)
+                    resp['Content-Type'] = 'application/xhtml+xml' 
+                    return resp 
+
+                elif request.primer.get('format') == 'json' or (request.is_ajax() and not template_exists):
+                    request.primer['view_template'] = 'primer/format_json.html'
+                    resp = render(request, dictionary = {'json_data' : json.dumps(response)}, status = status)
+                    print resp
+                    resp['Content-Type'] = 'application/json' 
+                    return resp 
 
             else:
-                return render(response, True, request)
+                return render(request = request, dictionary = response)
 
         # default, just return the response
         return response

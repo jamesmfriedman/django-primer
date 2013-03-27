@@ -6,10 +6,10 @@ from primer.utils import get_request
 
 from django.shortcuts import render as django_render
 
-def render(args=None, use_request_context = True, request=None):
+def render(request = None, template_name = None, dictionary=None, context_instance = None, content_type = None, status = None, current_app = None):
     '''
     Magic render... steal the request from the calling function.
-    The template is determinted by whatever is set in args.template
+    The template is determinted by whatever is set in args.view_template
     and lastly, pass in any of their arguments
 
     requires the primer.middleware.AutoMiddleware for the extra request parameters
@@ -19,17 +19,22 @@ def render(args=None, use_request_context = True, request=None):
         request = get_request()
 
     #make args an empty dictionary if it is none so we can merge it with kwargs
-    if not args:
-        args = {}
-    elif isinstance(args, list):
-        args = {'list_data' : { index: item for index, item in enumerate(args)}} 
+    if not dictionary:
+        dictionary = {}
+    elif isinstance(dictionary, list):
+        dictionary = {'list_data' : { index: item for index, item in enumerate(dictionary)}} 
     
     #check to see what template we should render
     #if the dev passed one, honor that, otherwise use the one determined in primer middleware
-    if not 'view_template' in args:
-        args['view_template'] = request.primer.get('view_template')
-
-    if use_request_context:
-        return django_render(request, args['view_template'], args, context_instance=RequestContext(request))
-    else:
-        return django_render(request, args['view_template'], args)
+    if not template_name:
+        template_name = dictionary.get('view_template') or request.primer.get('view_template')
+    
+    return django_render(
+        request, 
+        template_name, 
+        dictionary, 
+        context_instance = context_instance or RequestContext(request), 
+        content_type =  content_type,
+        status = status
+    )
+    
