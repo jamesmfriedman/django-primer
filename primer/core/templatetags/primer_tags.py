@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse, NoReverseMatch, resolve
 
 from primer.utils import get_request
 
+from primer.tags.templatetags.primer_tag_tags import *
 
 register = template.Library()
 

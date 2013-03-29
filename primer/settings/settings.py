@@ -62,6 +62,7 @@ PRIMER_INSTALLED_APPS = [
     'primer.avatars',
     'primer.likes',
     'primer.media',
+    'primer.tags',
 ]
 
 # redfine the InstalledApps tuple

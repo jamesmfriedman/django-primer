@@ -65,6 +65,8 @@ var Modal;
 				modal.remove();
 			});
 
+			$('body').append(modal);
+
 			for (label in config.btns) {
 				createButton(label, config.btns[label]);
 			}
@@ -79,7 +81,7 @@ var Modal;
 					modal.trigger('loaded');
 					setTimeout(function(){
 						modal.find('input, textarea').not(':hidden').first().focus();
-					},300);
+					},350);
 				});
 			}
 		};

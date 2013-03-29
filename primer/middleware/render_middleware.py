@@ -33,7 +33,6 @@ class RenderMiddleware():
                     template_exists = False
 
             # At this point, we are dealing with json or xml data    
-            print 'TEMPLATE', template_exists, response.get('view_template')
             if request.primer.get('format') in ['debug', 'xml', 'json'] or (request.is_ajax() and not template_exists):
 
                 status = 200
@@ -49,7 +48,6 @@ class RenderMiddleware():
 
                                 status = 400
 
-                                #for item in dir(field): print item, getattr(field, item)
                                 response['_primer']['form_errors'] = dict.fromkeys(form.fields, [])
                                 response['_primer']['form_errors']['non_field_errors'] = form.non_field_errors()
 
@@ -74,7 +72,6 @@ class RenderMiddleware():
                 elif request.primer.get('format') == 'json' or (request.is_ajax() and not template_exists):
                     request.primer['view_template'] = 'primer/format_json.html'
                     resp = render(request, dictionary = {'json_data' : json.dumps(response)}, status = status)
-                    print resp
                     resp['Content-Type'] = 'application/json' 
                     return resp 
 

@@ -70,7 +70,7 @@
 		
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
-		if ((currentPath.split('#')[0] != url.split('#')[0] && state.load) || state.force) {
+		if ((currentPath.split('#')[0] != url.split('#')[0] && state && state.load) || state && state.force) {
 
 			//passing the data through to the beforePage trigger allows us
 			//to modify it somewhere else before it comes back

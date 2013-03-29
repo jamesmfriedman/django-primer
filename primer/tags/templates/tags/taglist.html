@@ -1,0 +1,11 @@
+{% for tag in taglist %}
+{% if as_li %}
+<li>
+{% endif %}
+	<a href="#" {% if not as_li %}class="label"{% endif %} style="background-color:{{ tag.color }};" data-color="{{ tag.color }}" data-tag="{{ tag.pk }}" data-tag-entry="{{ tag.tag_entry.pk }}">
+		{{ tag.label }}
+	</a>
+{% if as_li %}
+</li>
+{% endif %}
+{% endfor %}

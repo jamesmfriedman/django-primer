@@ -1,5 +1,4 @@
 import importlib
-
 from datetime import datetime
 from django.dispatch import Signal
 from django.conf import settings
@@ -52,6 +51,7 @@ class PushServiceWrapper(object):
         # get the sessions for authenticated users. We have patched a user onto the sessions table
         if user is not request.user or request.user.is_authenticated():
             sessions = user.sessions.filter(expire_date__gt = datetime.now())
+            print 'SESSSIONs', sessions
             return [ session.get_decoded().get('push_channel_id') for session in sessions if session.get_decoded().get('push_channel_id') ]
         
         # our user is not authenticated which means it must be the current logged in user
