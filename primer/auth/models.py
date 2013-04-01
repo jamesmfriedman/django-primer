@@ -105,6 +105,7 @@ class Team(PrimerTreeModel, PrimerModel):
     that support heirarchies
     """
     name = models.CharField(_('name'), max_length=64, db_index = True)
+    created_by = models.ForeignKey(User, blank = True, null = True)
     members = models.ManyToManyField(User, 
         blank = True,
         through = 'Membership',
