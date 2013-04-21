@@ -1,0 +1,1 @@
+from primer.template.loader import render, render_to_template, render_to_json, render_to_xml, render_to_debug

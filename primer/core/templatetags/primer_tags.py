@@ -1,15 +1,12 @@
 import re
-from urllib2 import urlopen
 
 from django import template
-from django.template import loader
-from django.template.loader import render_to_string
-from django.utils.html import escape
-from django.core.urlresolvers import reverse, NoReverseMatch, resolve
+from django.core.urlresolvers import reverse, NoReverseMatch
+from django.template import TemplateSyntaxError
+from django.template.loaders.app_directories import Loader
 
 from primer.utils import get_request
 
-from primer.tags.templatetags.primer_tag_tags import *
 
 register = template.Library()
 
@@ -37,7 +34,7 @@ def include_raw(parser, token):
     if template_name[0] in ('"', "'") and template_name[-1] == template_name[0]:
         template_name = template_name[1:-1]
  
-    source, path = load_template_source(template_name)
+    source, path = Loader().load_template_source(template_name)
  
     return template.TextNode(source)
 

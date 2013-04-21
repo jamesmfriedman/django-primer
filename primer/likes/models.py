@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.comments.models import Comment
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
@@ -26,11 +25,8 @@ class LikesManager(models.Manager):
         Likes an object
         """
         
-        content_type, object_pk  = ContentType.objects.get_for_model(obj), obj.pk
-        if obj.__class__.__name__.lower() == 'comment':
-            entry, created = self.get_or_create(content_type = content_type, object_pk = object_pk, comment = obj, user = user)
-        else:
-            entry, created = self.get_or_create(content_type = content_type, object_pk = object_pk, user = user)
+        content_type, object_id  = ContentType.objects.get_for_model(obj), obj.pk
+        entry, created = self.get_or_create(content_type = content_type, object_id = object_id, user = user)
 
         return entry, created
 
@@ -39,16 +35,16 @@ class LikesManager(models.Manager):
         """
         Likes an object
         """
-        content_type, object_pk  = ContentType.objects.get_for_model(obj), obj.pk
-        self.filter(content_type = content_type, object_pk = object_pk, user = user).delete()
+        content_type, object_id  = ContentType.objects.get_for_model(obj), obj.pk
+        self.filter(content_type = content_type, object_id = object_id, user = user).delete()
 
 
     def get_for_object(self, obj):
         """
         Returns all the likes for a particular user
         """
-        content_type, object_pk  = ContentType.objects.get_for_model(obj), obj.pk
-        return self.get_query_set().filter(object_pk = object_pk, content_type = content_type).get_sum()
+        content_type, object_id  = ContentType.objects.get_for_model(obj), obj.pk
+        return self.get_query_set().filter(object_id = object_id, content_type = content_type).get_sum()
 
 
     def get_sum(self):
@@ -67,11 +63,10 @@ class LikesManager(models.Manager):
 class Like(PrimerModel):
     
     user = models.ForeignKey(User)
-    comment = models.ForeignKey(Comment, null = True, blank = True, related_name = 'likes')
     value = models.IntegerField(default = 1)
 
     content_type   = models.ForeignKey(ContentType)
-    object_pk      = models.TextField()
-    content_object = generic.GenericForeignKey(ct_field='content_type', fk_field='object_pk')
+    object_id      = models.TextField()
+    content_object = generic.GenericForeignKey()
 
     objects = LikesManager()

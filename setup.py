@@ -100,5 +100,6 @@ setup(
         'watchdog==0.6.0',
         'dict2xml==1.0',
         'django-mptt==0.5.5',
+        'django-jsonfield',
     ],
 )

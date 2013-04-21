@@ -76,7 +76,6 @@ class PrimerCommentForm(DjangoCommentForm):
 
     formclass = forms.CharField(widget = forms.HiddenInput())
     comments_type = forms.CharField(widget = forms.HiddenInput())
-    parent = forms.CharField(widget = forms.HiddenInput(), required = False)
 
     def __init__(self, *args, **kwargs):
         
@@ -95,12 +94,7 @@ class PrimerCommentForm(DjangoCommentForm):
             comments_type = 'comments'
         
         super(PrimerCommentForm, self).__init__(*args, **kwargs)
-
     
-        # set the parent on the class
-        if ContentType.objects.get_for_model(self.target_object) == comments_content_type:
-            self.fields['parent'].initial = self.target_object.pk
-            
 
         self.fields['name'].widget = forms.HiddenInput()
         self.fields['name'].required = False
@@ -141,18 +135,11 @@ class PrimerCommentForm(DjangoCommentForm):
 
         # get a copy of our data, and remove all the fields that are backed in
         data = self.cleaned_data.copy()
-        remove_list = ['comment', 'name', 'url', 'timestamp', 'object_pk', 'security_hash', 'content_type', 'honeypot', 'email', 'formclass', 'parent', 'comments_type']
+        remove_list = ['comment', 'name', 'url', 'timestamp', 'object_pk', 'security_hash', 'content_type', 'honeypot', 'email', 'formclass', 'comments_type']
         for key in remove_list:
             del data[key]
         if not len(data.keys()):
             data = None
-
-        parent = None
-        if self.cleaned_data['parent']:
-            try:
-                parent = Comment.objects.get(pk = self.cleaned_data['parent'])
-            except Comment.DoesNotExist:
-                    pass
 
         return dict(
             content_type = ContentType.objects.get_for_model(self.target_object),
@@ -166,7 +153,6 @@ class PrimerCommentForm(DjangoCommentForm):
             is_public    = True,
             is_removed   = False,
             type         = self._get_type_as_string(),
-            parent       = parent,
             data         = data
         )
 

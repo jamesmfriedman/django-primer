@@ -1,10 +1,9 @@
-import re
-
 from django.db import models
 from django.contrib.auth.models import User
-from django.template.loader import select_template, TemplateDoesNotExist
+from django.template.loader import select_template
 
-from primer.db.models import PrimerModel, PickleField
+from jsonfield import JSONField
+from primer.db.models import PrimerModel
 
 
 class NotificationStore(PrimerModel):
@@ -23,7 +22,7 @@ class NotificationStore(PrimerModel):
     target = models.CharField(max_length = 255, null = True, blank = True,
         help_text = 'This is where the notification links to') 
 
-    data = PickleField(null = True, blank = True,
+    data = JSONField(null = True, blank = True,
         help_text = 'Random pickled data to attach to any notification')
 
     type = models.CharField(max_length = 255, null = True, blank = True)
@@ -78,6 +77,6 @@ class UserNotification(PrimerModel):
 
     @classmethod
     def mark_all_as_read_for_user(cls, user):
-        notifications = cls.objects.filter(user = user).update(read = True)
+        cls.objects.filter(user = user).update(read = True)
 
 

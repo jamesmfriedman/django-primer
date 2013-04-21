@@ -13,7 +13,7 @@
 {% endblock comment_meta %}
 
 {% block comment_network %}
-<div class="comment-network {% if not comment.children.count and not comment.likes.count %}none{% endif %}">
+<div class="comment-network {% if not comment.children|length and not comment.likes.count %}none{% endif %}">
     <div class="comment-likes {% if not comment.likes.count %}none{% endif %}">
         {% block comment_likes %}
             {% include 'comments/likes_details.html' %}

@@ -73,8 +73,6 @@ INSTALLED_APPS = merge_primer_settings(settings.INSTALLED_APPS, PRIMER_INSTALLED
 # MIDDLEWARE INJECTION
 # inject primers middleware
 PRIMER_MIDDLEWARE_CLASSES = [
-    'primer.middleware.AutoMiddleware',
-    'primer.middleware.RenderMiddleware',
     'primer.push.middleware.PushMiddleware',
 ]
 

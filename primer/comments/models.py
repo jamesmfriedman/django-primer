@@ -3,8 +3,10 @@ from django.contrib.comments.models import Comment
 from django.template.loader import select_template
 from django.conf import settings
 from django.contrib.comments.managers import CommentManager
+from django.contrib.contenttypes import generic
+from jsonfield import JSONField
 
-from primer.db.models import UUIDField, PickleField
+from primer.db.models import UUIDField
 from forms import PrimerCommentForm
 
 
@@ -65,9 +67,10 @@ class PrimerCommentManager(CommentManager):
 Comment.add_to_class('uuid', UUIDField())
 Comment.add_to_class('created', models.DateTimeField(auto_now_add=True, editable = False, blank = True, null = True))
 Comment.add_to_class('modified', models.DateTimeField(auto_now=True, blank = True, null = True))
-Comment.add_to_class('parent', models.ForeignKey('self', related_name = 'children', blank = True, null = True))
+Comment.add_to_class('likes', generic.GenericRelation('likes.Like'))
 Comment.add_to_class('type', models.CharField(max_length = 255, blank = True, null = True))
-Comment.add_to_class('data', PickleField(blank = True, null = True))
+Comment.add_to_class('data', JSONField(blank = True, null = True))
+
 
 # additional methods
 Comment.add_to_class('template', get_comment_template)

@@ -4,66 +4,81 @@ from django.http import HttpResponse
 
 from primer.notifications import *
 from primer.media.forms import UploadFileForm
+from primer.views.generic import PrimerView
 
 
-def hello_world(request):
-    return {}
+class HelloWorldView(PrimerView):
+    def get(self, request):
+        return self.to_template()
 
 
-def home(request):
-    return {}
+class HomeView(PrimerView):
+    def get(self, request):
+        return self.to_template()
 
 
-def get_started(request):
-    return {}
+class GetStartedView(PrimerView):
+    def get(self, request):
+        return self.to_template()
 
 
-def javascript(request):
-    return {}
+class JavascriptView(PrimerView):
+    def get(self, request):
+        return self.to_template()
 
 
-def setup(request):
-    return {}
+class SetupView(PrimerView):
+    def get(self, request):
+        return self.to_template()
 
 
-def templating(request):
-    return {}
+class TemplatingView(PrimerView):
+    def get(self, request):
+        return self.to_template()
 
 
-def media(request):
-    upload_form = UploadFileForm()
-    upload_obj = Session.objects.get(session_key = request.session.session_key)
+class MediaView(PrimerView):
 
-    return {
-        'upload_form' : upload_form,
-        'upload_obj' : upload_obj
-    }
+    def get(self, request):
+        upload_form = UploadFileForm()
+        upload_obj = Session.objects.get(session_key = request.session.session_key)
 
-
-def notifications(request):
-
-    InfoNotification(
-        message = 'Hello world from the notifications framework!',
-    ).send()
-
-    return {}
+        return self.to_template({
+            'upload_form' : upload_form,
+            'upload_obj' : upload_obj
+        })
 
 
-def notifications_push_test(request):
-    InfoNotification(
-        message = 'Push notifications are working!',
-        data = {'parent': '#test-push-notifications-container'},
-        push = True,
-    ).send()
-    return {}
+class NotificationsView(PrimerView):
+
+    def get(self, request):
+
+        InfoNotification(
+            message = 'Hello world from the notifications framework!',
+        ).send()
+
+        return self.to_template()
 
 
-def comments(request):
+class NotificationsPushTestView(PrimerView):
     
-    comment_obj = Session.objects.get(session_key = request.session.session_key)
-    stream = User.objects.all()
+    def get(self, request):
+        InfoNotification(
+            message = 'Push notifications are working!',
+            data = {'parent': '#test-push-notifications-container'},
+            push = True,
+        ).send()
+        
+        return self.to_template()
 
-    return {
-        'comment_obj': comment_obj,
-        'stream' : stream
-    }
+
+class CommentsView(PrimerView):
+    
+    def get(self, request):
+        comment_obj = Session.objects.get(session_key = request.session.session_key)
+        stream = User.objects.all()
+
+        return self.to_template({
+            'comment_obj': comment_obj,
+            'stream' : stream
+        })

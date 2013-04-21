@@ -11,67 +11,71 @@ from django.utils.html import escape
 
 from primer.utils import paginate
 from primer.likes.models import Like
+from primer.views.generic import PrimerView
 
 from forms import get_comment_form
 
 MAX_COMMENTS_PER_PAGE = 50
 
 
-def delete(request):
-    """
-    Delete a comment. We dont actually delete it, we just set is removed
-    This view will only let the comment author delete it
-    """
-    if request.method == 'POST':
-        try:
-            comment = Comment.objects.get(pk = request.POST.get('comment_id'), user = request.user)
-            comment.is_removed = True
-            comment.save()
-        except Comment.DoesNotExist:
-            pass
+class DeleteView(PrimerView):
 
-    return {}
+    def get(self, request):
+        """
+        Delete a comment. We dont actually delete it, we just set is removed
+        This view will only let the comment author delete it
+        """
+        if request.method == 'POST':
+            try:
+                comment = Comment.objects.get(pk = request.POST.get('comment_id'), user = request.user)
+                comment.is_removed = True
+                comment.save()
+            except Comment.DoesNotExist:
+                pass
 
-
-def like(request):
-    """
-    Likes a comment
-    """
-    pk = request.POST.get('comment')
-    unlike = int(request.POST.get('unlike', 0))
-    details = int(request.POST.get('details', 0))
-
-    if details:
-        view_template = 'comments/likes_details.html'
-    else:
-        view_template = 'comments/likes_short.html'
-
-    if pk:
-        try:
-            comment = Comment.objects.get(pk = pk)
-        except Comment.DoesNotExist:
-            comment = None
-            pass
-
-        if comment:
-
-            if unlike:
-                Like.objects.remove_for_object(comment, request.user)
-            else:
-                Like.objects.create_for_object(comment, request.user)
-
-            return {
-                'comment' : comment,
-                'view_template': view_template
-            }
-
-    return HttpResponse('')
+        return self.to_json()
 
 
-def post(request, next = None, using = None):
+class LikeView(PrimerView):
 
-    if request.method == 'POST':
-        
+    def post(self, request):
+        """
+        Likes a comment
+        """
+        pk = request.POST.get('comment')
+        unlike = int(request.POST.get('unlike', 0))
+        details = int(request.POST.get('details', 0))
+
+        if details:
+            view_template = 'comments/likes_details.html'
+        else:
+            view_template = 'comments/likes_short.html'
+
+        if pk:
+            try:
+                comment = Comment.objects.get(pk = pk)
+            except Comment.DoesNotExist:
+                comment = None
+                pass
+
+            if comment:
+
+                if unlike:
+                    Like.objects.remove_for_object(comment, request.user)
+                else:
+                    Like.objects.create_for_object(comment, request.user)
+
+                return self.to_template({
+                    'comment' : comment,
+                }, view_template)
+
+        return self.to_json()
+
+
+class PostView(PrimerView):
+
+    def post(self, request, next = None, using = None):
+            
         # Fill out some initial data fields from an authenticated user, if present
         data = request.POST.copy()
         comments_type = data.get('comments_type', 'comments')
@@ -149,117 +153,139 @@ def post(request, next = None, using = None):
 
         comments = Comment.objects.filter(pk = comment.pk)
         comments = comments.select_related('user')
-        comments = comments.prefetch_related('children__user', 'likes')
         comment = comments[0]
         comment.set_comment_template_dir(comments_type)
 
-    return {
-        'comment' : comment,
-        'view_template' : comment.template()
-    }
+        return self.to_template({
+            'comment' : comment
+        }, comment.template()) 
 
 
-
-def load(request):
-    """
-    Post Params
-        content: the hash that is set in primer_comment_hashes which points to the content to lookup
-        display: basically the template to render, either comments or wall for now 
-    """
-
-    comments = None
-    remaining_comments_count = 0
-    view_template = 'comments/list.html'
-
-    # get all of our get/post params
-    content_types_hash = request.REQUEST.get('content')
-    limit = int(request.REQUEST.get('limit', MAX_COMMENTS_PER_PAGE))
-    comments_type = request.REQUEST.get('type', 'comments')
-    is_reversed = int(request.REQUEST.get('isReversed', 0))
-    object_pk = request.REQUEST.get('pk')
-    current_page = int(request.REQUEST.get('page', 1))
-
-    load_more = False
-
-    # make sure our limit is within range
-    if limit > MAX_COMMENTS_PER_PAGE:
-        limit = MAX_COMMENTS_PER_PAGE
-
-    # get our content types to lookup out of our session
-    comments_setup = request.session['primer_comment_hashes'][content_types_hash]
-    content_types = comments_setup['content_types']
-
-    # we have an explicit object_pk, get the replies for this comment
-    if object_pk:
-        comments = Comment.objects.filter(parent_id = object_pk)
-        limit = 15
-        view_template = 'comments/list_replies.html'
+class LoadView(PrimerView):
     
-    # we have contenttypes to lookup
-    elif content_types:
+    def get(self, request):
+        """
+        Post Params
+            content: the hash that is set in primer_comment_hashes which points to the content to lookup
+            display: basically the template to render, either comments or wall for now 
+        """
+
+        comments = None
+        remaining_comments_count = 0
+        view_template = 'comments/list.html'
+
+        # get all of our get/post params
+        content_types_hash = request.REQUEST.get('content')
+        limit = int(request.REQUEST.get('limit', MAX_COMMENTS_PER_PAGE))
+        comments_type = request.REQUEST.get('type', 'comments')
+        is_reversed = int(request.REQUEST.get('isReversed', 0))
+        object_pk = request.REQUEST.get('pk')
+        current_page = int(request.REQUEST.get('page', 1))
+        comment_content_type = ContentType.objects.get_for_model(Comment)
+
+        load_more = False
+
+        # make sure our limit is within range
+        if limit > MAX_COMMENTS_PER_PAGE:
+            limit = MAX_COMMENTS_PER_PAGE
+
+        # get our content types to lookup out of our session
+        comments_setup = request.session['primer_comment_hashes'][content_types_hash]
+        content_types = comments_setup['content_types']
+
+        # we have an explicit object_pk, get the replies for this comment
+        if object_pk:
+            comments = Comment.objects.filter(parent_id = object_pk)
+            limit = 15
+            view_template = 'comments/list_replies.html'
         
-        # start our comment expression
-        expression = None
+        # we have contenttypes to lookup
+        elif content_types:
+            
+            # start our comment expression
+            expression = None
 
-        # loop through the objects in our list, and build an expression for our query
-        for obj in content_types:
+            # loop through the objects in our list, and build an expression for our query
+            for obj in content_types:
 
-            ctype = ContentType.objects.get_by_natural_key(
-                obj['app_label'], obj['content_type'])
+                ctype = ContentType.objects.get_by_natural_key(
+                    obj['app_label'], obj['content_type'])
 
-            # the expression for this loop iteration
-            exp = Q(content_type=ctype, object_pk=obj['object_pk'], site__pk=settings.SITE_ID)
+                # the expression for this loop iteration
+                exp = Q(content_type=ctype, object_pk=obj['object_pk'], site__pk=settings.SITE_ID)
 
-            # if no expression has been set
-            if not expression:
-                expression = exp
+                # if no expression has been set
+                if not expression:
+                    expression = exp
+                else:
+                    # or it against our current expression
+                    expression = (expression | exp)
+
+            # filter our comments with our expression
+            comments = Comment.objects.filter(expression).values_list('id', flat = True)
+            
+        # filter public and removed
+        comments = comments.filter(is_public = True)
+        if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
+            comments = comments.filter(is_removed = False)
+
+        # paginate our comments
+        # we just grab a values list from here. This way we can relook up the queryset with
+        # prefetching athe likes, and joining on the users
+        page = paginate(comments, limit)
+        comments = list(page.object_list.values_list('id', flat = True))
+
+        # relook up our comments
+        comments = Comment.objects.filter(Q(id__in = comments) | Q(object_pk__in = comments, content_type = comment_content_type))
+        comments = comments.filter(is_public = True)
+        comments = comments.select_related('user')
+        comments = comments.prefetch_related('likes')
+        comments = comments.order_by('-created')
+        
+        if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
+            comments = comments.filter(is_removed = False)
+
+
+        # we separate out our base_posts and replies
+        base_comments = []
+        replies = {}
+        for comment in comments:
+            comment.set_comment_template_dir(comments_type)
+            if comment.content_type_id == comment_content_type.id:
+                object_id = int(comment.object_pk)
+                replies[object_id] = replies.get(object_id, [])
+                replies[object_id].append(comment)
             else:
-                # or it against our current expression
-                expression = (expression | exp)
+                base_comments.append(comment)
 
-        # filter our comments with our expression
-        comments = Comment.objects.filter(expression)
+        # join our replies to our base_post
+        for comment in base_comments:
+            comment.children = replies.get(comment.id, [])
+
+        # finally, our comments are structured right
+        comments = base_comments
         
-    
-    comments = comments.select_related('user')
-    comments = comments.prefetch_related('likes', 'children', 'children__user', 'children__likes')
-    comments = comments.order_by('-created')
-    
-    # filter public and removed
-    comments = comments.filter(is_public=True)
+        # handle reversing comments
+        if is_reversed or object_pk:
+            comments.reverse()        
 
-    if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
-        comments = comments.filter(is_removed = False)
+        if object_pk and current_page == 1:
+            comments = comments[:-3]
 
-    # paginate our comments
-    page = paginate(comments, limit)
-    comments = list(page.object_list)
+        # page out of range, empy the list
+        if page.has_next():
+            load_more = True
+        elif current_page > page.paginator.num_pages:
+            comments = []
 
+        # get remaining comments count
+        remaining_comments_count = page.paginator.count - page.end_index()
 
-    if is_reversed or object_pk:
-        comments.reverse()
-
-    for comment in comments: 
-        comment.set_comment_template_dir(comments_type)
-
-    if object_pk and current_page == 1:
-        comments = comments[:-3]
-
-    # check to see if we need a load more link
-    if page.has_next():
-        load_more = True
-    elif current_page > page.paginator.num_pages:
-        comments = []
-
-
-    remaining_comments_count = page.paginator.count - page.end_index()
-
-    return {
-        'view_template' : view_template,
-        'comments' : comments,
-        'remaining_comments_count' : remaining_comments_count,
-        'load_more' : load_more,
-        'comments_type' : comments_type,
-        'is_reversed' : is_reversed,
-        'read_only' : comments_setup.get('read_only', False)
-    }
+        return self.to_template({
+            'comments' : comments,
+            'remaining_comments_count' : remaining_comments_count,
+            'load_more' : load_more,
+            'comments_type' : comments_type,
+            'is_reversed' : is_reversed,
+            'read_only' : comments_setup.get('read_only', False)
+        }, view_template)

@@ -1,6 +1,6 @@
 from django.db import models
 
-from fields import UUIDField, PickleField
+from fields import UUIDField
 from mptt.models import MPTTModel, TreeForeignKey
 
 ##################################################################################################################
