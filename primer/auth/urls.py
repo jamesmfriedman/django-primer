@@ -1,9 +1,11 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
+
+from .views import LoginView, LogoutView
 
 urlpatterns = patterns('primer.auth.views',
 
     # accounts
-    url(r'^login/$', 'login', name='login'),
-    url(r'^logout/$', 'logout', name='logout'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
 
 )

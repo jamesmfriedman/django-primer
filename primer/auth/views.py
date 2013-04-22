@@ -4,18 +4,28 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from primer.auth import public
+from primer.views.generic import PrimerView
 
-@public
-def login(request, **kwargs):
-    '''
-    Logs a user in.
-    '''
-    return django_login(request)
+class LoginView(PrimerView):
+	@public
+	def get(self, request, **kwargs):
+	    '''
+	    Logs a user in.
+	    '''
+	    return django_login(request)
 
-@public
-def logout(request, **kwargs):
-    '''
-    Logs a user out, returns a redirect to the login view
-    '''
-    django_logout(request)
-    return redirect(reverse('login'))
+	@public
+	def post(self, request, **kwargs):
+	    '''
+	    Logs a user in.
+	    '''
+	    return django_login(request)
+
+class LogoutView(PrimerView):
+	@public
+	def get(self, request, **kwargs):
+	    '''
+	    Logs a user out, returns a redirect to the login view
+	    '''
+	    django_logout(request)
+	    return redirect(reverse('login'))

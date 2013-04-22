@@ -239,7 +239,7 @@ class LoadView(PrimerView):
         comments = Comment.objects.filter(Q(id__in = comments) | Q(object_pk__in = comments, content_type = comment_content_type))
         comments = comments.filter(is_public = True)
         comments = comments.select_related('user')
-        comments = comments.prefetch_related('likes')
+        comments = comments.prefetch_related('likes__user')
         comments = comments.order_by('-created')
         
         if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
