@@ -92,7 +92,7 @@ setup(
     cmdclass = cmdclasses,
     data_files = data_files,
     install_requires = [
-        'Django==1.4.5',
+        'Django==1.5.1',
         'boto==2.8.0',
         'django-compressor==1.2',
         'django-crispy-forms==1.2.3',
@@ -100,6 +100,6 @@ setup(
         'watchdog==0.6.0',
         'dict2xml==1.0',
         'django-mptt==0.5.5',
-        'django-jsonfield',
+        'django-jsonfield==0.9.4',
     ],
 )

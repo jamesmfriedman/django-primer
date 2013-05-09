@@ -52,8 +52,8 @@ PRIMER_INSTALLED_APPS = [
     # primer
     'primer',
     'primer.core',
-    'primer.auth',
-    'primer.sessions',
+    'primer.push',
+    'primer.auth', 
     'primer.sites',
     'primer.forms',
     'primer.notifications',
@@ -161,4 +161,3 @@ PUSH_SERVICE_SETTINGS = getattr(settings, 'PUSH_SERVICE_SETTINGS', {})
 LESS_CSS_PATHS = getattr(settings, 'LESS_CSS_PATHS', {})
 LESS_ROOT = getattr(settings, 'LESS_ROOT', APP_ROOT)
 LESS_PROCESSOR_ENABLED = getattr(settings, 'LESS_PROCESSOR_ENABLED', settings.DEBUG)
-    

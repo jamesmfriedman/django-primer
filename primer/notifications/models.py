@@ -18,7 +18,6 @@ class NotificationStore(PrimerModel):
     sender = models.ForeignKey(User, blank = True, null = True, related_name = 'sender',
         help_text = 'This is the person that sent the notification, can be null')
 
-    # do not set directly, it gets set in model save from a call to get_target
     target = models.CharField(max_length = 255, null = True, blank = True,
         help_text = 'This is where the notification links to') 
 

@@ -3,21 +3,21 @@ import subprocess
 import time
 import os
 import platform
-
 from threading import Thread
-from functools import partial
 
 from django.conf import settings
 
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
-import primer
-
 __all__ = [
+    'LessMiddleware',
     'LessProcessorEventHandler',
     ]
 
+class LessMiddleware:
+    def process_request(self, request):
+        return None
 
 class LessProcessorEventHandler(PatternMatchingEventHandler):
     '''

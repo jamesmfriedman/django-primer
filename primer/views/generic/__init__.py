@@ -134,7 +134,7 @@ class PrimerView(View):
         # App Templates ############################################
         app_templates = [
             '%s/base.html' % self.app_name,
-            base_template
+            site_template
         ]
 
         

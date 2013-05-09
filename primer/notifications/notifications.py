@@ -22,21 +22,24 @@ class Notification:
 
     store = 1
     users = []
-    sender = None,
+    sender = None
     type = None
     tags = ''
     message = ''
     data = None
+    target = None
     push = False
 
     def __init__(self, users = None, *args, **kwargs):
         """
         Init takes the following additional properties
         - store: storage level 0 - 2
+            - 0 is send only
+            - 1 is send and store
+            - 2 is store only
         - user: a single user to link this notification to
         - users: a list or qs of users to link this notificaiton to
         """
-        
         self.store = kwargs.get('store', self.store)
         self.message = kwargs.get('message', self.message)
         self.type = kwargs.get('type', self.type)
@@ -44,10 +47,11 @@ class Notification:
         self.sender = kwargs.get('sender', self.sender)
         self.data = kwargs.get('data', self.data)
         self.push = kwargs.get('push', self.push)
+        self.target = kwargs.get('target', self.target)
 
         # handle passing in a single user or multiple users
         self.users = kwargs.get('users', self.users)
-        if not hasattr(self.users, '__iter__'):
+        if not hasattr(self.users, '__iter__') and self.users:
             self.users = [self.users]
         
         # if the type is not set, set it dynamically based on the class name
@@ -90,20 +94,25 @@ class Notification:
         # if we still dont have any users, set it to the user in the request.
         # We do it here and not in model init to avoid redundant calls to get_request
         # when we might be saving the model directly
-        if not len(self.users):
+        if not self.users:
             self.users = [request.user]
+
+        if not self.sender and request.user.is_authenticated():
+            self.sender = request.user
 
         # if the store option is 1 or 2, we will store the notification
         if self.store == 1 or self.store == 2:
-            
+    
             # start by saving the actual notification
             notification = NotificationStore(
                 message = self.message,
-                target = self.get_target(),
+                target = self.target or self.get_target(),
                 type = self.type,
                 sender = self.sender,
                 data = self.data
-                ).save()
+                )
+
+            notification.save()
 
             # loop through and create following links for users
             followers_to_save = []
@@ -138,13 +147,19 @@ class Notification:
                     else:
                         
                         # we will send through our arbitrary data with the message
-                        push_data = {'message' : self.message, 'tags' : self.tags}
+                        push_data = {
+                            'message' : self.message, 
+                            'tags' : self.tags,
+                            'target' : self.target,
+                            'type' : self.type
+                            }
+                            
                         if self.data: push_data.update(self.data)
 
                         PushService.send(
                             event = 'notification.new-notification', 
-                            data = push_data,
-                            users = user
+                            users = user,
+                            data = push_data
                             )
 
                 else:

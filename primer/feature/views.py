@@ -69,7 +69,7 @@ class NotificationsPushTestView(PrimerView):
             push = True,
         ).send()
         
-        return self.to_template()
+        return HttpResponse()
 
 
 class CommentsView(PrimerView):
