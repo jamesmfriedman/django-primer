@@ -90,8 +90,10 @@ PRIMER_TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.static',
     'django.core.context_processors.request',
     'django.core.context_processors.tz',
-    'primer.template.context_processors.primer',
+    
+    'primer.notifications.context_processors.notifications',
     'primer.push.context_processors.push_service',
+    'primer.template.context_processors.primer',
     'primer.template.context_processors.settings',
 ]
 

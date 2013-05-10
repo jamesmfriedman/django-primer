@@ -60,7 +60,6 @@ class Notification:
             self.type = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
-
     def get_target(self):
         """
         This method should return either a link, or something the djangos urlresolvers reverse can turn into a link
@@ -162,12 +161,8 @@ class Notification:
                             data = push_data
                             )
 
-                else:
-                    if user == request.user:
-                        messages.add_message(request, messages.INFO, self, extra_tags = self.tags)
-
-                    
-
+                elif user == request.user:
+                    messages.add_message(request, messages.INFO, self, extra_tags = self.tags)
 
     def __unicode__(self):
         return self.message

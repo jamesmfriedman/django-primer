@@ -10,7 +10,9 @@ __all__ = [
 class PushMiddleware():
     
     def process_request(self, request):
-        print request.session.get('push_channel_id')
+    	"""
+    	This middleware assigns a channel id if it is missing from the session
+    	"""
         if settings.PUSH_SERVICE and not request.session.get('push_channel_id'):
             if request.user.is_authenticated():
                 request.session['push_channel_id'] = request.user.channel.name

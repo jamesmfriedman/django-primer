@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.loader import select_template
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 from jsonfield import JSONField
 from primer.db.models import PrimerModel
@@ -25,6 +27,11 @@ class NotificationStore(PrimerModel):
         help_text = 'Random pickled data to attach to any notification')
 
     type = models.CharField(max_length = 255, null = True, blank = True)
+
+    # generic relationship
+    content_type = models.ForeignKey(ContentType, blank = True, null = True)
+    object_id = object_id = models.TextField(blank = True, null = True)
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
 
     def template(self):

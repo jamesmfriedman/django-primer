@@ -74,7 +74,7 @@ class Tag(PrimerModel):
             verbose_name = 'content type',
             related_name = 'content_type_set_for_%(class)s'
     )
-    object_pk = models.TextField('object ID')
+    object_pk = models.TextField()
     content_object = generic.GenericForeignKey(ct_field = 'content_type', fk_field = 'object_pk')
 
     objects = TagManager()
