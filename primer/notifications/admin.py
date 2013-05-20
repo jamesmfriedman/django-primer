@@ -1,5 +1,4 @@
 from django.contrib import admin
-from models import NotificationStore, UserNotification
+from models import StoredNotification
 
-admin.site.register(NotificationStore)
-admin.site.register(UserNotification)
+admin.site.register(StoredNotification)

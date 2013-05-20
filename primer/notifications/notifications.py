@@ -1,21 +1,11 @@
 import re
-from datetime import datetime
 
 from django.contrib import messages
-from django.template.loader import select_template, TemplateDoesNotExist
+from django.template.loader import select_template
 
 from primer.push.services import PushService
-from primer.notifications.models import NotificationStore, UserNotification
+from primer.notifications.models import StoredNotification
 from primer.utils import get_request
-
-
-def push_count_update(user):
-    """
-    Pushes a count update to all of the clients machines
-    """
-    if PushService:
-        count = UserNotification.objects.filter(user = user, read = False).count()
-        PushService.send('notification.count', users = user, data = {'count' : count})
 
 
 class Notification:
@@ -102,35 +92,25 @@ class Notification:
         # if the store option is 1 or 2, we will store the notification
         if self.store == 1 or self.store == 2:
     
-            # start by saving the actual notification
-            notification = NotificationStore(
-                message = self.message,
-                target = self.target or self.get_target(),
-                type = self.type,
-                sender = self.sender,
-                data = self.data
-                )
-
-            notification.save()
-
             # loop through and create following links for users
-            followers_to_save = []
             for user in self.users:
 
                 # catch if is is an unauthenticated user, we wont save
                 if user == request.user and not request.user.is_authenticated():
                     continue
                 else:
-                    followers_to_save.append(UserNotification(user = user, notification = notification))
+                    # start by saving the actual notification
+                    notification = StoredNotification(
+                        user = user,
+                        message = self.message,
+                        target = self.target or self.get_target(),
+                        type = self.type,
+                        sender = self.sender,
+                        data = self.data
+                        )
 
-            # bulk save the user links
-            UserNotification.objects.bulk_create(followers_to_save)
-
-            # update the users notification counts
-            for user in self.users:
-                push_count_update(user)
-
-
+                    notification.save()
+                    
         # here we check to see that the notification should actually be sent, which is any storage level except 2
         if self.store != 2:
 

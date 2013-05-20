@@ -1,4 +1,5 @@
 {% extends site_template %}
+
 {% load url from future %}
 {% load notifications_widget from primer_notification_tags %}
 
@@ -25,7 +26,7 @@ navbar-fixed-top navbar-inverse
 {% endblock navbar_class %}
 
 {% block navbar %}
-	<a class="brand" href="#">Primer</a>
+	{{ block.super }}
 	
 	<ul class="nav">
 		<li><a data-ajax="app" href="{% url 'feature-home' %}">Home</a></li>

@@ -35,6 +35,10 @@ var Notifications = function() {
 			api.container = $(containerSelector);
 			handleExisting();
 		});
+
+		$('body').on('click', '.notification[data-href]', function(e){
+			window.location = $(this).data('href');
+		});
 	}
 	
 

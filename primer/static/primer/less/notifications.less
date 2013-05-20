@@ -49,27 +49,6 @@
 		font-size: 10px;
 	}
 
-	.notification {
-		clear: both;
-	    color: #333333;
-	    display: block;
-	    font-weight: normal;
-	    line-height: auto;
-	    padding: 5px 10px;
-	    border-top: 1px solid #eee;
-	    text-decoration:none;
-	    white-space: normal;
-
-	    &:first-child {
-	    	border-top: 0;
-	    }
-	}
-
-	.notification:hover {
-		color: @white;
-		background-color: @linkColor;
-	}
-
 	.notifications-widget-dropdown-container {
 		overflow-y: auto;
 		border-top: 1px solid @tableBorder;
@@ -89,43 +68,40 @@
 
 }
 
-/****************************************************************
- * Notifications Page
- ****************************************************************/
-.notifications-notifications {
-
-	h3 {
-		margin-bottom: 10px;
-	}
-
-	.time {
-		display: block;
-		font-size: 10px;
-	}
-
-	.notification {
-		clear: both;
-	    color: #333333;
-	    display: block;
-	    font-weight: normal;
-	    line-height: auto;
-	    padding: 5px 10px;
-	    border-top: 1px solid #eee;
-	    text-decoration:none;
-	    white-space: normal;
-	}
-
-	.notification:hover {
-		color: @white;
-		background-color: @linkColor;
-	}
-}
 
 /****************************************************************
  * Notifications Container
  ****************************************************************/
-
 #notifications-container > * {
 	.transition(all .3s);
 	max-height: 200px;
+}
+
+
+/****************************************************************
+ * General Notification Style
+ ****************************************************************/
+.notification {
+	clear: both;
+    color: #333333;
+    display: block;
+    font-weight: normal;
+    line-height: auto;
+    padding: 5px 10px;
+    border-top: 1px solid #eee;
+    text-decoration:none;
+    white-space: normal;
+
+    &:first-child {
+    	border-top: 0;
+    }
+}
+
+.notification:hover {
+	background-color: @infoBackground;
+	text-decoration: none;
+
+	&[data-href] {
+		cursor: pointer;
+	}
 }

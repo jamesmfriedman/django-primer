@@ -55,6 +55,7 @@ class NotificationsView(PrimerView):
 
         InfoNotification(
             message = 'Hello world from the notifications framework!',
+            store = 1
         ).send()
 
         return self.to_template()

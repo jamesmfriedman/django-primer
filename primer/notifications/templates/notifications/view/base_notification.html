@@ -1,6 +1,6 @@
-<a href="{% if notification.target %}{{ notification.target }}{% else %}#{% endif %}" class="notification {{ notification.tags }} {% if not user_link.read %}new{% endif %}" data-id="{{ notification.id }}" data-read="{{ user_link.read }}">
+<div {% if notification.target %}data-href="{{ notification.target }}"{% endif %} class="notification {{ notification.tags }} {% if not notification.read %}new{% endif %}" data-id="{{ notification.id }}" data-read="{{ user_link.read }}">
 	{% block notification_content %}
 	{% endblock notification_content %}
 
 	<span class="time">{{ notification.created|timesince }} ago</span>
-</a>
+</div>

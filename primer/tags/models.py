@@ -58,7 +58,7 @@ class TagEntry(PrimerModel):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.tag = slugify(self.label)
+            self.tag = self.label
         super(TagEntry, self).save(*args, **kwargs)
 
     def __unicode__(self):

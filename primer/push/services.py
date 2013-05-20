@@ -4,6 +4,7 @@ from django.dispatch import Signal
 from django.conf import settings
 
 from primer.utils import get_request
+from .models import Channel
 
 # our push service that we import to other modules
 PushService = None
@@ -38,7 +39,6 @@ class PushServiceWrapper(object):
         self.sub_key = settings.PUSH_SERVICE_SETTINGS.get('sub_key')
         self.secret_key = settings.PUSH_SERVICE_SETTINGS.get('secret_key')
         self.use_ssl = settings.PUSH_SERVICE_SETTINGS.get('use_ssl', False)
-        
 
 
     def get_channels_for_user(self, user):
@@ -48,14 +48,21 @@ class PushServiceWrapper(object):
         """
         request = get_request()
         
-        # get the sessions for authenticated users. We have patched a user onto the sessions table
-        if user is not request.user or request.user.is_authenticated():
-            if user.channel:
-                return [ user.channel.name ]
+        if request:
+            # get the sessions for authenticated users. We have patched a user onto the sessions table
+            if user is not request.user or request.user.is_authenticated():
+                if user.channel:
+                    return [ user.channel.name ]
+            
+            # our user is not authenticated which means it must be the current logged in user
+            elif user == request.user:
+                return [ request.session.get('push_channel_id') ]
         
-        # our user is not authenticated which means it must be the current logged in user
-        elif user == request.user:
-            return [ request.session.get('push_channel_id') ]
+        try:
+            channel = user.channel
+            return channel
+        except Channel.DoesNotExist:
+            pass
 
         return []
         

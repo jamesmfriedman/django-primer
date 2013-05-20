@@ -1,6 +1,6 @@
-{% extends 'notifications/base_notifications.html' %}
+{% extends app_template %}
 
-{% block notifications_content %}
+{% block view_content %}
 	<div class="page-header">
 		<h2>Your Notifications</h2>
 	</div>
@@ -10,4 +10,4 @@
 		{% endifchanged %}
 		{% include notification.template %}
 	{% endfor %}
-{% endblock notifications_content %}
+{% endblock view_content %}
