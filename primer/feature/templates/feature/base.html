@@ -5,7 +5,7 @@
 
 {% block header_css %}
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/css/primer.css"/>
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/google-code-prettify/prettify.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}primer/css/vendors/prettify.css">
 {% endblock header_css %}
 
 
@@ -13,7 +13,7 @@
 {% endblock external_scripts %}
 
 {% block app_scripts %}
-	<script type="text/javascript" src="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/google-code-prettify/prettify.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}primer/js/vendors/google-code-prettify/prettify.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}primer/bootstrap/docs/assets/js/application.js"></script>
 {% endblock app_scripts %}
 

@@ -3,22 +3,26 @@
 
 {% block body %}
 <div class="modal">
-	<div class="modal-header">
-		<h1>Hello World.<small>Primer is setup successfully.</small></h1>	
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Hello World.<small>Primer is setup successfully.</small></h1>	
+			</div>
+			<div class="modal-body">
+				<p class="place-holder">Your site is Primed and ready to go! Take a break you deserve it. When you're ready, go write the next big thing, or brush up on Primer's documentation.</p>
+
+		<pre class="prettyprint linenums">
+		# add a root url to replace this page
+		urlpatterns = patterns('',
+		 	url(r'^$', 'mysite.views.home')
+		)
+		</pre>
+
+		  	</div>
+		  	<div class="modal-footer">
+		    	<a href="{% url 'feature-get-started' %}" class="btn btn-primary btn-large">Read Primer's Docs <i class="icon-chevron-right"></i></a>
+		  	</div>
+		</div>
 	</div>
-	<div class="modal-body">
-		<p class="place-holder">Your site is Primed and ready to go! Take a break you deserve it. When you're ready, go write the next big thing, or brush up on Primer's documentation.</p>
-
-<pre class="prettyprint linenums">
-# add a root url to replace this page
-urlpatterns = patterns('',
- 	url(r'^$', 'mysite.views.home')
-)
-</pre>
-
-  	</div>
-  	<div class="modal-footer">
-    	<a href="{% url 'feature-get-started' %}" class="btn btn-primary btn-large">Read Primer's Docs <i class="icon-chevron-right"></i></a>
-  	</div>
 </div>
 {% endblock body %}

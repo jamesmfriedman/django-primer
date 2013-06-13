@@ -51,8 +51,8 @@
 
 	.notifications-widget-dropdown-container {
 		overflow-y: auto;
-		border-top: 1px solid @tableBorder;
-		border-bottom: 1px solid @tableBorder;
+		border-top: 1px solid @table-border-color;
+		border-bottom: 1px solid @table-border-color;
 		margin-bottom: 5px;
 	
 		&.loaded {
@@ -98,7 +98,7 @@
 }
 
 .notification:hover {
-	background-color: @infoBackground;
+	background-color: @alert-info-bg;
 	text-decoration: none;
 
 	&[data-href] {

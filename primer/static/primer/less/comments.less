@@ -40,8 +40,8 @@
 		
 		.comment-inner {
 			padding: 10px;
-			border-bottom: 1px solid @tableBorder;
-			background: @white;
+			border-bottom: 1px solid @table-border-color;
+			background: @dropdown-bg;
 		}
 
 		.comment-delete {
@@ -67,7 +67,7 @@
 		}
 
 		.comment-network {
-			background: @tableBackgroundHover;
+			background: @table-bg-hover;
 			margin-top: 10px;
 		}
 
@@ -89,7 +89,7 @@
 	.comment-likes, .comment-replies .comment .comment-inner, 
 	.comment-reply, .comment-replies-load-more {
 		padding: 6px 8px;
-		border-bottom: 1px solid @bodyBackground;
+		border-bottom: 1px solid @body-bg;
 		font-size: 12px;	
 	}
 
@@ -206,9 +206,9 @@
 /*********************************************************************************
  * Timelines
  *********************************************************************************/
-@timelineTrackColor: @tableBorder;
-@timelineOrbColor: @tableBorder;
-@timelineBorderColor: @tableBorder;
+@timelineTrackColor: @table-border-color;
+@timelineOrbColor: @table-border-color;
+@timelineBorderColor: @table-border-color;
 @timelineOrbSize: 25px;
 @timelineOrbBorderSize: 3px;
 @timelineTrackWidth: 2px;
@@ -271,9 +271,9 @@
 			height: @timelineOrbSize;
 			line-height: @timelineOrbSize;
 			text-align: center;
-			color: @white;
-			.border-radius(100px);
-			border:@timelineOrbBorderSize solid @wellBackground;
+			color: @dropdown-bg;
+			border-radius: 100px;
+			border:@timelineOrbBorderSize solid @body-bg;
 			position: absolute;
 			background: @timelineOrbColor;
 			font-size: 12px;
@@ -283,7 +283,7 @@
 		}
 
 		&:hover:after {
-			background: @linkColor;
+			background: @link-color;
 			z-index: 1;
 			width: @timelineOrbSize + 10;
 			height: @timelineOrbSize + 10;
@@ -293,17 +293,17 @@
 		}
 
 		&:hover > .comment-inner {
-			border-color: @linkColor;
+			border-color: @link-color;
 
 			&:before {
-				border-left-color: @linkColor;
+				border-left-color: @link-color;
 			}
 		}
 
 		//Create the arrows, adjust the base comment style
 		> .comment-inner {
 			border: 1px solid @timelineBorderColor;
-			.border-radius(@baseBorderRadius);
+			border-radius: @border-radius-base;
 			position: relative;
 			margin-right: @timelineOrbSize + 5;
 			.transition(all .5s);
@@ -318,7 +318,7 @@
 				content: '';
 				border-width: 8px;
 				border-style: solid;
-				border-color: transparent transparent transparent @white;
+				border-color: transparent transparent transparent @dropdown-bg;
 				position: absolute;
 				top:30px;
 				right: -16px;
@@ -419,7 +419,7 @@
 			}
 
 			&:hover > .comment-inner:before {
-				border-color: transparent @linkColor transparent transparent;
+				border-color: transparent @link-color transparent transparent;
 			}
 
 			> .comment-inner {
@@ -436,7 +436,7 @@
 				&:after {
 					left: -16px;
 					right: auto;
-					border-color: transparent @white transparent transparent;
+					border-color: transparent @dropdown-bg transparent transparent;
 				}
 			}
 		}
@@ -584,7 +584,7 @@
 		.form-actions {
 			margin:0;
 			clear:both;
-			.border-radius(0 0 @baseBorderRadius @baseBorderRadius);
+			border-radius: 0 0 @border-radius-base @border-radius-base;
 		}
 
 		textarea {

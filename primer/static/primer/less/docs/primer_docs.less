@@ -28,6 +28,11 @@
 
 	.modal {
 		overflow: hidden;
+		display: block;
+	}
+
+	.modal-content {
+		overflow: hidden;
 	}
 
 	.modal-header {
@@ -43,7 +48,7 @@
 
 	.alert {
 		text-align: center;
-		.border-radius(0);
+		border-radius: 0;
 	}
 
 	.btn [class^="icon-"]:before {
@@ -99,7 +104,7 @@ body {
 		.btn {
 			font-weight: bold;
 			border: 5px solid #333;
-			.border-radius(100px);
+			border-radius: 100px;
 			background: #F35757;
 			color:white;
 		}
@@ -195,14 +200,14 @@ header {
 	}	
 
 	.skeleton-template {
-		background: @linkColor;
+		background: @link-color;
 		width: 300px;
 		height: 200px;
 		margin-left:0 !important;
 	}
 
 	.site-template {
-		background: lighten(@linkColor, 40%);
+		background: lighten(@link-color, 40%);
 		opacity:0;
 	}
 
@@ -222,7 +227,7 @@ header {
 	.view-template {
 		top:20px;
 		left: 50px;
-		background: lighten(@linkColor, 40%);
+		background: lighten(@link-color, 40%);
 		height: 130px;
 		width: 250px;
 		.t-label {line-height: 130px;}
@@ -252,7 +257,7 @@ header {
 		top:0;
 		bottom:0;
 		left:0;
-		background: lighten(@linkColor, 20%);
+		background: lighten(@link-color, 20%);
 	}
 
 	.t-content {

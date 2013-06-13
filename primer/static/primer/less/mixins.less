@@ -58,7 +58,7 @@
 }
 
 // Fix for Placeholder text
-.placeholder(@color: @placeholderText) {
+.placeholder(@color: @input-color-placeholder) {
     &:-moz-placeholder {
         color: @color;
         opacity:1;
@@ -81,6 +81,15 @@
         color: @color;
         opacity:1;
     }
+}
+
+// Gradient Bar Colors for buttons and alerts
+.gradientBar(@primaryColor, @secondaryColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+  color: @textColor;
+  text-shadow: @textShadow;
+  #gradient > .vertical(@primaryColor, @secondaryColor);
+  border-color: @secondaryColor @secondaryColor darken(@secondaryColor, 15%);
+  border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
 }
 
 // Draggable cursor

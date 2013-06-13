@@ -4,20 +4,24 @@
 
 {% block body %}
 	<form method="post" action="">
-		<div class="modal">
-			<div class="modal-header">
-				{% block login_title %}<h1>Primer<small>Please Login</small></h1>{% endblock login_title %}	
+		<div class="modal in">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						{% block login_title %}<h1>Primer<small>Please Login</small></h1>{% endblock login_title %}	
+					</div>
+					<div class="modal-body">
+						{% block view_content %}
+							{{ form|crispy }}
+						{% endblock view_content %}
+				  	</div>
+				  	<div class="modal-footer">
+				  		{% csrf_token %}
+				    	<button type="submit" value="Login" class="btn btn-large btn-primary btn-block"/>Login</button>
+				    	<input type="hidden" name="next" value="{{ next }}" />
+				  	</div>
+				</div>
 			</div>
-			<div class="modal-body">
-				{% block view_content %}
-					{{ form|crispy }}
-				{% endblock view_content %}
-		  	</div>
-		  	<div class="modal-footer">
-		  		{% csrf_token %}
-		    	<button type="submit" value="Login" class="btn btn-large btn-primary btn-block"/>Login</button>
-		    	<input type="hidden" name="next" value="{{ next }}" />
-		  	</div>
 		</div>
 	</form>
 
