@@ -58,14 +58,14 @@ navbar-fixed-top navbar-inverse
 	{% endblock pre_content %}
 	<div class="container">
 		<div class="row">
-			<div class="span3 bs-docs-sidebar">
+			<div class="col col-lg-3 bs-docs-sidebar">
 				<ul class="nav nav-list bs-docs-sidenav affix-top">
 					{% block feature_nav %}
 					{% endblock feature_nav %}
 				</ul>
 			</div>
 			
-			<div class="span9">
+			<div class="col col-lg-9">
 			{% block view_content %}
 			{% endblock view_content %}
 			</div>
