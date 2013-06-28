@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Push Services &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/bootstrap.min.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Push Services</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#server-side-useage">Server Side Useage</a></li>
+<li><a class="reference internal" href="#client-side-useage">Client Side Useage</a></li>
+<li><a class="reference internal" href="#integrating-a-custom-pushservice">Integrating a Custom PushService</a><ul>
+<li><a class="reference internal" href="#on-the-client-side">On the Client Side</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+    <form class="search" action="../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="push-services">
+<h1>Push Services<a class="headerlink" href="#push-services" title="Permalink to this headline">¶</a></h1>
+<p>Modern webapps can greatly benefit from realtime push interaction. Primer has out of the box support for two 3rd party notification services, PubNub and Pusher, as well as gives you an easy way to implement an additional 3rd party or your own custom push framework.</p>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>For Pusher or PubNub, setup only takes a few seconds. Note, you&#8217;ll have to register at the appropriate site and get your own credentials.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># located in your main settings file</span>
+<span class="c"># note that this should be AFTER you have imported primers</span>
+<span class="c"># settings if you have used the primer.settings object</span>
+
+<span class="c"># this can be &#39;pubnub&#39;, &#39;pusher&#39;, or a full module path for a</span>
+<span class="c"># custom class. i.e. myapp.push.MyPushService</span>
+<span class="n">PUSH_SERVICE</span> <span class="o">=</span> <span class="s">&#39;pubnub&#39;</span>
+
+<span class="c"># these are a list of all possible keys</span>
+<span class="c"># you only need to add the ones your push framework requres</span>
+<span class="c"># for pusher, their key is pub_key</span>
+<span class="n">PUSH_SERVICE_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;app_id&#39;</span> <span class="p">:</span> <span class="s">&#39;my-app-id&#39;</span><span class="p">,</span>
+    <span class="s">&#39;pub_key&#39;</span> <span class="p">:</span> <span class="s">&#39;0987654321&#39;</span><span class="p">,</span>
+    <span class="s">&#39;sub_key&#39;</span> <span class="p">:</span> <span class="s">&#39;1234567890&#39;</span><span class="p">,</span>
+    <span class="s">&#39;secret_key&#39;</span> <span class="p">:</span> <span class="s">&#39;my-secret-key&#39;</span><span class="p">,</span>
+    <span class="s">&#39;use_ssl&#39;</span> <span class="p">:</span> <span class="bp">False</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last"><strong>ALL DONE!</strong> Seriously, that was it. Now just read how to use it.</p>
+</div>
+</div>
+<div class="section" id="server-side-useage">
+<h2>Server Side Useage<a class="headerlink" href="#server-side-useage" title="Permalink to this headline">¶</a></h2>
+<p>Anywhere you want to use your push service, you just have to import <tt class="docutils literal"><span class="pre">primer.push.services.PushService</span></tt>. <tt class="docutils literal"><span class="pre">PushService</span></tt> has the following methods:</p>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Method</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>send(event, channels, users, data)</td>
+            <td>
+                Sends data through your push service backend. You have to set either channels or users, but not both.
+                <ul>
+                    <li><strong>event</strong>: a string event name that the client side will receive and respond to, such as 'notification.new-notification'.</li>
+                    <li><strong>channels</strong>: an iterable of channel_ids to broadcast to. This will get autopopulated by the users channels if users are present.</li>
+                    <li><strong>users</strong>: an iterable of user objects or a single user. Their channel_ids will be looked up from their sessions.</li>
+                    <li><strong>data</strong>: the actual data you want to send. Should be a dict that is JSON encodeable by json.dumps.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>subscribe(channel)</td>
+            <td>This method can be implemented by the PushService class you are using if you want the server to be able to receive push events as well. When data is received, it will broadcast the <code>message_received</code> signal located in <code>primer.push.services</code></td>
+        </tr>
+    </tbody>
+</table><div class="highlight-python"><div class="highlight"><pre><span class="c"># example of how to push data to the current logged in user in a view</span>
+<span class="kn">from</span> <span class="nn">primer.push.services</span> <span class="kn">import</span> <span class="n">PushService</span>
+
+<span class="k">def</span> <span class="nf">myview</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">PushService</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="s">&#39;my-new-event&#39;</span><span class="p">,</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;foo&#39;</span> <span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span>
+            <span class="s">&#39;test&#39;</span> <span class="p">:</span> <span class="s">&#39;case&#39;</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="client-side-useage">
+<h2>Client Side Useage<a class="headerlink" href="#client-side-useage" title="Permalink to this headline">¶</a></h2>
+<p>If you are using Pubnub or Pusher, you&#8217;re all set. The appropriate scripts and setup information is included. There is a global js class for you to access called <tt class="docutils literal"><span class="pre">PushClient</span></tt>. This class broadcasts events whenver it receives a new notification from the server, so you can listen for specific events and react accordingly.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">//somehwere in your js</span>
+<span class="c1">//the first argument is the event name you passed from the server side</span>
+<span class="nx">PushClient</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;my-event-name&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+    <span class="c1">//do whatever you want with the data here. This is the</span>
+    <span class="c1">//data that came back from the server</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="integrating-a-custom-pushservice">
+<h2>Integrating a Custom PushService<a class="headerlink" href="#integrating-a-custom-pushservice" title="Permalink to this headline">¶</a></h2>
+<p>If PubNub or Pusher don&#8217;t do it for you, you can always implement your own push service. There is a class for you to extend located in <tt class="docutils literal"><span class="pre">primer.push.services</span></tt> called <tt class="docutils literal"><span class="pre">PushServiceWrapper</span></tt>. At a minimum, you need to perform your api setup in <strong>__init__</strong> and implement your own custom <strong>_send_data</strong> method. The following class attributes are available to you:</p>
+<ul class="simple">
+<li>app_id: the app_id from PUSH_SERVER_SETTINGS</li>
+<li>pub_key: the pub_key from PUSH_SERVER_SETTINGS</li>
+<li>sub_key: the sub_key from PUSH_SERVER_SETTINGS</li>
+<li>secret_key: the secret_key from PUSH_SERVER_SETTINGS</li>
+<li>use_ssl: use_ssl from PUSH_SERVER_SETTINGS</li>
+<li>api: You should set this to an instance of your api inside the init function</li>
+</ul>
+<p>Here is the pubnub service wrapper example. It also incorporates its own subscribe method. Notice that subscribe uses <strong>self.receive</strong> as its callback, which is there to be a default handler for messages if you would like to use it. It broacasts the <tt class="docutils literal"><span class="pre">message_received</span></tt> signal located in <tt class="docutils literal"><span class="pre">primer.push.services</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pubnub.Pubnub</span> <span class="kn">import</span> <span class="n">Pubnub</span>
+<span class="kn">from</span> <span class="nn">primer.push.services</span> <span class="kn">import</span> <span class="n">PushServiceWrapper</span>
+
+<span class="k">class</span> <span class="nc">PubNubService</span><span class="p">(</span><span class="n">PushServiceWrapper</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PubNubService</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">Pubnub</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pub_key</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sub_key</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">use_ssl</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">subscribe</span><span class="p">({</span>
+            <span class="s">&#39;channel&#39;</span>  <span class="p">:</span> <span class="n">channel</span><span class="p">,</span>
+            <span class="s">&#39;callback&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">receive</span>
+        <span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">_send_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">publish</span><span class="p">({</span>
+            <span class="s">&#39;channel&#39;</span> <span class="p">:</span> <span class="n">channel</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span> <span class="p">:</span> <span class="n">data</span>
+        <span class="p">})</span>
+</pre></div>
+</div>
+<p>In your settings.py file, you&#8217;ll need to set PUSH_SERVER to a string pointing to your class. In the above example, it would be something like <tt class="docutils literal"><span class="pre">myapp.push.services.PubNubService</span></tt></p>
+<div class="section" id="on-the-client-side">
+<h3>On the Client Side<a class="headerlink" href="#on-the-client-side" title="Permalink to this headline">¶</a></h3>
+<p>You&#8217;ll have to include the necessary javascript, but you can still use <tt class="docutils literal"><span class="pre">PushClient</span></tt> to do your handling. Override the following methods in <tt class="docutils literal"><span class="pre">PushClient</span></tt> to handle your push service accordingly.</p>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Method</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>PushClient.subscribe(channel_id)</td>
+            <td>This method subscribes to channels for the user. Your function must also take channel_id.</td>
+        </tr>
+        <tr>
+            <td>PushClient.unsubscribe(channel_id)</td>
+            <td>This method unsubscribes from a channel or disconnects.</td>
+        </tr>
+    </tbody>
+</table><div class="highlight-javascript"><div class="highlight"><pre><span class="c1">//example, override anywhere in your JS</span>
+<span class="nx">PushClient</span><span class="p">.</span><span class="nx">subscribe</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">channel_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//do some custom processing with your</span>
+    <span class="c1">//make sure in the end, you pass any data you receive</span>
+    <span class="c1">//to PushClient.receiveMessage(data)</span>
+
+    <span class="nx">MyCustomFrameWork</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">channel</span><span class="p">);</span>
+    <span class="nx">MyCustomFramework</span><span class="p">.</span><span class="nx">onReceveData</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+        <span class="nx">PushClient</span><span class="p">.</span><span class="nx">receiveMessage</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

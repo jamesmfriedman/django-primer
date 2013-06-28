@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Setup &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" />
+    <link rel="next" title="Getting Started" href="../getting-started/index.html" />
+    <link rel="prev" title="Primer" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Setup</a><ul>
+<li><a class="reference internal" href="#new-projects">New Projects</a></li>
+<li><a class="reference internal" href="#existing-projects">Existing Projects</a></li>
+<li><a class="reference internal" href="#settings">Settings</a><ul>
+<li><a class="reference internal" href="#what-is-it-doing">What is it doing?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#less-compiler">LESS Compiler</a><ul>
+<li><a class="reference internal" href="#id1">Setup</a></li>
+<li><a class="reference internal" href="#useage">Useage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../../index.html"
+                        title="previous chapter">Primer</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../getting-started/index.html"
+                        title="next chapter">Getting Started</a></p>
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="new-projects">
+<h2>New Projects<a class="headerlink" href="#new-projects" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Before you begin:</strong> This article assumes you have a blank Django project started up with the appropriately configured database, however you should NOT run <tt class="docutils literal"><span class="pre">/manage.py</span> <span class="pre">syncdb</span></tt> until after getting Primer setup. You can follow <a class="reference external" href="https://docs.djangoproject.com/en/dev/intro/tutorial01/">Djangos tutorial</a> all the way until it tells you to sync your database.</p>
+</div>
+<p>You can install Primer using your favorite Python package manager. Primer has quite a few dependencies, so if you&#8217;re not using <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtualenv</a>, now is the time to start:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">jamesmfriedman</span><span class="o">/</span><span class="n">django</span><span class="o">-</span><span class="n">primer</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>After that, add the following to the bottom of your Django settings file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># this should be the last thing in your settings file</span>
+<span class="kn">from</span> <span class="nn">primer.settings</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>Now you can run the syncdb command, <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">syncdb</span></tt>. Startup your server using <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">runserver</span></tt> or your favorite wsgi. If everything went to plan, you should greeted by a <strong>Hello World</strong> page.</p>
+</div>
+<div class="section" id="existing-projects">
+<h2>Existing Projects<a class="headerlink" href="#existing-projects" title="Permalink to this headline">¶</a></h2>
+<p>It is recommended that you setup Primer when starting a new project, however you can add Primer to an existing project by using South or some other library that handles migrations. If you are using South, you&#8217;ll have to manually specify the paths for <strong>auth</strong>, <strong>sites</strong>, and <strong>sessions</strong> that your migrations will be created in, otherwise they will be added to either Django or Primer in your Python site-packages and never make it into your production environment. You can read South&#8217;s documentation on specifying <a class="reference external" href="http://south.readthedocs.org/en/latest/settings.html#setting-south-migration-modules">SOUTH_MIGRATION_MODLUES</a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Exmample for specifying custom migrations paths for South.</span>
+<span class="c"># Replace &quot;core.southmigrations&quot; with where you want migrations stored in your Django project.</span>
+<span class="n">SOUTH_MIGRATION_MODULES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;auth&#39;</span><span class="p">:</span> <span class="s">&#39;core.southmigrations.auth&#39;</span><span class="p">,</span>
+    <span class="s">&#39;sites&#39;</span><span class="p">:</span> <span class="s">&#39;core.southmigrations.sites&#39;</span><span class="p">,</span>
+    <span class="s">&#39;sessions&#39;</span> <span class="p">:</span> <span class="s">&#39;core.southmigrations.comments&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>After specifying your migration paths, you can init your migrations for those apps, and fake them. From there, follow the tutorial above for new projects, but before you run syncdb, you&#8217;ll want to run <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">schemamigration</span> <span class="pre">myapp</span> <span class="pre">--auto</span></tt> for each of the modules we are migrating, replacing &#8220;myapp&#8221; with <strong>auth</strong>, <strong>sites</strong>, or <strong>sessions</strong> respectively. Once you are done with that, you can migrate using <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">migrate</span></tt>. At this point, you should have successfully migrated Django&#8217;s built in models, and you can move on to running syncdb to fill in the rest of Primer&#8217;s tables in your database.</p>
+</div>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p>Primer comes with a quite a few apps that have a multitude of settings. In order to keep your settings file clean and pretty, the easiest thing to do is to include Primer&#8217;s settings at the end of your settings file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># this should be the last thing in your settings file</span>
+<span class="kn">from</span> <span class="nn">primer.settings</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<div class="section" id="what-is-it-doing">
+<h3>What is it doing?<a class="headerlink" href="#what-is-it-doing" title="Permalink to this headline">¶</a></h3>
+<p>Since Primer is kind of a framework on a framework, importing the settings file does a bit of magic rewriting. It will include Primer&#8217;s apps, middleware, and template context processors after Django&#8217;s, but before your own. It will also add in any settings it needs that you didn&#8217;t explicitly declare back into your setting&#8217;s module&#8217;s namespace.</p>
+</div>
+</div>
+<div class="section" id="less-compiler">
+<h2>LESS Compiler<a class="headerlink" href="#less-compiler" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;re not using a CSS preprocessor, you&#8217;re missing out. Primer comes with automated LESS compiling which will rebuild your css every time a .less file is saved. It does this through the command line lessc compiler. You can read more about LESS at <a class="reference external" href="http://lesscss.org">http://lesscss.org</a>.</p>
+<div class="section" id="id1">
+<h3>Setup<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>You&#8217;ll need to install Node.js on your machine. You can get the lateset build from <a class="reference external" href="http://nodejs.org/">http://nodejs.org/</a>. Once it&#8217;s installed, the easiest way to install LESS is through the Node Package Manager via your command line:</p>
+<p>Now, in your settings file, you need to define the less input file and the corresponding css output file. These paths should be file system paths that start at your applications root. You can define multiple paths if necessary. I tend to just have one main less file that imports all the others. The output will be compressed and minified.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">LESS_CSS_PATHS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;static/less/my_site_base.less&#39;</span> <span class="p">:</span> <span class="s">&#39;static/css/my_site_base.css&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For a full list of LESS settings, see &lt;a href=&#8221;#settings-list&#8221; data-ajax=&#8221;app&#8221;&gt;settings&lt;/a&gt;.</p>
+</div>
+<div class="section" id="useage">
+<h3>Useage<a class="headerlink" href="#useage" title="Permalink to this headline">¶</a></h3>
+<p>The LESS processor gets activated by middleware, so to turn it on, you&#8217;ll have to hit at least one url on your site for the middleware to run. Once that is done all you have to do is save a LESS file. You should then see the coressponding CSS file generated at the location you provided.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

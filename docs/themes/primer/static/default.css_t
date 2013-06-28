@@ -1,0 +1,47 @@
+/*
+ * default.css_t
+ * ~~~~~~~~~~~~~
+ *
+ * Sphinx stylesheet -- default theme.
+ *
+ * :copyright: Copyright 2007-2013 by the Sphinx team, see AUTHORS.
+ * :license: BSD, see LICENSE for details.
+ *
+ */
+
+@import url("primer.css");
+
+/* -- page layout ----------------------------------------------------------- */
+
+body {
+    position:relative;
+    padding-top:50px;
+}
+
+.pdocs-sidenav {
+    margin-top: 20px;
+}
+
+.pdocs-navbar {
+    background: #2BA6CB;
+}
+
+.pdocs-navbar .navbar-brand {
+    color: white;
+}
+
+.headerlink {
+    display:none;
+}
+
+pre {
+    background-color: #e2f2c4;
+    color: {{ theme_codetextcolor }};
+    border: 1px solid #dbe9be;
+}
+
+.container {
+    max-width: 100% !important;
+    padding: 0 20px;
+}
+

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Setup &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<p>For Pusher or PubNub, setup only takes a few seconds. Note, you&#8217;ll have to register at the appropriate site and get your own credentials.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># located in your main settings file</span>
+<span class="c"># note that this should be AFTER you have imported primers</span>
+<span class="c"># settings if you have used the primer.settings object</span>
+
+<span class="c"># this can be &#39;pubnub&#39;, &#39;pusher&#39;, or a full module path for a</span>
+<span class="c"># custom class. i.e. myapp.push.MyPushService</span>
+<span class="n">PUSH_SERVICE</span> <span class="o">=</span> <span class="s">&#39;pubnub&#39;</span>
+
+<span class="c"># these are a list of all possible keys</span>
+<span class="c"># you only need to add the ones your push framework requres</span>
+<span class="c"># for pusher, their key is pub_key</span>
+<span class="n">PUSH_SERVICE_SETTINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;app_id&#39;</span> <span class="p">:</span> <span class="s">&#39;my-app-id&#39;</span><span class="p">,</span>
+    <span class="s">&#39;pub_key&#39;</span> <span class="p">:</span> <span class="s">&#39;0987654321&#39;</span><span class="p">,</span>
+    <span class="s">&#39;sub_key&#39;</span> <span class="p">:</span> <span class="s">&#39;1234567890&#39;</span><span class="p">,</span>
+    <span class="s">&#39;secret_key&#39;</span> <span class="p">:</span> <span class="s">&#39;my-secret-key&#39;</span><span class="p">,</span>
+    <span class="s">&#39;use_ssl&#39;</span> <span class="p">:</span> <span class="bp">False</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last"><strong>ALL DONE!</strong> Seriously, that was it. Now just read how to use it.</p>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

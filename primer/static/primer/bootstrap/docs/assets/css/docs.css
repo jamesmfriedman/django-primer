@@ -81,7 +81,9 @@ body {
 
 /* Textual links */
 .bs-masthead-links {
-  margin: 20px 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 0;
   list-style: none;
 }
 .bs-masthead-links li {
@@ -91,7 +93,6 @@ body {
 .bs-masthead-links li + li {
   margin-left: 20px;
 }
-
 
 
 /* Customize and Download button
@@ -347,6 +348,12 @@ body {
 }
 .bs-example-control-sizing input[type="text"] + input[type="text"] {
   margin-top: 10px;
+}
+.bs-example-form {
+  overflow: hidden;
+}
+.bs-example-form .input-group {
+  margin-bottom: 10px;
 }
 
 /* List groups */
@@ -705,13 +712,6 @@ input.focused {
 /* Tablets and up */
 @media screen and (min-width: 768px) {
 
-  /* Reaffix the fixed sidebar */
-  .bs-sidebar.affix {
-    position: fixed; /* Undo the static from mobile-first approach */
-    top: 50px;
-    width: 160px;
-  }
-
   /* Back to top link */
   .bs-top {
     display: block; /* Unhide */
@@ -773,6 +773,8 @@ input.focused {
 
   /* Widen the fixed sidebar */
   .bs-sidebar.affix {
+    position: fixed; /* Undo the static from mobile-first approach */
+    top: 50px;
     width: 213px;
   }
 

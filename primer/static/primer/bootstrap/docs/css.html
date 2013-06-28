@@ -43,16 +43,30 @@ lead: "Fundamental HTML elements styled and enhanced with extensible classes."
     </ul>
     <p>These styles can be found within <strong>scaffolding.less</strong>.</p>
 
-    <h3 id="overview-reset">Normalize reset</h3>
+    <h3 id="overview-normalize">Normalize reset</h3>
     <p>For improved cross-browser rendering, we use <a href="http://necolas.github.com/normalize.css/" target="_blank">Normalize</a>, a project by <a href="http://twitter.com/necolas" target="_blank">Nicolas Gallagher</a> and <a href="http://twitter.com/jon_neal" target="_blank">Jonathan Neal</a>.</p>
 
     <h3 id="overview-container">Centering with container</h3>
-    <p>Easily center a page's contents by wrapping its contents in a container. Containers set `max-width` at various media query breakpoints to match our grid system.</p>
+    <p>Easily center a page's contents by wrapping its contents in a container. Containers set <code>max-width</code> at various media query breakpoints to match our grid system.</p>
 {% highlight html %}
 <div class="container">
   ...
 </div>
 {% endhighlight %}
+  </div>
+
+
+
+  <!-- Glyphicons icont font
+  ================================================== -->
+  <div class="bs-docs-section" id="glyphicons">
+    <div class="page-header">
+      <h1>Glyphicons</h1>
+    </div>
+    <p class="lead">With the launch of Bootstrap 3, icons have been moved to a <a href="https://github.com/twbs/bootstrap-glyphicons">separate repository</a>. This keeps the primary project as lean as possible, makes it easier for folks to swap icon libraries, and makes Glyphicons icon fonts more readily available to more people outside Bootstrap.</p>
+    <p class="lead">
+      <a href="http://glyphicons.getbootstrap.com/" class="btn btn-default btn-large">Visit Glyphicons for Bootstrap</a> or <a href="https://github.com/twbs/bootstrap-glyphicons">download from GitHub</a>
+    </p>
   </div>
 
 
@@ -247,7 +261,7 @@ lead: "Fundamental HTML elements styled and enhanced with extensible classes."
 
     <div class="bs-callout">
       <h4>Need more examples?</h4>
-      <p>We dive into more grid layouts in a separte page, free of chrome and documentation to better show you the power of the grid.</p>
+      <p>We dive into more grid layouts in a separate page, free of chrome and documentation to better show you the power of the grid.</p>
       <p><a class="btn btn-danger" target="_blank" href="../examples/grid/">More grid examples</a></p>
     </div>
 
@@ -1130,8 +1144,8 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
     <form class="bs-example">
       <fieldset>
         <legend>Legend</legend>
-        <label>Label name</label>
-        <input type="text" placeholder="Type something…">
+        <label for="exampleInput">Label name</label>
+        <input type="text" id="exampleInput" placeholder="Type something…">
         <p class="help-block">Example block-level help text here.</p>
         <div class="checkbox">
           <label>
@@ -1145,8 +1159,8 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
 <form>
   <fieldset>
     <legend>Legend</legend>
-    <label>Label name</label>
-    <input type="text" placeholder="Type something…">
+    <label for="exampleInput">Label name</label>
+    <input type="text" id="exampleInput" placeholder="Type something…">
     <p class="help-block">Example block-level help text here.</p>
     <div class="checkbox">
       <label>
@@ -1201,7 +1215,7 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
         </div>
       </div>
       <div class="row">
-        <label for="" class="col-lg-2 control-label">Password</label>
+        <label for="inputPassword" class="col-lg-2 control-label">Password</label>
         <div class="col-lg-10">
           <input type="password" id="inputPassword" placeholder="Password">
           <div class="checkbox">
@@ -1224,7 +1238,7 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
     </div>
   </div>
   <div class="row">
-    <label for="" class="col-lg-2 control-label">Password</label>
+    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
     <div class="col-lg-10">
       <input type="password" id="inputPassword" placeholder="Password">
       <div class="checkbox">
@@ -1382,21 +1396,6 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
 <input id="focusedInput" type="text" value="This is focused...">
 {% endhighlight %}
 
-    <h3 id="forms-invalid-inputs">Invalid inputs</h3>
-    <p>Style inputs via default browser functionality. Specify a <code>type</code>, add the <code>required</code> attribute if the field is not optional, and (if applicable) specify a <code>pattern</code>.</p>
-
-    <div class="bs-callout">
-      <h4>Cross-browser compatibility</h4>
-      <p>Invalid inputs are styled via the <code>:invalid</code> CSS selector, which is not supported by Internet Explorer 9 and below.</p>
-    </div>
-
-    <form class="bs-example">
-      <input type="email" placeholder="test@example.com" required>
-    </form>
-{% highlight html %}
-<input type="email" placeholder="test@example.com" required>
-{% endhighlight %}
-
     <h3 id="forms-disabled-inputs">Disabled inputs</h3>
     <p>Add the <code>disabled</code> attribute on an input to prevent user input and trigger a slightly different look.</p>
     <form class="bs-example">
@@ -1509,14 +1508,18 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
     <p>Adding on top of existing browser controls, Bootstrap includes other useful form components.</p>
 
     <h3 id="forms-input-groups">Input groups</h3>
-    <p>Add text or buttons before, after, or on both sides of any text-based input. Use <code>.input-group</code> with a <code>.add-on</code> to prepend or append elements to an <code>&lt;input&gt;</code>.</p>
+    <p>Add text or buttons before, after, or on both sides of any text-based input. Use <code>.input-group</code> with an <code>.add-on</code> to prepend or append elements to an <code>&lt;input&gt;</code>.</p>
 
     <div class="bs-callout">
       <h4>Cross-browser compatibility</h4>
       <p>Avoid using <code>&lt;select&gt;</code> elements here as they cannot be fully styled in WebKit browsers.</p>
     </div>
+    <div class="bs-callout">
+      <h4>Tooltips &amp; popovers in input groups require special setting</h4>
+      <p>When using tooltips or popovers on elements within an <code>.input-group</code>, you'll have to specify the option <code>container: 'body'</code> to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).</p>
+    </div>
 
-    <form class="bs-example">
+    <form class="bs-example bs-example-form">
       <div class="input-group col-lg-9">
         <span class="input-group-addon">@</span>
         <input type="text" placeholder="Username">
@@ -1552,8 +1555,8 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
 {% endhighlight %}
 
     <h4>Optional sizes</h4>
-    <p>Add the relative form sizing classes to the `.input-group-addon`.</p>
-    <form class="bs-example">
+    <p>Add the relative form sizing classes to the <code>.input-group-addon</code>.</p>
+    <form class="bs-example bs-example-form">
       <div class="input-group col-lg-9">
         <span class="input-group-addon input-large">@</span>
         <input type="text" class="input-large" placeholder="Username">
@@ -1588,7 +1591,7 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
 
     <h4>Buttons instead of text</h4>
     <p>Buttons in input groups are a bit different and require one extra level of nesting. Instead of <code>.input-group-addon</code>, you'll need to use <code>.input-group-btn</code> to wrap the buttons. This is required due to default browser styles that cannot be overridden.</p>
-    <form class="bs-example">
+    <form class="bs-example bs-example-form">
       <div class="input-group col-lg-7">
         <span class="input-group-btn">
           <button class="btn btn-default" type="button">Go!</button>
@@ -1621,7 +1624,7 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
 
     <h4>Button dropdowns</h4>
     <p></p>
-    <form class="bs-example">
+    <form class="bs-example bs-example-form">
       <div class="input-group col-lg-7">
         <div class="input-group-btn">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
@@ -1681,7 +1684,7 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
 {% endhighlight %}
 
     <h4>Segmented dropdown groups</h4>
-    <form class="bs-example">
+    <form class="bs-example bs-example-form">
       <div class="input-group col-lg-7">
         <div class="input-group-btn">
           <button type="button" class="btn btn-default" tabindex="-1">Action</button>
@@ -1757,26 +1760,26 @@ For example, <code>&lt;section&gt;</code> should be wrapped as inline.
     <form class="bs-example" style="padding-bottom: 15px;">
       <div class="row">
         <div class="col-lg-2">
-          <input type="text" placeholder="col-large-2">
+          <input type="text" placeholder=".col-lg-2">
         </div>
         <div class="col-lg-3">
-          <input type="text" placeholder="col-large-3">
+          <input type="text" placeholder=".col-lg-3">
         </div>
         <div class="col-lg-4">
-          <input type="text" placeholder="col-large-4">
+          <input type="text" placeholder=".col-lg-4">
         </div>
       </div>
     </form>
 {% highlight html %}
 <div class="row">
   <div class="col-lg-2">
-    <input type="text" placeholder="col-large-2">
+    <input type="text" placeholder=".col-lg-2">
   </div>
   <div class="col-lg-3">
-    <input type="text" placeholder="col-large-3">
+    <input type="text" placeholder=".col-lg-3">
   </div>
   <div class="col-lg-4">
-    <input type="text" placeholder="col-large-4">
+    <input type="text" placeholder=".col-lg-4">
   </div>
 </div>
 {% endhighlight %}
