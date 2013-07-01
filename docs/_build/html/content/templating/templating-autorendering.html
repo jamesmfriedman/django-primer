@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Auto-Rendering &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Auto-Rendering</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#app-directories-loader">App Directories Loader</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="auto-rendering">
+<h1>Auto-Rendering<a class="headerlink" href="#auto-rendering" title="Permalink to this headline">¶</a></h1>
+<p>I&#8217;ll admit it, I&#8217;m a lazy developer and I get annoyed by repetition. Django harps on DRY, so I never understood why I have to type render_to_response over and over and over again in my code when I can have middleware hooks that run before and after my view function, especially when I am almost alway returning a rendered template or JSON.</p>
+<p>This is where auto-rendering comes in to play which is handled by <tt class="docutils literal"><span class="pre">primer.middleware.RenderMiddlware</span></tt> and <tt class="docutils literal"><span class="pre">primer.middleware.AutoMiddleware</span></tt>. This picks template based off of the app_name (this set when you include urls from an app), as well as the actual name of the view function. Auto-rendering will do the following for you:</p>
+<ul class="simple">
+<li>Pick a template named the same as your current view function.</li>
+<li>Choose the template location based on the current app as you have it defined in your root URL conf.</li>
+<li>Will return a json response of the data from the return dict if no template is found.</li>
+<li>It only requires you to return a dict from your views.</li>
+<li>If your view&#8217;s response is not a dict, then <tt class="docutils literal"><span class="pre">RenderMiddleware</span></tt> will leave it alone.</li>
+</ul>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in your main url conf, including urls from one of your apps</span>
+<span class="n">url</span><span class="p">(</span><span class="s">r&#39;^awesomeapp/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;mysite.awesomeapp.urls&#39;</span><span class="p">,</span> <span class="n">app_name</span> <span class="o">=</span> <span class="s">&#39;awesomeapp&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that we game our app a name. This is a standard Django convention. At this point, somewhere in your app you will have defined your own custom urls and views. Lets say you have a view named &#8220;foo&#8221;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># a view inside of awesome app</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&#39;x&#39;</span> <span class="p">:</span> <span class="n">x</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The above example will render a view template that exists with following paths. If neither exist, it will return a json response with the &#8220;x&#8221;:&lt;/p&gt;</p>
+<ul class="simple">
+<li>awesomeapp/foo.html</li>
+<li>foo.html</li>
+</ul>
+<p>If you are unhappy with the path that was automatically picked, or your template lives in a different location, you can always explicitly specify what template you want to use by passing &#8220;template&#8221; into your return dict.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># a view inside of awesome app, with a custom template</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&#39;x&#39;</span> <span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+        <span class="s">&#39;template&#39;</span> <span class="p">:</span> <span class="s">&#39;somefolder/new_template.html&#39;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="app-directories-loader">
+<h2>App Directories Loader<a class="headerlink" href="#app-directories-loader" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>WARNING:</strong> The following change to Django&#8217;s App Directories loader might affect your Django App. The direction of the directory lookups has been reversed. Please Read.</p>
+</div>
+<p>Django&#8217;s app metaphor coupled with its app directories template loader makes template organization significantly cleaner, as it allows you to store the templates directly in the app they belong to. The main issue comes down to including apps that might augment, modify, or outright monkey patch apps that have been included before them. Primer is a living example of this, attaching itself onto Django&#8217;s framework. The main issue is the direction of Django&#8217;s app directories lookup.</p>
+<p>Consider this. You have an app that extends some part of Django&#8217;s framework. You have templates in your path that are supposed to override the ones Django provides. Your app has to come after Django&#8217;s in your installed apps because the code gets executed and imported top to bottom, and your app contains some python additions. However, if you are relying solely on the Django&#8217;s app_directories loader, Django will pick its template over yours since it does the lookup in the order of your installed apps and stops at the first template found. Reversing this allows for much more natural overrides. If you&#8217;ve included Primer&#8217;s settings as described in setup, you don&#8217;t have to do anything else.</p>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

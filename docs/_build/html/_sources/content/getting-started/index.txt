@@ -1,3 +1,5 @@
+:tocdepth: 2
+
 Getting Started
 ****************************************
 .. include:: get-started-overview.rst

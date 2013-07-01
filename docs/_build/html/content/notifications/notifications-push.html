@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Push Notifications &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="push-notifications">
+<h1>Push Notifications<a class="headerlink" href="#push-notifications" title="Permalink to this headline">¶</a></h1>
+<p>If you&#8217;ve plugged in a push framework, you can set the attribute of <tt class="docutils literal"><span class="pre">push</span></tt> to True for your notification class. This will do a realtime push to any users that are currently logged in. Any additional data that you pass as part of the class <tt class="docutils literal"><span class="pre">data</span></tt> attribute will be sent along side of the <tt class="docutils literal"><span class="pre">tags</span></tt> and <tt class="docutils literal"><span class="pre">message</span></tt> attributes. If you are not using a push framework, the Django messages framework will be used BUT the message will only be delivered if it is going to the currently logged in user (the user that instantiated the request). In this case, messages will still be stored for other users in the database (based on your storage level), but will not appear on their screens.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Sample push notification</span>
+<span class="c"># in this case, data gets pushed directly to primer-notifications.js</span>
+<span class="c"># so we can control where it gets rendered from the server, or</span>
+<span class="c"># set other additional js options</span>
+<span class="n">InfoNotification</span><span class="p">(</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;Push notifications are working!&#39;</span><span class="p">,</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;parent&#39;</span><span class="p">:</span> <span class="s">&#39;#test-push-notifications-container&#39;</span><span class="p">},</span>
+    <span class="n">push</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

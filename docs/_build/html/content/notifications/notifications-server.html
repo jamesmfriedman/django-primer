@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Server Side &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Server Side</a><ul>
+<li><a class="reference internal" href="#generating-from-a-view">Generating from a View</a></li>
+<li><a class="reference internal" href="#displaying-in-a-template">Displaying in a Template</a></li>
+<li><a class="reference internal" href="#notification-class">Notification Class</a></li>
+<li><a class="reference internal" href="#notification-models">Notification Models</a><ul>
+<li><a class="reference internal" href="#primer-notifications-models-notificationstore">primer.notifications.models.NotificationStore</a></li>
+<li><a class="reference internal" href="#primer-notifications-models-usernotification">primer.notifications.models.UserNotification</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#customization">Customization</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="server-side">
+<h1>Server Side<a class="headerlink" href="#server-side" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="generating-from-a-view">
+<h2>Generating from a View<a class="headerlink" href="#generating-from-a-view" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Before you begin:</strong> The notifications framework is built on top of Django&#8217;s messages framework. You can read up on it here: <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/contrib/messages/">Django messages framework</a>.</p>
+</div>
+<p>Sending notifications from a view is pretty straightforward. Notifications generated from the server have the added benefit of being stored for later viewing in the notification center. There is a <tt class="docutils literal"><span class="pre">Notification</span></tt> base class that you can import and use as is, or extend to create your own custom notifications. There are additional sublasses you can import of <tt class="docutils literal"><span class="pre">SuccessNotification</span></tt>, <tt class="docutils literal"><span class="pre">WarningNotification</span></tt>, <tt class="docutils literal"><span class="pre">InfoNotification</span></tt>, and <tt class="docutils literal"><span class="pre">ErrorNotification</span></tt>. You can import these individually from <tt class="docutils literal"><span class="pre">primer.notifications</span></tt> or you can import <a href="#id1"><span class="problematic" id="id2">*</span></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">primer.notifications</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">myview</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">Notification</span><span class="p">(</span><span class="n">message</span> <span class="o">=</span> <span class="s">&#39;This is a message to the user.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="displaying-in-a-template">
+<h2>Displaying in a Template<a class="headerlink" href="#displaying-in-a-template" title="Permalink to this headline">¶</a></h2>
+<p>This is handled simililarly to the Django messages framework. There is a variable called &lt;code&gt;notifications&lt;/code&gt; that is available in your templates that has been set through a context processor. You can iterate over them manually, or you can use the <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">notifications</span> <span class="pre">%}</span></tt> template tag. The notifications will be auto handled by the JS as long as they are children of the the <tt class="docutils literal"><span class="pre">Notifications.container</span></tt> JS class attribute which defaults to <tt class="docutils literal"><span class="pre">#notifications-container</span></tt>.</p>
+<div class="highlight-django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">from</span> <span class="nv">primer_notification_tags</span> <span class="k">import</span> <span class="nv">notifications</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="x"># automatically</span>
+<span class="cp">{%</span> <span class="k">notifications</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="x"># manually</span>
+<span class="x">&lt;div id=&quot;notifications-container&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">notification</span> <span class="k">in</span> <span class="nv">notifications</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">include</span> <span class="nv">notification.template</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="notification-class">
+<h2>Notification Class<a class="headerlink" href="#notification-class" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Note on Storage:</strong> Notifications can only be stored for users that are logged in. Make sure the <tt class="docutils literal"><span class="pre">store</span></tt> attribute is set to 0 if you are generating notifications for anonymous users.</p>
+</div>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Method</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>send</td>
+            <td>Sends the actual notification. This method will also save the notification based on the storage method.</td>
+        </tr>
+        <tr>
+            <td>template</td>
+            <td>Selects a template to display the notification. This is useful in templates since you can do something like <code>include notification.template</code>. This will do a lookup to see if there is a template that is a lowercased underscored version of the type, else it will use the default. The default template for display is located in <code>notifications/display/default.html</code></td>
+        </tr>
+        <tr>
+            <td>get_target</td>
+            <td>Optional. You can implement this method in your subclasses. It must return a url string that will be stored with the notifcation, and will be the location a user gets taken to if they click on the notification.</td>
+        </tr>
+    </tbody>
+</table></div>
+<div class="section" id="notification-models">
+<h2>Notification Models<a class="headerlink" href="#notification-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="primer-notifications-models-notificationstore">
+<h3>primer.notifications.models.NotificationStore<a class="headerlink" href="#primer-notifications-models-notificationstore" title="Permalink to this headline">¶</a></h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>message</td>
+            <td>The message for the user.</td>
+        </tr>
+        <tr>
+            <td>followers</td>
+            <td>M2M to UserNotification.</td>
+        </tr>
+        <tr>
+            <td>sender</td>
+            <td>The user who this notification is from.</td>
+        </tr>
+        <tr>
+            <td>target</td>
+            <td>Url location for the notification.</td>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>A pickled data field for the notification.</td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>Arbitrary string type.</td>
+        </tr>
+    <tbody>
+</table></div>
+<div class="section" id="primer-notifications-models-usernotification">
+<h3>primer.notifications.models.UserNotification<a class="headerlink" href="#primer-notifications-models-usernotification" title="Permalink to this headline">¶</a></h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Attribute</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>user</td>
+            <td>Link to the user.</td>
+        </tr>
+        <tr>
+            <td>notification</td>
+            <td>Link to the notification.</td>
+        </tr>
+        <tr>
+            <td>read</td>
+            <td>Boolean. Whether or not the notification has been read.</td>
+        </tr>
+    <tbody>
+</table></div>
+</div>
+<div class="section" id="customization">
+<h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h2>
+<p>You can subclass the <tt class="docutils literal"><span class="pre">Notification</span></tt> class to create easily resusable notifications with defaults. You can set any class level attributes you want as defaults in your subclass. Custom templates can be used for both the popup dislay, and notification center display. The popup display templates should be located in <strong>notifications/display/*</strong> and templates for the notification center and the archive should be in <strong>notifications/view/*</strong>. There is a template method on the <tt class="docutils literal"><span class="pre">Notification</span></tt> class and <tt class="docutils literal"><span class="pre">NotificationStore</span></tt> model that will do a lookup based on the type before falling back to the default templates. The lookup is based on <tt class="docutils literal"><span class="pre">type</span></tt> attribute that has been set and will lowercase and underscore the name. For example, &#8216;MyAwesomeNotification&#8217; or &#8216;my-awesome-notification&#8217; would do a lookup for <strong>notifications/display/my_awesome_notification.html</strong>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyCustomNotification</span><span class="p">(</span><span class="n">Notification</span><span class="p">):</span>
+    <span class="c"># set some defaults</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;We can set a default message if we want&#39;</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s">&#39;cool-notification&#39;</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">MyCustomNotification</span><span class="p">()</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

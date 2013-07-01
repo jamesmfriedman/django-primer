@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Templating &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" />
+    <link rel="next" title="Javascript" href="../javascript/index.html" />
+    <link rel="prev" title="Push Services" href="../push-services/index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Templating</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#auto-rendering">Auto-Rendering</a></li>
+<li><a class="reference internal" href="#template-variable-names">Template Variable Names</a></li>
+<li><a class="reference internal" href="#extension-patterns">Extension Patterns</a></li>
+<li><a class="reference internal" href="#template-blocks">Template Blocks</a></li>
+<li><a class="reference internal" href="#template-tags">Template Tags</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../push-services/index.html"
+                        title="previous chapter">Push Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../javascript/index.html"
+                        title="next chapter">Javascript</a></p>
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="templating">
+<h1>Templating<a class="headerlink" href="#templating" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;ve heard plenty of devs say that Django&#8217;s templating system wasn&#8217;t powerful enough. I&#8217;d say quite the opposite, and that at times it might be too powerful. Primer seeks to add some convention to Django&#8217;s templating system, and if used properly, can lead to some really DRY templating. It might seem like a lot at first, but I promise it pays off.</p>
+<p>My biggest qualm from day one with Django&#8217;s templating system is that it doesn&#8217;t force you, or help you create any meaningful pattern to how templates are named or where they or stored. I inherited a two year old project where multiple devs had used different naming schemes and directory structures. Untangling that knot was a logistical nightmare. Primer takes the guess work out of naming your templates, and will also render them for you.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Heads Up!</strong> The majority of this stuff is suggestion. You can use Primer and still come up with your own template and rendering scheme. This is just here to make your life easier.</p>
+</div>
+</div>
+<div class="section" id="auto-rendering">
+<h2>Auto-Rendering<a class="headerlink" href="#auto-rendering" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;ll admit it, I&#8217;m a lazy developer and I get annoyed by repetition. Django harps on DRY, so I never understood why I have to type render_to_response over and over and over again in my code when I can have middleware hooks that run before and after my view function, especially when I am almost alway returning a rendered template or JSON.</p>
+<p>This is where auto-rendering comes in to play which is handled by <tt class="docutils literal"><span class="pre">primer.middleware.RenderMiddlware</span></tt> and <tt class="docutils literal"><span class="pre">primer.middleware.AutoMiddleware</span></tt>. This picks template based off of the app_name (this set when you include urls from an app), as well as the actual name of the view function. Auto-rendering will do the following for you:</p>
+<ul class="simple">
+<li>Pick a template named the same as your current view function.</li>
+<li>Choose the template location based on the current app as you have it defined in your root URL conf.</li>
+<li>Will return a json response of the data from the return dict if no template is found.</li>
+<li>It only requires you to return a dict from your views.</li>
+<li>If your view&#8217;s response is not a dict, then <tt class="docutils literal"><span class="pre">RenderMiddleware</span></tt> will leave it alone.</li>
+</ul>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in your main url conf, including urls from one of your apps</span>
+<span class="n">url</span><span class="p">(</span><span class="s">r&#39;^awesomeapp/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;mysite.awesomeapp.urls&#39;</span><span class="p">,</span> <span class="n">app_name</span> <span class="o">=</span> <span class="s">&#39;awesomeapp&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that we game our app a name. This is a standard Django convention. At this point, somewhere in your app you will have defined your own custom urls and views. Lets say you have a view named &#8220;foo&#8221;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># a view inside of awesome app</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&#39;x&#39;</span> <span class="p">:</span> <span class="n">x</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The above example will render a view template that exists with following paths. If neither exist, it will return a json response with the &#8220;x&#8221;:&lt;/p&gt;</p>
+<ul class="simple">
+<li>awesomeapp/foo.html</li>
+<li>foo.html</li>
+</ul>
+<p>If you are unhappy with the path that was automatically picked, or your template lives in a different location, you can always explicitly specify what template you want to use by passing &#8220;template&#8221; into your return dict.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># a view inside of awesome app, with a custom template</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&#39;x&#39;</span> <span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+        <span class="s">&#39;template&#39;</span> <span class="p">:</span> <span class="s">&#39;somefolder/new_template.html&#39;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="app-directories-loader">
+<h3>App Directories Loader<a class="headerlink" href="#app-directories-loader" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>WARNING:</strong> The following change to Django&#8217;s App Directories loader might affect your Django App. The direction of the directory lookups has been reversed. Please Read.</p>
+</div>
+<p>Django&#8217;s app metaphor coupled with its app directories template loader makes template organization significantly cleaner, as it allows you to store the templates directly in the app they belong to. The main issue comes down to including apps that might augment, modify, or outright monkey patch apps that have been included before them. Primer is a living example of this, attaching itself onto Django&#8217;s framework. The main issue is the direction of Django&#8217;s app directories lookup.</p>
+<p>Consider this. You have an app that extends some part of Django&#8217;s framework. You have templates in your path that are supposed to override the ones Django provides. Your app has to come after Django&#8217;s in your installed apps because the code gets executed and imported top to bottom, and your app contains some python additions. However, if you are relying solely on the Django&#8217;s app_directories loader, Django will pick its template over yours since it does the lookup in the order of your installed apps and stops at the first template found. Reversing this allows for much more natural overrides. If you&#8217;ve included Primer&#8217;s settings as described in setup, you don&#8217;t have to do anything else.</p>
+</div>
+</div>
+<div class="section" id="template-variable-names">
+<h2>Template Variable Names<a class="headerlink" href="#template-variable-names" title="Permalink to this headline">¶</a></h2>
+<p>Primer defines a pattern for template extension that relies on convention. The following variables get passed into the template context. They are part of the <tt class="docutils literal"><span class="pre">request.primer</span></tt> dict and can be modified in any view before they ever hit the templates.</p>
+<div class="section" id="modifying-a-template-var">
+<h3>Modifying a Template Var<a class="headerlink" href="#modifying-a-template-var" title="Permalink to this headline">¶</a></h3>
+<p>If you want to dynamically swap out or override a template, you can do so anywhere you have access to Django&#8217;s request variable.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in some view</span>
+<span class="n">request</span><span class="o">.</span><span class="n">primer</span><span class="p">[</span><span class="s">&#39;app_template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;base/app_layout.html&#39;</span>
+<span class="n">request</span><span class="o">.</span><span class="n">primer</span><span class="p">[</span><span class="s">&#39;base_template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;alt_base.html&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="extension-patterns">
+<h2>Extension Patterns<a class="headerlink" href="#extension-patterns" title="Permalink to this headline">¶</a></h2>
+<p>Below is a visualized example of what Primer&#8217;s template extension pattern seeks to provide. You can see that the main structure of your site is controlled by your <strong>base_template</strong>, your <strong>app_template</strong>, and <strong>view_template</strong>. The <strong>site_template</strong> is used mainly for adding additional site wide javascript, css, main navigation, or to override any other blocks that are present in the <strong>base_template</strong> or <strong>skeleton_template</strong>. Your <strong>skeleton_template</strong> is an empty barebones html skeleton for your site that has a lot of header includes, meta tags, etc.</p>
+<div id="template-example" class="bs-docs-example">
+
+    <button id="template-split" class="btn btn-primary">Animate</button>
+    <script type="text/javascript">
+        $(function(){
+            $('#template-split').click(function(){
+                $("#template-example").toggleClass('split');
+            });
+        });
+    </script>
+    <div class="template-container">
+        <div class="skeleton-template template-pane">
+            <span class="t-label">Skeleton Template</span>
+        </div>
+        <div class="base-template template-pane">
+            <span class="t-label">Base Template</span>
+            <div class="t-header"></div>
+            <div class="t-body">
+            </div>
+            <div class="t-footer"></div>
+        </div>
+        <div class="site-template template-pane">
+            <span class="t-label">Site Template</span>
+        </div>
+        <div class="app-template template-pane">
+            <span class="t-label">App Template</span>
+            <div class="t-sidebar"></div>
+            <div class="t-content"></div>
+
+        </div>
+        <div class="view-template template-pane">
+            <span class="t-label">View Template</span>
+        </div>
+    </div>
+    <br/><br/>
+</div><div class="section" id="examples-and-useage">
+<h3>Examples and Useage<a class="headerlink" href="#examples-and-useage" title="Permalink to this headline">¶</a></h3>
+<p>Lets say you are making a painting app for your django site. You create the app, and you include the urls in your core urls file, making sure to specify the app name.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in your main url conf</span>
+<span class="n">url</span><span class="p">(</span><span class="s">r&#39;^painter/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;mysite.painter.urls&#39;</span><span class="p">,</span> <span class="n">app_name</span> <span class="o">=</span> <span class="s">&#39;painter&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now if you have a view named <tt class="docutils literal"><span class="pre">brushes</span></tt> as part of your painting app. Primer will look for a template called <tt class="docutils literal"><span class="pre">painter/brushes.html</span></tt>. This is your <tt class="docutils literal"><span class="pre">view_template</span></tt>. It will also look for your <tt class="docutils literal"><span class="pre">app_template</span></tt> located at <tt class="docutils literal"><span class="pre">painter/base.html</span></tt>. Your view and app templates would look something like this:</p>
+<div class="highlight-django"><div class="highlight"><pre><span class="x">&lt;!--</span>
+<span class="x">    this is an example view template for painter/brushes.html</span>
+<span class="x">    note that it extends your app_template</span>
+<span class="x">--&gt;</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">app_template</span> <span class="cp">%}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    This is some stuff from my view </span><span class="cp">{{</span> <span class="nv">some_var</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="highlight-django"><div class="highlight"><pre><span class="x">&lt;!--</span>
+<span class="x">    this is an example view template for painter/base.html</span>
+<span class="x">    note that it extends your base_template</span>
+<span class="x">--&gt;</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">base_template</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">app_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;div class=&quot;menu&quot;&gt;</span>
+<span class="x">        &lt;a href=&quot;#&quot;&gt;Item 1&lt;/a&gt;</span>
+<span class="x">        &lt;a href=&quot;#&quot;&gt;Item 2&lt;/a&gt;</span>
+<span class="x">        &lt;a href=&quot;#&quot;&gt;Item 3&lt;/a&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    &lt;div id=&quot;view-content&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">app_content</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>Thats pretty much it for the basic example, but this pattern can be used over and over again and obviously with infinitely more complex layouts. You can additionally proved a site_template that will inject some stuff into your base_template.</p>
+<div class="highlight-django"><div class="highlight"><pre><span class="x">&lt;!-- An exmample site_layout --&gt;</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">base_template</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">header_css</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">STATIC_URL</span> <span class="cp">}}</span><span class="x">mysite/css/test.css&quot;/&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">header_css</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">header_scripts</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;script type=&quot;text/javascript&quot; src=&quot;</span><span class="cp">{{</span> <span class="nv">STATIC_URL</span> <span class="cp">}}</span><span class="x">mysite/js/test.js&quot;&gt;&lt;/script&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">header_scripts</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body_attrs</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    data-spy=&quot;scroll&quot; data-target=&quot;.bs-docs-sidebar&quot; data-offset=&quot;180&quot;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">body_attrs</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">navbar</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;a class=&quot;brand&quot; href=&quot;#&quot;&gt;Primer&lt;/a&gt;</span>
+
+<span class="x">    &lt;ul class=&quot;nav&quot;&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-home&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-setup&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Setup&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-get-started&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Get Started&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-templating&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Templating&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-javascript&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;JavaScript&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">    &lt;/ul&gt;</span>
+
+<span class="x">    &lt;ul class=&quot;nav pull-right&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">notifications_widget</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;/ul&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">navbar</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="template-blocks">
+<h2>Template Blocks<a class="headerlink" href="#template-blocks" title="Permalink to this headline">¶</a></h2>
+<p>The power of Primer&#8217;s templates really lies in the fully leveraging template extensions and block overrides. The following are all blocks you can override from any of your templates. Obviously these don&#8217;t apply if you override the templates that come with Primer.</p>
+<div class="section" id="skeleton">
+<h3>Skeleton<a class="headerlink" href="#skeleton" title="Permalink to this headline">¶</a></h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Block Tag</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>namespace</td>
+            <td>A CSS namespace that goes on the html tag. Namespacing your css will save your life.</td>
+        </tr>
+        <tr>
+            <td>title</td>
+            <td>The title for your website / page</td>
+        </tr>
+        <tr>
+            <td>favicon</td>
+            <td>The favicon for your site. If you override, you will have to include the entire <code>&lt;link/&gt;</code> tag</td>
+        </tr>
+        <tr>
+            <td>meta</td>
+            <td>Any meta tags associated with your site. You will most likely want to super this block. <code>{{ block.super }}</code></td>
+        </tr>
+        <tr>
+            <td>header_css</td>
+            <td>CSS for your site. This will be compressed using django-compressor.</td>
+        </tr>
+        <tr>
+            <td>header_scripts</td>
+            <td>Additional javascript to include on the site. All of the JS Primer needs will be included for you outside of this block.</td>
+        </tr>
+        <tr>
+            <td>body_attrs</td>
+            <td>Attributes for the body tag. <code>{% block body_attrs %}class="foo"{% endblock body_attrs %}</code></td>
+        </tr>
+        <tr>
+            <td>body</td>
+            <td>The actual contents of the body tag.</td>
+        </tr>
+        <tr>
+            <td>external_scripts</td>
+            <td>Any external scripts you are including in your site.</td>
+        </tr>
+    </tbody>
+</table></div>
+<div class="section" id="base">
+<h3>Base<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Block Tag</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>navbar_class</td>
+            <td>An additional class to append to bootsraps navbar. This contains <code>navbar-fixed-top</code> by default</td>
+        </tr>
+        <tr>
+            <td>navbar</td>
+            <td>The inner contents of the navbar.</td>
+        </tr>
+        <tr>
+            <td>app_content</td>
+            <td>The apps content, generally should be injected from your <code>app_template</code></td>
+        </tr>
+        <tr>
+            <td>footer</td>
+            <td>Contents of your footer.</td>
+        </tr>
+    </tbody>
+</table></div>
+</div>
+<div class="section" id="template-tags">
+<h2>Template Tags<a class="headerlink" href="#template-tags" title="Permalink to this headline">¶</a></h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Template Tags</th>
+            <th>Arugments</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{% include_raw 'mytemplate.html' %}</td>
+            <td>The template you want to include, as string.</td>
+            <td>This will include a whole template without running it through Django's templating engine. This is useful if you need to include something like a set of JavaScript templates that would usually be parsed because it shares a similar syntax.</td>
+        </tr>
+        <tr>
+            <td>{% verbatim %}</td>
+            <td>None</td>
+            <td>This is a clone of Django 1.5 verbatim tag for use in older version of Django. It stops parsing a template until it hits an "endverbatim" tag.</td>
+        <tr/>
+        <tr>
+            <td>{% build_url_params dict %}</td>
+            <td>A dictionary of params.</td>
+            <td>This takes a python dictionary and collapses it into a a string of url params including the "?".</td>
+        </tr>
+    </tbody>
+</table><div class="highlight-django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">load</span> <span class="nv">build_url_params</span> <span class="nv">from</span> <span class="nv">primer_tags</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">&lt;a href=&quot;http://google.com</span><span class="cp">{%</span> <span class="k">build_url_params</span> <span class="nv">mydict</span> <span class="cp">%}</span><span class="x">&quot;&gt;Google Search&lt;/a&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

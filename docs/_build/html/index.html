@@ -4,7 +4,8 @@
 
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -12,6 +13,7 @@
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/primer.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -26,7 +28,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/hogan.js"></script>
     <script type="text/javascript" src="_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/primer.js"></script>
     <link rel="top" title="Primer 0.1 documentation" href="#" />
     <link rel="next" title="Setup" href="content/setup/index.html" /> 
   </head>
@@ -66,12 +70,51 @@
        	
   <div class="section" id="primer">
 <h1>Primer<a class="headerlink" href="#primer" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to Primer&#8217;s documentation. Primer is intended to be the base coat for your next project. It is a WebDK for making web apps, with all the ground work done for you. What&#8217;s a WebDK? Well, it&#8217;s an SDK designed for the web. Primer is here to be your toolbox, and to make your life easier. Primer is a conglomeration of multiple open source frameworks and tools with some custom glue tying it all together. At its core, it leverages the combined powers of Django, jQuery, Bootstrap, and LESS CSS to make for a very powerful development experience.</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="content/setup/index.html">Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="content/getting-started/index.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="content/push-services/index.html">Push Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="content/setup/index.html">Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="content/setup/index.html#new-projects">New Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/setup/index.html#existing-projects">Existing Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/setup/index.html#settings">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/setup/index.html#less-compiler">LESS Compiler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="content/getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="content/getting-started/index.html#database">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/getting-started/index.html#css">CSS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/getting-started/index.html#id1">LESS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="content/push-services/index.html">Push Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="content/push-services/index.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/push-services/index.html#server-side-useage">Server Side Useage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/push-services/index.html#client-side-useage">Client Side Useage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/push-services/index.html#integrating-a-custom-pushservice">Integrating a Custom PushService</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="content/templating/index.html">Templating</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="content/templating/index.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/templating/index.html#auto-rendering">Auto-Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/templating/index.html#template-variable-names">Template Variable Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/templating/index.html#extension-patterns">Extension Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/templating/index.html#template-blocks">Template Blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/templating/index.html#template-tags">Template Tags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="content/javascript/index.html">Javascript</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="content/javascript/index.html#page-handling">Page Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/javascript/index.html#colorpicker">ColorPicker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/javascript/index.html#toolkit">Toolkit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="content/notifications/index.html">Notifications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="content/notifications/index.html#client-side">Client Side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/notifications/index.html#server-side">Server Side</a></li>
+<li class="toctree-l2"><a class="reference internal" href="content/notifications/index.html#push-notifications">Push Notifications</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>

@@ -16,7 +16,8 @@
 {%- set render_sidebar = (not embedded) and (not theme_nosidebar|tobool) and
                          (sidebars != []) %}
 {%- set url_root = pathto('', 1) %}
-{% set script_files = script_files + ['_static/bootstrap.min.js'] %}
+{% set script_files = script_files + ['_static/hogan.js', '_static/bootstrap.min.js', '_static/primer.js'] %}
+{% set css_files = css_files + ['_static/primer.css'] %}
 
 {# XXX necessary? #}
 {%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
@@ -76,7 +77,7 @@
     {%- endfor %}
 {%- endmacro %}
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset={{ encoding }}" />
     {{ metatags }}

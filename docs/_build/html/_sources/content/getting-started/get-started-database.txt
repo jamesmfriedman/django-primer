@@ -4,7 +4,7 @@ Database
 Primer Model
 ------------------
 
-Primer comes with an abstract base model for you to subclass called ``PrimerModel`` located in ``primer.db.models``. It comes with the following baked in fields.</p>
+Primer comes with an abstract base model for you to subclass called ``PrimerModel`` located in ``primer.db.models``. It comes with the following baked in fields.
 
 .. NOTE::
 	**Attention!** The following fields have been monkey patched onto Django's ``User``, ``Group``, and ``Site`` models.

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Page Handling &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Page Handling</a><ul>
+<li><a class="reference internal" href="#via-data-attributes">Via Data Attributes</a></li>
+<li><a class="reference internal" href="#public-methods">Public Methods</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="page-handling">
+<h1>Page Handling<a class="headerlink" href="#page-handling" title="Permalink to this headline">¶</a></h1>
+<p>It is very popular to &#8220;ajaxify&#8221; your entire site. Primer provides an easy integrated way to do this with browsers that support the history api. It is also integrated with the backend to provide you with the ability to load certain sections of the page. With a little setup, you can have an entire site that works with both ajax and standard page loads. Imagine an app, but with deep links.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Bonus:</strong> Using the page handler will also swap out the css namespace located on the html element in <tt class="docutils literal"><span class="pre">primer/skeleton.html</span></tt>.</p>
+</div>
+<div class="section" id="via-data-attributes">
+<h2>Via Data Attributes<a class="headerlink" href="#via-data-attributes" title="Permalink to this headline">¶</a></h2>
+<p>You can use ajax page handling without writing any javascript. Just add <tt class="docutils literal"><span class="pre">data-ajax=&quot;&quot;</span></tt> to any link to automatically ajaxify your site. By default, this will load everything up to but not including your skeleton_template. Additionally you can set the attribute to a layout value which specifies what page fragment to load, such as <tt class="docutils literal"><span class="pre">data-ajax=&quot;app&quot;</span></tt>. The baked in layouts are &#8216;app&#8217;, &#8216;view&#8217;, &#8216;section&#8217;. You can optionally set <tt class="docutils literal"><span class="pre">data-target</span></tt> to a css selector of what container to load the content into. You can read more on Primer&#8217;s template patterns in the Templating section.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/primer/notifications&quot;</span> <span class="na">data-ajax=</span><span class="s">&quot;&quot;</span> <span class="na">data-target=</span><span class="s">&quot;#container&quot;</span><span class="nt">&gt;</span>Ajax Link<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="public-methods">
+<h2>Public Methods<a class="headerlink" href="#public-methods" title="Permalink to this headline">¶</a></h2>
+<table class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td>$.pushState(options|url, callback)</td>
+            <td>
+                $.pushState can either be used by just passing options, or alternatively by passing a url and a callback.
+                Options is an object with the following keys:
+                <ul>
+                    <li><strong>url:</strong> The url you are loading. Required.</li>
+                    <li><strong>data:</strong> Arbitrary data object to get passed to history.pushState. Defaults to empty object.</li>
+                    <li><strong>title:</strong> Title for pushState. Defaults to document.title.</li>
+                    <li><strong>container:</strong> The DOM element you are loading page into. Default is '#body'. This can be either a selector or a jQuery element.</li>
+                    <li><strong>layout:</strong> This option is used by the backend to decide which page fragment to load. Default is null.</li>
+                    <li><strong>callback:</strong> A callback that gets triggered after the page is loaded. Default is $.noop.</li>
+                    <li><strong>scroll:</strong> Whether or not to set the pages scroll top back to 0. Default is false, gets set to true if layout is 'app' or null.</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table></div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

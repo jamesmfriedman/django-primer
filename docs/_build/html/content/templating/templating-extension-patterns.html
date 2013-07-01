@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extension Patterns &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Extension Patterns</a><ul>
+<li><a class="reference internal" href="#examples-and-useage">Examples and Useage</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="extension-patterns">
+<h1>Extension Patterns<a class="headerlink" href="#extension-patterns" title="Permalink to this headline">¶</a></h1>
+<p>Below is a visualized example of what Primer&#8217;s template extension pattern seeks to provide. You can see that the main structure of your site is controlled by your <strong>base_template</strong>, your <strong>app_template</strong>, and <strong>view_template</strong>. The <strong>site_template</strong> is used mainly for adding additional site wide javascript, css, main navigation, or to override any other blocks that are present in the <strong>base_template</strong> or <strong>skeleton_template</strong>. Your <strong>skeleton_template</strong> is an empty barebones html skeleton for your site that has a lot of header includes, meta tags, etc.</p>
+<div id="template-example" class="bs-docs-example">
+
+    <button id="template-split" class="btn btn-primary">Animate</button>
+    <script type="text/javascript">
+        $(function(){
+            $('#template-split').click(function(){
+                $("#template-example").toggleClass('split');
+            });
+        });
+    </script>
+    <div class="template-container">
+        <div class="skeleton-template template-pane">
+            <span class="t-label">Skeleton Template</span>
+        </div>
+        <div class="base-template template-pane">
+            <span class="t-label">Base Template</span>
+            <div class="t-header"></div>
+            <div class="t-body">
+            </div>
+            <div class="t-footer"></div>
+        </div>
+        <div class="site-template template-pane">
+            <span class="t-label">Site Template</span>
+        </div>
+        <div class="app-template template-pane">
+            <span class="t-label">App Template</span>
+            <div class="t-sidebar"></div>
+            <div class="t-content"></div>
+
+        </div>
+        <div class="view-template template-pane">
+            <span class="t-label">View Template</span>
+        </div>
+    </div>
+    <br/><br/>
+</div><div class="section" id="examples-and-useage">
+<h2>Examples and Useage<a class="headerlink" href="#examples-and-useage" title="Permalink to this headline">¶</a></h2>
+<p>Lets say you are making a painting app for your django site. You create the app, and you include the urls in your core urls file, making sure to specify the app name.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># in your main url conf</span>
+<span class="n">url</span><span class="p">(</span><span class="s">r&#39;^painter/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;mysite.painter.urls&#39;</span><span class="p">,</span> <span class="n">app_name</span> <span class="o">=</span> <span class="s">&#39;painter&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now if you have a view named <tt class="docutils literal"><span class="pre">brushes</span></tt> as part of your painting app. Primer will look for a template called <tt class="docutils literal"><span class="pre">painter/brushes.html</span></tt>. This is your <tt class="docutils literal"><span class="pre">view_template</span></tt>. It will also look for your <tt class="docutils literal"><span class="pre">app_template</span></tt> located at <tt class="docutils literal"><span class="pre">painter/base.html</span></tt>. Your view and app templates would look something like this:</p>
+<div class="highlight-django"><div class="highlight"><pre><span class="x">&lt;!--</span>
+<span class="x">    this is an example view template for painter/brushes.html</span>
+<span class="x">    note that it extends your app_template</span>
+<span class="x">--&gt;</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">app_template</span> <span class="cp">%}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    This is some stuff from my view </span><span class="cp">{{</span> <span class="nv">some_var</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="highlight-django"><div class="highlight"><pre><span class="x">&lt;!--</span>
+<span class="x">    this is an example view template for painter/base.html</span>
+<span class="x">    note that it extends your base_template</span>
+<span class="x">--&gt;</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">base_template</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">app_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;div class=&quot;menu&quot;&gt;</span>
+<span class="x">        &lt;a href=&quot;#&quot;&gt;Item 1&lt;/a&gt;</span>
+<span class="x">        &lt;a href=&quot;#&quot;&gt;Item 2&lt;/a&gt;</span>
+<span class="x">        &lt;a href=&quot;#&quot;&gt;Item 3&lt;/a&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    &lt;div id=&quot;view-content&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">view_content</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">app_content</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>Thats pretty much it for the basic example, but this pattern can be used over and over again and obviously with infinitely more complex layouts. You can additionally proved a site_template that will inject some stuff into your base_template.</p>
+<div class="highlight-django"><div class="highlight"><pre><span class="x">&lt;!-- An exmample site_layout --&gt;</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="nv">base_template</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">header_css</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">STATIC_URL</span> <span class="cp">}}</span><span class="x">mysite/css/test.css&quot;/&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">header_css</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">header_scripts</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;script type=&quot;text/javascript&quot; src=&quot;</span><span class="cp">{{</span> <span class="nv">STATIC_URL</span> <span class="cp">}}</span><span class="x">mysite/js/test.js&quot;&gt;&lt;/script&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">header_scripts</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body_attrs</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    data-spy=&quot;scroll&quot; data-target=&quot;.bs-docs-sidebar&quot; data-offset=&quot;180&quot;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">body_attrs</span> <span class="cp">%}</span><span class="x"></span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">navbar</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;a class=&quot;brand&quot; href=&quot;#&quot;&gt;Primer&lt;/a&gt;</span>
+
+<span class="x">    &lt;ul class=&quot;nav&quot;&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-home&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-setup&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Setup&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-get-started&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Get Started&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-templating&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Templating&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">        &lt;li&gt;&lt;a data-ajax=&quot;app&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;feature-javascript&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;JavaScript&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">    &lt;/ul&gt;</span>
+
+<span class="x">    &lt;ul class=&quot;nav pull-right&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">notifications_widget</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;/ul&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">navbar</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

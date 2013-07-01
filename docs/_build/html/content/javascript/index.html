@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Javascript &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" />
+    <link rel="next" title="Notifications" href="../notifications/index.html" />
+    <link rel="prev" title="Templating" href="../templating/index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Javascript</a><ul>
+<li><a class="reference internal" href="#page-handling">Page Handling</a></li>
+<li><a class="reference internal" href="#colorpicker">ColorPicker</a></li>
+<li><a class="reference internal" href="#toolkit">Toolkit</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../templating/index.html"
+                        title="previous chapter">Templating</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../notifications/index.html"
+                        title="next chapter">Notifications</a></p>
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="javascript">
+<h1>Javascript<a class="headerlink" href="#javascript" title="Permalink to this headline">¶</a></h1>
+<p>Primer contains a handful of javascript plugins for you to use. If you are using Primer&#8217;s skeleton template, these have all already been included for you, and you can just call them up as you need to.</p>
+<div class="section" id="page-handling">
+<h2>Page Handling<a class="headerlink" href="#page-handling" title="Permalink to this headline">¶</a></h2>
+<p>It is very popular to &#8220;ajaxify&#8221; your entire site. Primer provides an easy integrated way to do this with browsers that support the history api. It is also integrated with the backend to provide you with the ability to load certain sections of the page. With a little setup, you can have an entire site that works with both ajax and standard page loads. Imagine an app, but with deep links.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Bonus:</strong> Using the page handler will also swap out the css namespace located on the html element in <tt class="docutils literal"><span class="pre">primer/skeleton.html</span></tt>.</p>
+</div>
+<div class="section" id="via-data-attributes">
+<h3>Via Data Attributes<a class="headerlink" href="#via-data-attributes" title="Permalink to this headline">¶</a></h3>
+<p>You can use ajax page handling without writing any javascript. Just add <tt class="docutils literal"><span class="pre">data-ajax=&quot;&quot;</span></tt> to any link to automatically ajaxify your site. By default, this will load everything up to but not including your skeleton_template. Additionally you can set the attribute to a layout value which specifies what page fragment to load, such as <tt class="docutils literal"><span class="pre">data-ajax=&quot;app&quot;</span></tt>. The baked in layouts are &#8216;app&#8217;, &#8216;view&#8217;, &#8216;section&#8217;. You can optionally set <tt class="docutils literal"><span class="pre">data-target</span></tt> to a css selector of what container to load the content into. You can read more on Primer&#8217;s template patterns in the Templating section.</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/primer/notifications&quot;</span> <span class="na">data-ajax=</span><span class="s">&quot;&quot;</span> <span class="na">data-target=</span><span class="s">&quot;#container&quot;</span><span class="nt">&gt;</span>Ajax Link<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="public-methods">
+<h3>Public Methods<a class="headerlink" href="#public-methods" title="Permalink to this headline">¶</a></h3>
+<table class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td>$.pushState(options|url, callback)</td>
+            <td>
+                $.pushState can either be used by just passing options, or alternatively by passing a url and a callback.
+                Options is an object with the following keys:
+                <ul>
+                    <li><strong>url:</strong> The url you are loading. Required.</li>
+                    <li><strong>data:</strong> Arbitrary data object to get passed to history.pushState. Defaults to empty object.</li>
+                    <li><strong>title:</strong> Title for pushState. Defaults to document.title.</li>
+                    <li><strong>container:</strong> The DOM element you are loading page into. Default is '#body'. This can be either a selector or a jQuery element.</li>
+                    <li><strong>layout:</strong> This option is used by the backend to decide which page fragment to load. Default is null.</li>
+                    <li><strong>callback:</strong> A callback that gets triggered after the page is loaded. Default is $.noop.</li>
+                    <li><strong>scroll:</strong> Whether or not to set the pages scroll top back to 0. Default is false, gets set to true if layout is 'app' or null.</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table></div>
+</div>
+<div class="section" id="colorpicker">
+<h2>ColorPicker<a class="headerlink" href="#colorpicker" title="Permalink to this headline">¶</a></h2>
+<p>There are not shortage of color pickers on the net, but when I needed one for a project, I found all of the existing ones to be needlessly complex. Primer&#8217;s Color Picker lets you define a list of colors, and pick them. It also responds to touch events for handheld devices, so you can press a finger down and start dragging over colors.</p>
+<div id="color-picker-example-color" class="bs-docs-example">
+        <div id="color-picker-example"></div>
+        <br/>
+        <a href="#" id="expand-color" class="btn btn-primary">Expand Color</a>
+</div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">exampleColor</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example-color&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">48</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">colors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">getRandom</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">({</span>
+        <span class="nx">colors</span><span class="o">:</span> <span class="nx">colors</span><span class="p">,</span>
+        <span class="nx">active</span><span class="o">:</span> <span class="nx">colors</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">between</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">colors</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">true</span><span class="p">)],</span>
+        <span class="nx">onSelect</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">exampleColor</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;background&#39;</span><span class="p">,</span> <span class="nx">color</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<script type="text/javascript">
+        var exampleColor = $('#color-picker-example-color');
+        var expand = false;
+
+        var colors = [];
+        for (var i = 0; i < 48; i++) {
+                colors.push(ColorPicker.getRandom());
+        }
+
+        $('#color-picker-example').colorPicker({
+                colors: colors,
+                active: colors[Math.between(0, colors.length - 1, true)],
+                onSelect: function(color) {
+                        exampleColor.css('background', color);
+                        if (expand) {
+                                $(document.body).css('background', color);
+                        }
+                }
+        });
+
+        $('#expand-color').on('click', function(e){
+                e.preventDefault();
+                var btn = $(this);
+                var body = $(document.body);
+                if (btn.hasClass('active')) {
+                        expand = false;
+                        btn.removeClass('active');
+                        body.css('background', '');
+                        body.removeClass('primer-color-example-expanded');
+                } else {
+                        expand = true;
+                        btn.addClass('active');
+                        body.addClass('primer-color-example-expanded');
+                        body.css('background', $('#color-picker-example').colorPicker('getColor'));
+                }
+        });
+</script><div class="section" id="options">
+<h3>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h3>
+<p>Primer&#8217;s jQuery colorPicker plugin. Call it on any jQuery object and it will populate the contents of the element with the color picker. It takes an object with the following options</p>
+<table class="table table-striped table-bordered">
+        <thead>
+                <tr>
+                        <td>Option</td>
+                        <td>Type</td>
+                        <td>Default</td>
+                        <td>Description</td>
+                </tr>
+        </thead>
+        <tbody>
+                <tr>
+                        <td>colors</td>
+                        <td>array</td>
+                        <td>All of the colors in ColorPicker.colorMap</td>
+                        <td>An array of colors to populate the color picker with. Colors can be either a hex value or string name (i.e. #ef3def or red).</td>
+                </tr>
+                <tr>
+                        <td>active</td>
+                        <td>string</td>
+                        <td>null</td>
+                        <td>The starting color for the picker.</td>
+                </tr>
+                <tr>
+                        <td>onSelect</td>
+                        <td>function</td>
+                        <td>$.noop</td>
+                        <td>A function to be called when a color is picked. It gets passed the picked color as a hex value.</td>
+                </tr>
+        </tbody>
+</table></div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="colorpicker-options">
+<h4>.colorPicker(options)<a class="headerlink" href="#colorpicker-options" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="colorpicker-getcolor">
+<h4>.colorPicker(&#8216;getColor&#8217;)<a class="headerlink" href="#colorpicker-getcolor" title="Permalink to this headline">¶</a></h4>
+<p>Returns the currently selected color.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="s1">&#39;getColor&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="colorpicker-setcolor-color">
+<h4>.colorPicker(&#8216;setColor&#8217;, color)<a class="headerlink" href="#colorpicker-setcolor-color" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="s1">&#39;setColor&#39;</span><span class="p">,</span> <span class="s1">&#39;#f2f2f2&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="colorpicker-addcolor">
+<h4>.colorPicker(&#8216;addColor&#8217;)<a class="headerlink" href="#colorpicker-addcolor" title="Permalink to this headline">¶</a></h4>
+<p>Adds a color to the color picker.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="s1">&#39;addColor&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-methods">
+<h3>Class Methods<a class="headerlink" href="#class-methods" title="Permalink to this headline">¶</a></h3>
+<p>These are some additional utility functions that are exposed on the <tt class="docutils literal"><span class="pre">ColorPicker</span></tt> class.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">hexToRgb</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span> <span class="c1">//returns an array of rgb values [255,255,255]</span>
+<span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">colorStringToHex</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">);</span> <span class="c1">//returns a color from a string name &#39;#FFFFFF&#39;;</span>
+<span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">getRandom</span><span class="p">();</span> <span class="c1">//returns a random hex color</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="events">
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
+<p>The color picker will fire a &#8216;select&#8217; event which gets passed the event and the current color</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">color</span><span class="p">){...});</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="toolkit">
+<h2>Toolkit<a class="headerlink" href="#toolkit" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="url-utils">
+<h3>URL Utils<a class="headerlink" href="#url-utils" title="Permalink to this headline">¶</a></h3>
+<table class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td>Toolkit.getUrlParams(url);</td>
+            <td>Returns all URL get params as an object. If no URL is passed, it will use window.location.</td>
+        </tr>
+        <tr>
+            <td>Toolkit.replaceUrlParams(param, value, url);</td>
+            <td>Replaces a url parameter with the value and returns a full query string of all the url parameters. Example return <code>?foo=blah&amp;test=7</code>. You can optionally just pass the first argument <code>param</code> as an object of keys pointing to the values you would like to replace. The <code>url</code> argument is optional as well, if not passed it will use window.location. This does not modify the browsers current url.</td>
+        </tr>
+        <tr>
+            <td>Toolkit.deleteUrlParams(param);</td>
+            <td>Deletes a url parameter from the current url string and returns the full query string. Param can optionally be an array of keys or an object whos keys will be used for removal. This does not modify the browsers current url. </td>
+        </tr>
+        <tr>
+            <td>Toolkit.objToUrlParamsString(obj);</td>
+            <td>Takes an object and returns it as a full query string. Example return <code>?foo=blah&amp;test=7</code>.</td>
+        </tr>
+    </tbody>
+</table></div>
+<div class="section" id="string-prototypes-and-functions">
+<h3>String Prototypes and Functions<a class="headerlink" href="#string-prototypes-and-functions" title="Permalink to this headline">¶</a></h3>
+<table class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td>String.prototype.trim()</td>
+            <td>Trims whitespace off the front and back of a string.</td>
+        </tr>
+        <tr>
+            <td>String.prototype.toCamel()</td>
+            <td>CamelCases a string.</td>
+        </tr>
+        <tr>
+            <td>String.prototype.toDash()</td>
+            <td>Converts a camel cased, underscored, or spaced string to a dashed string.</td>
+        </tr>
+        <tr>
+            <td>String.prototype.toUnderscore()</td>
+            <td>Converts a camel cased, dashed, or spaced string to an underscored string.</td>
+        </tr>
+        <tr>
+            <td>String.prototype.toClassName()</td>
+            <td>Converts a string into a camel cased and capitalized class name.</td>
+        </tr>
+        <tr>
+            <td>String.random(length)</td>
+            <td>Generates a random string of specified length from numbers, lower, and uppercase letters. Default length is 32. Note that this is not a prototyped function and should be called directly on String. <code>String.random(64);</code>. This is useful for generating random IDs to be inserted into the DOM.</td>
+        </tr>
+    </tbody>
+</table>
+<div class="bs-docs-example">
+    <h3 id="string-test">Hello World from Primer</h3>
+    <div id="string-test-btns" class="btn-group">
+        <a href="#" class="btn btn-primary" data-func="toCamel">camelCaseIt</a>
+        <a href="#" class="btn btn-primary" data-func="toDash">dash-it</a>
+        <a href="#" class="btn btn-primary" data-func="toUnderscore">underscore_it</a>
+        <a href="#" class="btn btn-primary" data-func="toClassName">ClassNameIt</a>
+    </div>
+    <a id="string-random-btn" href="#" class="btn btn-success" data-func="random">Randomize It</a>
+    <script type="text/javascript">
+        $(function(){
+            var stringText = $('#string-test');
+            $('#string-test-btns a, #string-random-btn').on('click', function(e){
+                e.preventDefault();
+                var val = stringText.text();
+                switch($(this).data('func')) {
+                    case 'toCamel':
+                        val = val.toCamel();
+                        break;
+                    case 'toDash':
+                        val = val.toDash();
+                        break;
+                    case 'toUnderscore':
+                        val = val.toUnderscore();
+                        break;
+                    case 'toClassName':
+                        val = val.toClassName();
+                        break;
+                    case 'random':
+                        val = String.random(32);
+                        break;
+                }
+                stringText.text(val);
+            });
+        });
+    </script>
+</div></div>
+<div class="section" id="array-prototypes-and-functions">
+<h3>Array Prototypes and Functions<a class="headerlink" href="#array-prototypes-and-functions" title="Permalink to this headline">¶</a></h3>
+<table class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td>Array.prototype.indexOf(value)</td>
+            <td>A poly fill for older browsers that don't support this method. It is only added if not present.</td>
+        </tr>
+        <tr>
+            <td>Array.prototype.diff(array)</td>
+            <td>Diff two arrays. Will give you the results the arrays don't have in common. <code>arrayOne.diff(arrayTwo);</code></td>
+        </tr>
+        <tr>
+            <td>Array.prototype.subtract(array)</td>
+            <td>Subtract all items in the passed array from the calling one.. <code>arrayOne.subtract(arrayTwo);<code></td>
+        </tr>
+    </tbody>
+</table></div>
+<div class="section" id="misc-functions">
+<h3>Misc Functions<a class="headerlink" href="#misc-functions" title="Permalink to this headline">¶</a></h3>
+<table class="table table-striped table-bordered">
+    <tbody>
+        <tr>
+            <td>Math.between(min, max, round)</td>
+            <td>Returns a number between and including min and max. Returns a float by default unless you pass round as true.</td>
+        </tr>
+    </tbody>
+</table></div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

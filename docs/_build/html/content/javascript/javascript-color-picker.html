@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ColorPicker &mdash; Primer 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
+    <link rel="top" title="Primer 0.1 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-3">
+    	<div class="well pdocs-sidenav">  
+  <h3><a href="../../index.html">Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ColorPicker</a><ul>
+<li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#methods">Methods</a><ul>
+<li><a class="reference internal" href="#colorpicker-options">.colorPicker(options)</a></li>
+<li><a class="reference internal" href="#colorpicker-getcolor">.colorPicker(&#8216;getColor&#8217;)</a></li>
+<li><a class="reference internal" href="#colorpicker-setcolor-color">.colorPicker(&#8216;setColor&#8217;, color)</a></li>
+<li><a class="reference internal" href="#colorpicker-addcolor">.colorPicker(&#8216;addColor&#8217;)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-methods">Class Methods</a></li>
+<li><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+    <form class="search" action="../../search.html" method="get">
+      
+      <div class="input-group">
+        <input type="text" placeholder="Search" name="q" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+      </div>
+    </div>
+
+    <div class="col col-lg-9">
+       	
+  <div class="section" id="colorpicker">
+<h1>ColorPicker<a class="headerlink" href="#colorpicker" title="Permalink to this headline">¶</a></h1>
+<p>There are not shortage of color pickers on the net, but when I needed one for a project, I found all of the existing ones to be needlessly complex. Primer&#8217;s Color Picker lets you define a list of colors, and pick them. It also responds to touch events for handheld devices, so you can press a finger down and start dragging over colors.</p>
+<div id="color-picker-example-color" class="bs-docs-example">
+        <div id="color-picker-example"></div>
+        <br/>
+        <a href="#" id="expand-color" class="btn btn-primary">Expand Color</a>
+</div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">exampleColor</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example-color&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">48</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">colors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">getRandom</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">({</span>
+        <span class="nx">colors</span><span class="o">:</span> <span class="nx">colors</span><span class="p">,</span>
+        <span class="nx">active</span><span class="o">:</span> <span class="nx">colors</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">between</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">colors</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">true</span><span class="p">)],</span>
+        <span class="nx">onSelect</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">exampleColor</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;background&#39;</span><span class="p">,</span> <span class="nx">color</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<script type="text/javascript">
+        var exampleColor = $('#color-picker-example-color');
+        var expand = false;
+
+        var colors = [];
+        for (var i = 0; i < 48; i++) {
+                colors.push(ColorPicker.getRandom());
+        }
+
+        $('#color-picker-example').colorPicker({
+                colors: colors,
+                active: colors[Math.between(0, colors.length - 1, true)],
+                onSelect: function(color) {
+                        exampleColor.css('background', color);
+                        if (expand) {
+                                $(document.body).css('background', color);
+                        }
+                }
+        });
+
+        $('#expand-color').on('click', function(e){
+                e.preventDefault();
+                var btn = $(this);
+                var body = $(document.body);
+                if (btn.hasClass('active')) {
+                        expand = false;
+                        btn.removeClass('active');
+                        body.css('background', '');
+                        body.removeClass('primer-color-example-expanded');
+                } else {
+                        expand = true;
+                        btn.addClass('active');
+                        body.addClass('primer-color-example-expanded');
+                        body.css('background', $('#color-picker-example').colorPicker('getColor'));
+                }
+        });
+</script><div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<p>Primer&#8217;s jQuery colorPicker plugin. Call it on any jQuery object and it will populate the contents of the element with the color picker. It takes an object with the following options</p>
+<table class="table table-striped table-bordered">
+        <thead>
+                <tr>
+                        <td>Option</td>
+                        <td>Type</td>
+                        <td>Default</td>
+                        <td>Description</td>
+                </tr>
+        </thead>
+        <tbody>
+                <tr>
+                        <td>colors</td>
+                        <td>array</td>
+                        <td>All of the colors in ColorPicker.colorMap</td>
+                        <td>An array of colors to populate the color picker with. Colors can be either a hex value or string name (i.e. #ef3def or red).</td>
+                </tr>
+                <tr>
+                        <td>active</td>
+                        <td>string</td>
+                        <td>null</td>
+                        <td>The starting color for the picker.</td>
+                </tr>
+                <tr>
+                        <td>onSelect</td>
+                        <td>function</td>
+                        <td>$.noop</td>
+                        <td>A function to be called when a color is picked. It gets passed the picked color as a hex value.</td>
+                </tr>
+        </tbody>
+</table></div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="colorpicker-options">
+<h3>.colorPicker(options)<a class="headerlink" href="#colorpicker-options" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="colorpicker-getcolor">
+<h3>.colorPicker(&#8216;getColor&#8217;)<a class="headerlink" href="#colorpicker-getcolor" title="Permalink to this headline">¶</a></h3>
+<p>Returns the currently selected color.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="s1">&#39;getColor&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="colorpicker-setcolor-color">
+<h3>.colorPicker(&#8216;setColor&#8217;, color)<a class="headerlink" href="#colorpicker-setcolor-color" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="s1">&#39;setColor&#39;</span><span class="p">,</span> <span class="s1">&#39;#f2f2f2&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="colorpicker-addcolor">
+<h3>.colorPicker(&#8216;addColor&#8217;)<a class="headerlink" href="#colorpicker-addcolor" title="Permalink to this headline">¶</a></h3>
+<p>Adds a color to the color picker.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">colorPicker</span><span class="p">(</span><span class="s1">&#39;addColor&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="class-methods">
+<h2>Class Methods<a class="headerlink" href="#class-methods" title="Permalink to this headline">¶</a></h2>
+<p>These are some additional utility functions that are exposed on the <tt class="docutils literal"><span class="pre">ColorPicker</span></tt> class.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">hexToRgb</span><span class="p">(</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">);</span> <span class="c1">//returns an array of rgb values [255,255,255]</span>
+<span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">colorStringToHex</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">);</span> <span class="c1">//returns a color from a string name &#39;#FFFFFF&#39;;</span>
+<span class="nx">ColorPicker</span><span class="p">.</span><span class="nx">getRandom</span><span class="p">();</span> <span class="c1">//returns a random hex color</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<p>The color picker will fire a &#8216;select&#8217; event which gets passed the event and the current color</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#color-picker-example&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">color</span><span class="p">){...});</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+   </div>
+ </div>
+    <div class="navbar navbar-fixed-top pdocs-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="../../index.html">Primer</a>
+      </div>
+    </div>
+    <footer class="footer">
+    	<div class="container">
+        &copy; Copyright 2013, James Friedman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    	</div>
+    </footer>
+  </body>
+</html>

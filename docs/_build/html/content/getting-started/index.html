@@ -4,7 +4,8 @@
 
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+<html class="pdocs" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -12,6 +13,7 @@
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/primer.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -26,10 +28,12 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/hogan.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/primer.js"></script>
     <link rel="top" title="Primer 0.1 documentation" href="../../index.html" />
     <link rel="next" title="Push Services" href="../push-services/index.html" />
-    <link rel="prev" title="Primer" href="../../index.html" /> 
+    <link rel="prev" title="Setup" href="../setup/index.html" /> 
   </head>
   <body>
     <div class="navbar navbar-fixed-top pdocs-navbar">
@@ -45,27 +49,16 @@
   <h3><a href="../../index.html">Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Getting Started</a><ul>
-<li><a class="reference internal" href="#database">Database</a><ul>
-<li><a class="reference internal" href="#primer-model">Primer Model</a></li>
-<li><a class="reference internal" href="#fields">Fields</a></li>
-<li><a class="reference internal" href="#examples">Examples</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#css">CSS</a><ul>
-<li><a class="reference internal" href="#namespaces">Namespaces</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id1">LESS</a><ul>
-<li><a class="reference internal" href="#mixins">Mixins</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#database">Database</a></li>
+<li><a class="reference internal" href="#css">CSS</a></li>
+<li><a class="reference internal" href="#id1">LESS</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../../index.html"
-                        title="previous chapter">Primer</a></p>
+  <p class="topless"><a href="../setup/index.html"
+                        title="previous chapter">Setup</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../push-services/index.html"
                         title="next chapter">Push Services</a></p>
@@ -107,7 +100,7 @@
 <h2>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="primer-model">
 <h3>Primer Model<a class="headerlink" href="#primer-model" title="Permalink to this headline">¶</a></h3>
-<p>Primer comes with an abstract base model for you to subclass called <tt class="docutils literal"><span class="pre">PrimerModel</span></tt> located in <tt class="docutils literal"><span class="pre">primer.db.models</span></tt>. It comes with the following baked in fields.&lt;/p&gt;</p>
+<p>Primer comes with an abstract base model for you to subclass called <tt class="docutils literal"><span class="pre">PrimerModel</span></tt> located in <tt class="docutils literal"><span class="pre">primer.db.models</span></tt>. It comes with the following baked in fields.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last"><strong>Attention!</strong> The following fields have been monkey patched onto Django&#8217;s <tt class="docutils literal"><span class="pre">User</span></tt>, <tt class="docutils literal"><span class="pre">Group</span></tt>, and <tt class="docutils literal"><span class="pre">Site</span></tt> models.</p>
