@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
-from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.comments import signals
 from django.contrib.comments.models import Comment
