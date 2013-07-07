@@ -1,7 +1,6 @@
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 
 from primer.auth import public
 from primer.views.generic import PrimerView
@@ -28,4 +27,4 @@ class LogoutView(PrimerView):
 	    Logs a user out, returns a redirect to the login view
 	    '''
 	    django_logout(request)
-	    return redirect(reverse('login'))
+	    return redirect('/')
