@@ -12,7 +12,6 @@ __all__ = (
     'STATICFILES_FINDERS',
     'TEMPLATE_CONTEXT_PROCESSORS',
     'TEMPLATE_LOADERS',
-    'PUBLIC_MODULES',
 
     'COMPRESS_URL',
     'COMPRESS_ENABLED',
@@ -125,14 +124,6 @@ TEMPLATE_LOADERS = merge_primer_settings(settings.TEMPLATE_LOADERS, PRIMER_TEMPL
 
 LOGIN_URL = getattr(settings, 'LOGIN_URL', '/login/')
 LOGIN_REDIRECT_URL = getattr(settings, 'LOGIN_REDIRECT_URL', '/')
-
-PRIMER_PUBLIC_MODULES = [
-    'django', 
-    'primer.feature',
-    'primer.notifications',
-    'primer.comments',
-]
-PUBLIC_MODULES = merge_primer_settings(getattr(settings, 'PUBLIC_MODULES', []), PRIMER_PUBLIC_MODULES)
 
 # additional settings used by primer
 APP_ROOT = os.path.realpath('.')

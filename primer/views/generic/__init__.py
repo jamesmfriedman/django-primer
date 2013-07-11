@@ -4,12 +4,27 @@ from django.views.generic import View
 from django.contrib.sites.models import get_current_site
 from django.core.urlresolvers import resolve
 from django.template.loader import select_template
+from django.shortcuts import redirect
+from django.conf import settings
 
 from primer.shortcuts import render_to_template, render_to_json, render_to_xml, render_to_debug
 
 
-class PrimerView(View):
+class LoginRequiredView(View):
+    """
+    A mixin that turns a view into being login required
+    """
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return redirect("%s?%s=%s" % (settings.LOGIN_URL, 'next', request.get_full_path()))
+        else:
+            return super(LoginRequiredView, self).dispatch(request, *args, **kwargs)
 
+
+class PrimerView(View):
+    """
+    Base primer view. Provides the majority of the automagic view handling present in Primer.
+    """
     site = None
     request = None
     app_name = None
@@ -73,7 +88,9 @@ class PrimerView(View):
         Builds a view name out of the classname. For transitional purposes
         The classname is being lowercased and underscored
         """
-        view_name = self.__class__.__name__.replace('View', '')
+        view_name = view_name = self.__class__.__name__
+        pos = view_name.rfind('View')
+        view_name = view_name[:pos] + view_name[pos+4:]
         view_name = re.sub('(.)([A-Z]{1})', r'\1_\2', view_name).lower()
         self.view_name = view_name
 
