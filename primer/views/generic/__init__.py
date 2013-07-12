@@ -29,20 +29,13 @@ class PrimerView(View):
     request = None
     app_name = None
     view_name = None
-    status = 200
 
     def dispatch(self, request, *args, **kwargs):
         """
         Dispatch handler
         """
-        if request.method.lower() in self.http_method_names:
-            handler = getattr(
-                self, request.method.lower(), self.http_method_not_allowed)
-        else:
-            handler = self.http_method_not_allowed
-
         self._setup(request)
-        return handler(request, *args, **kwargs)
+        return super(PrimerView, self).dispatch(request, *args, **kwargs)
 
     def to_template(self, data={}, view_template=None, context_instance=None, content_type=None, status=None):
         """
