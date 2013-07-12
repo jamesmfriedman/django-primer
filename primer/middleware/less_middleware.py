@@ -10,10 +10,6 @@ from django.conf import settings
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
-__all__ = [
-    'LessMiddleware',
-    'LessProcessorEventHandler',
-    ]
 
 class LessMiddleware:
     def process_request(self, request):

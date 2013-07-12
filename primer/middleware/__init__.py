@@ -1,1 +1,2 @@
-from less_middleware import *
+from less_middleware import LessMiddleware
+from profile_middleware import ProfileMiddleware
