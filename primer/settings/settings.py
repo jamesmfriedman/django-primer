@@ -93,7 +93,6 @@ PRIMER_TEMPLATE_CONTEXT_PROCESSORS = [
     'primer.notifications.context_processors.notifications',
     'primer.push.context_processors.push_service',
     'primer.template.context_processors.primer',
-    'primer.template.context_processors.settings',
 ]
 
 settings.TEMPLATE_CONTEXT_PROCESSORS = getattr(settings, 'TEMPLATE_CONTEXT_PROCESSORS', [])
