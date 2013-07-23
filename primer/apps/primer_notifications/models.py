@@ -8,8 +8,8 @@ from django.db.models.signals import post_save
 from jsonfield import JSONField
 
 from primer.db.models import PrimerModel
-from primer.contrib.auth.utils import process_user_links
-from primer.contrib.push.services import PushService
+from primer.apps.primer_auth.utils import process_user_links
+from primer.apps.primer_push.services import PushService
 
 
 class StoredNotificationManager(models.Manager):

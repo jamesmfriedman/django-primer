@@ -1,5 +1,4 @@
 import importlib
-from datetime import datetime
 from django.dispatch import Signal
 from django.conf import settings
 
@@ -130,7 +129,7 @@ class PushServiceWrapper(object):
 ####################################################################################################
 # PubNub Push Service Declaration
 ####################################################################################################
-if settings.PUSH_SERVICE == 'pubnub':
+if getattr(settings, 'PUSH_SERVICE', None) == 'pubnub':
     
     from pubnub.Pubnub import Pubnub
     
@@ -167,7 +166,7 @@ if settings.PUSH_SERVICE == 'pubnub':
 ####################################################################################################
 # Pusher Push Service Declaration
 ####################################################################################################
-if settings.PUSH_SERVICE == 'pusher':
+if getattr(settings, 'PUSH_SERVICE', None) == 'pusher':
     
     from pusher import Pusher
     
@@ -193,7 +192,7 @@ if settings.PUSH_SERVICE == 'pusher':
 ####################################################################################################
 # Here we try to import a custom push notifications class
 ####################################################################################################
-if not PushService and settings.PUSH_SERVICE:
+if not PushService and getattr(settings, 'PUSH_SERVICE', None):
     
     try:
         module_name = '.'.join(settings.PUSH_SERVICE.split('.')[:-1])

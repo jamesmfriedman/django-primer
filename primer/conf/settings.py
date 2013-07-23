@@ -1,6 +1,6 @@
 import os
 import sys
-from utils import merge_settings, merge_primer_settings
+from .utils import merge_settings, merge_primer_settings
 
 settings = sys.modules.get(os.environ['DJANGO_SETTINGS_MODULE'])
 
@@ -50,28 +50,24 @@ PRIMER_INSTALLED_APPS = [
 
     # primer
     'primer',
-    'primer.core',
-    'primer.forms',
-    'primer.contrib.auth', 
-    'primer.contrib.sites',
-    'primer.contrib.push',
-    'primer.contrib.notifications',
-    'primer.contrib.tags',
-    'primer.contrib.likes',
-    'primer.contrib.media',
-    'primer.contrib.comments',
-    'primer.contrib.avatars',
+    'primer.apps.primer_auth', 
+    'primer.apps.primer_push',
+    'primer.apps.primer_notifications',
+    'primer.apps.primer_comments',
+    'primer.apps.primer_avatars',
+    'primer.apps.primer_likes',
+    'primer.apps.primer_tags',
+    'primer.apps.primer_media',
 ]
 
 # redfine the InstalledApps tuple
 INSTALLED_APPS = merge_primer_settings(settings.INSTALLED_APPS, PRIMER_INSTALLED_APPS)
 
-
 ##
 # MIDDLEWARE INJECTION
 # inject primers middleware
 PRIMER_MIDDLEWARE_CLASSES = [
-    'primer.contrib.push.middleware.PushMiddleware',
+    'primer.apps.primer_push.middleware.PushMiddleware',
 ]
 
 MIDDLEWARE_CLASSES = merge_settings(settings.MIDDLEWARE_CLASSES, PRIMER_MIDDLEWARE_CLASSES)
@@ -89,8 +85,8 @@ PRIMER_TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.request',
     'django.core.context_processors.tz',
     
-    'primer.contrib.notifications.context_processors.notifications',
-    'primer.contrib.push.context_processors.push_service',
+    'primer.apps.primer_notifications.context_processors.notifications',
+    'primer.apps.primer_push.context_processors.push_service',
     'primer.template.context_processors.primer',
 ]
 

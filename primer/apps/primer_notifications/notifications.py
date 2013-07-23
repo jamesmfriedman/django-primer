@@ -3,7 +3,7 @@ import re
 from django.contrib import messages
 from django.template.loader import select_template
 
-from primer.contrib.push.services import PushService
+from primer.apps.primer_push.services import PushService
 from primer.utils import get_request
 
 from .models import StoredNotification

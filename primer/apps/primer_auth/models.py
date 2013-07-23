@@ -17,7 +17,7 @@ class Membership(PrimerModel):
     """
     A class for defining additional information on memberships
     """
-    user = models.ForeignKey('User', related_name = 'memberships')
+    user = models.ForeignKey(User, related_name = 'memberships')
     team = models.ForeignKey('Team')
     role = models.CharField(max_length = 255, default = 'member', db_index = True)
     is_admin = models.BooleanField(default = False)

@@ -67,7 +67,7 @@ class PrimerCommentManager(CommentManager):
 Comment.add_to_class('uuid', UUIDField())
 Comment.add_to_class('created', models.DateTimeField(auto_now_add=True, editable = False, blank = True, null = True))
 Comment.add_to_class('modified', models.DateTimeField(auto_now=True, blank = True, null = True))
-Comment.add_to_class('likes', generic.GenericRelation('likes.Like'))
+Comment.add_to_class('likes', generic.GenericRelation('primer_likes.Like'))
 Comment.add_to_class('type', models.CharField(max_length = 255, blank = True, null = True))
 Comment.add_to_class('data', JSONField(blank = True, null = True))
 

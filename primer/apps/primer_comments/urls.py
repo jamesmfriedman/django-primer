@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 from .views import LoadView, PostView, DeleteView, LikeView
 
-urlpatterns = patterns('primer.contrib.comments.views',
+urlpatterns = patterns('primer.apps.primer_comments.views',
 
 	##
     # prefix: comments

@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('primer.contrib.media.views',
+urlpatterns = patterns('primer.apps.primer_media.views',
 
 	##
     # prefix: media

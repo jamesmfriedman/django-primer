@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 from .views import WidgetContentView, CountView, AllView
 
-urlpatterns = patterns('primer.contrib.notifications.views',
+urlpatterns = patterns('primer.apps.primer_notifications.views',
 
 	##
     # prefix: notifications

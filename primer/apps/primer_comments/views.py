@@ -9,7 +9,7 @@ from django.contrib.comments.views.comments import CommentPostBadRequest
 from django.utils.html import escape
 
 from primer.utils import paginate
-from primer.contrib.likes.models import Like
+from primer.apps.primer_likes.models import Like
 from primer.views.generic import PrimerView
 
 from forms import get_comment_form

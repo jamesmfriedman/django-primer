@@ -2,8 +2,8 @@ from django import template
 from django.template.loader import render_to_string
 
 from primer.utils import get_request
-from primer.contrib.comments.forms import CommentForm, StatusForm, TimelineForm, get_comment_form
-from primer.contrib.comments.utils import get_content_types_hash, get_content_types_list
+from ..forms import CommentForm, StatusForm, TimelineForm, get_comment_form
+from ..utils import get_content_types_hash, get_content_types_list
 
 register = template.Library()
 
