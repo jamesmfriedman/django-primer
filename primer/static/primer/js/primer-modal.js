@@ -8,16 +8,19 @@ var Modal;
 
 		api.templates = {
 			'default' : '' +
-				'<div id="{{ id }}" class="modal hide fade {{ classes }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
-	  				'<div class="modal-header">' +
-	    				'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
-	    				'<h3 id="myModalLabel">{{{ title }}}</h3>' +
-	  				'</div>' +
-	  				'<div class="modal-body">' +
-	    				'{{{ content }}}' +
-	  				'</div>' +
-	  				'<div class="modal-footer">' +
-	  				'</div>' +
+				'<div id="{{ id }}" class="modal fade {{ classes }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
+	  				'<div class="modal-dialog">' +
+	  					'<div class="modal-content">' +
+			  				'<div class="modal-header">' +
+			    				'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
+			    				'<h4 class="modal-title">{{{ title }}}</h4>' +
+			  				'</div>' +
+			  				'<div class="modal-body">' +
+			    				'{{{ content }}}' +
+			  				'</div>' +
+			  				'<div class="modal-footer">' +
+		  				'</div>' +
+		  			'</div>' +
 				'</div>',
 
 			'button' : '<button class="btn">{{ label }}</button>',
@@ -39,12 +42,15 @@ var Modal;
 			content: '',
 			remote: false,
 			id : 'modal-window',
-			btns : {
-				'Close' : {
-					'class' : 'btn btn-primary',
-					'data-dismiss' : 'modal'
-				}
-			}
+			btns: {}
+			
+			// EXAMPLE: btns : {
+			// 	'Close' : {
+			// 		'class' : 'btn btn-primary',
+			// 		'data-dismiss' : 'modal'
+			// 	}
+			// }
+
 		};
 
 		var __init__ = function() {
@@ -71,6 +77,11 @@ var Modal;
 				createButton(label, config.btns[label]);
 			}
 
+			var modalFooter = modal.find('.modal-footer');
+			if (!modalFooter.children().length) {
+				modalFooter.remove();
+			}
+
 			var remote = config.remote;
 			delete config.remote;
 
@@ -81,7 +92,7 @@ var Modal;
 					modal.trigger('loaded');
 					setTimeout(function(){
 						modal.find('input, textarea').not(':hidden').first().focus();
-					},350);
+					},415);
 				});
 			}
 		};
@@ -113,7 +124,7 @@ var Modal;
 			var options = {};
 
 			if (btn.attr('title') != undefined) options['title'] = btn.attr('title');
-			if (btn.attr('href') != undefined) options['remote'] = btn.attr('href');
+			options['remote'] = btn.data('remote') || btn.attr('href')
 			if (btn.data('id')) options['id'] = btn.data('id');
 
 			Modal.create(options);

@@ -1,0 +1,17 @@
+{% extends skeleton_template %}
+{% load crispy_forms_tags %}
+{% load url from future %}
+
+
+{% block view_content %}
+<form class="form-horizontal" method="POST" action="{% url 'login' %}">
+	
+	{{ form|crispy }}
+	{% csrf_token %}
+	<input type="hidden" name="next" value="{{ next }}" />
+
+	<br/>
+	<button type="submit" value="Login" class="btn btn-large btn-primary btn-block">Login</button>
+
+</form>
+{% endblock view_content %}

@@ -165,6 +165,8 @@ class PrimerView(View):
 
         if self.view_name == 'login': 
             base_templates.insert(0, 'primer/login.html')            
+            if self.request.is_ajax(): 
+                base_templates.insert(0, 'primer/login_ajax.html')            
         
         base_template = select_template(base_templates).name
 

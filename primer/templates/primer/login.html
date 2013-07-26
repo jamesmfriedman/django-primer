@@ -1,9 +1,9 @@
 {% extends skeleton_template %}
 {% load crispy_forms_tags %}
-
+{% load url from future %}
 
 {% block body %}
-	<form method="post" action="">
+	<form class="form-horizontal" method="POST" action="{% url 'login' %}">
 		<div class="modal in">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -17,7 +17,7 @@
 				  	</div>
 				  	<div class="modal-footer">
 				  		{% csrf_token %}
-				    	<button type="submit" value="Login" class="btn btn-large btn-primary btn-block"/>Login</button>
+				    	<button type="submit" value="Login" class="btn btn-large btn-primary btn-block">Login</button>
 				    	<input type="hidden" name="next" value="{{ next }}" />
 				  	</div>
 				</div>

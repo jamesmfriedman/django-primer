@@ -9,6 +9,7 @@ class LoginView(PrimerView):
 	    '''
 	    Logs a user in.
 	    '''
+	    print request.primer
 	    return django_login(request)
 
 	def post(self, request, **kwargs):
