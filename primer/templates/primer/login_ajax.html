@@ -4,7 +4,7 @@
 
 
 {% block view_content %}
-<form class="form-horizontal" method="POST" action="{% url 'login' %}">
+<form method="POST" action="{% url 'login' %}">
 	
 	{{ form|crispy }}
 	{% csrf_token %}

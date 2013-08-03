@@ -1,3 +1,10 @@
+/**
+* bootstrap.js v3.0.0 by @fat and @mdo
+* Copyright 2013 Twitter Inc.
+* http://www.apache.org/licenses/LICENSE-2.0
+*/
+if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
+
 /* ========================================================================
  * Bootstrap: transition.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#transitions
@@ -46,6 +53,7 @@
     $(this).one('webkitTransitionEnd', function () { called = true })
     var callback = function () { if (!called) $($el).trigger('webkitTransitionEnd') }
     setTimeout(callback, duration)
+    return this
   }
 
   $(function () {
@@ -53,6 +61,7 @@
   })
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: alert.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#alerts
@@ -151,6 +160,7 @@
   $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: button.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#buttons
@@ -258,6 +268,7 @@
   })
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: carousel.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#carousel
@@ -471,6 +482,7 @@
   })
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: collapse.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#collapse
@@ -521,8 +533,6 @@
     this.$element.trigger(startEvent)
     if (startEvent.isDefaultPrevented()) return
 
-    var dimension = this.dimension()
-    var scroll    = $.camelCase(['scroll', dimension].join('-'))
     var actives   = this.$parent && this.$parent.find('> .accordion-group > .in')
 
     if (actives && actives.length) {
@@ -532,10 +542,32 @@
       hasData || actives.data('bs.collapse', null)
     }
 
-    this.$element[dimension](0)
-    this.transition('addClass', 'shown.bs.collapse')
+    var dimension = this.dimension()
 
-    if ($.support.transition) this.$element[dimension](this.$element[0][scroll])
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')
+      [dimension](0)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('in')
+        [dimension]('auto')
+      this.transitioning = 0
+      this.$element.trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one($.support.transition.end, $.proxy(complete, this))
+      .emulateTransitionEnd(350)
+      [dimension](this.$element[0][scrollSize])
   }
 
   Collapse.prototype.hide = function () {
@@ -546,41 +578,32 @@
     if (startEvent.isDefaultPrevented()) return
 
     var dimension = this.dimension()
-    this.reset(this.$element[dimension]())
-    this.transition('removeClass', 'shown.bs.hidden')
-    this.$element[dimension](0)
-  }
-
-  Collapse.prototype.reset = function (size) {
-    var dimension = this.dimension()
 
     this.$element
+      [dimension](this.$element[dimension]())
+      [0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
       .removeClass('collapse')
-      [dimension](size || 'auto')
-      [0].offsetWidth
-
-    this.$element[size != null ? 'addClass' : 'removeClass']('collapse')
-
-    return this
-  }
-
-  Collapse.prototype.transition = function (method, completeEvent) {
-    var that     = this
-    var complete = function () {
-      if (completeEvent == 'shown.bs.collapse') that.reset()
-      that.transitioning = 0
-      that.$element.trigger(completeEvent)
-    }
+      .removeClass('in')
 
     this.transitioning = 1
 
-    this.$element[method]('in')
-
-    $.support.transition && this.$element.hasClass('collapse') ?
+    var complete = function () {
+      this.transitioning = 0
       this.$element
-        .one($.support.transition.end, complete)
-        .emulateTransitionEnd(350) :
-      complete()
+        .trigger('hidden.bs.collapse')
+        .removeClass('collapsing')
+        .addClass('collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one($.support.transition.end, $.proxy(complete, this))
+      .emulateTransitionEnd(350)
   }
 
   Collapse.prototype.toggle = function () {
@@ -639,6 +662,7 @@
   })
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: dropdown.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#dropdowns
@@ -793,6 +817,7 @@
     .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: modal.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#modals
@@ -1034,6 +1059,7 @@
     .on('hidden.bs.modal', '.modal', function () { $body.removeClass('modal-open') })
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#affix
@@ -1398,6 +1424,7 @@
   }
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: popover.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#popovers
@@ -1426,6 +1453,8 @@
   var Popover = function (element, options) {
     this.init('popover', element, options)
   }
+
+  if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
   Popover.DEFAULTS = $.extend({} , $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right'
@@ -1511,6 +1540,7 @@
   }
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#scrollspy
@@ -1539,10 +1569,10 @@
   function ScrollSpy(element, options) {
     var href
     var process  = $.proxy(this.process, this)
-    var $element = $(element).is('body') ? $(window) : $(element)
 
+    this.$element       = $(element).is('body') ? $(window) : $(element)
     this.$body          = $('body')
-    this.$scrollElement = $element.on('scroll.bs.scroll-spy.data-api', process)
+    this.$scrollElement = this.$element.on('scroll.bs.scroll-spy.data-api', process)
     this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
     this.selector       = (this.options.target
       || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
@@ -1560,6 +1590,8 @@
   }
 
   ScrollSpy.prototype.refresh = function () {
+    var offsetMethod = this.$element[0] == window ? 'offset' : 'position'
+
     this.offsets = $([])
     this.targets = $([])
 
@@ -1573,7 +1605,7 @@
 
         return ($href
           && $href.length
-          && [[ $href.position().top + (!$.isWindow(self.$scrollElement.get(0)) && self.$scrollElement.scrollTop()), href ]]) || null
+          && [[ $href[offsetMethod]().top + (!$.isWindow(self.$scrollElement.get(0)) && self.$scrollElement.scrollTop()), href ]]) || null
       })
       .sort(function (a, b) { return a[0] - b[0] })
       .each(function () {
@@ -1667,6 +1699,7 @@
   })
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: tab.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#tabs
@@ -1802,6 +1835,7 @@
   })
 
 }(window.jQuery);
+
 /* ========================================================================
  * Bootstrap: affix.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#affix
@@ -1840,6 +1874,8 @@
     this.checkPosition()
   }
 
+  Affix.RESET = 'affix affix-top affix-bottom'
+
   Affix.DEFAULTS = {
     offset: 0
   }
@@ -1857,7 +1893,6 @@
     var offset       = this.options.offset
     var offsetTop    = offset.top
     var offsetBottom = offset.bottom
-    var reset        = 'affix affix-top affix-bottom'
 
     if (typeof offset != 'object')         offsetBottom = offsetTop = offset
     if (typeof offsetTop == 'function')    offsetTop    = offset.top()
@@ -1868,11 +1903,16 @@
                 offsetTop    != null && (scrollTop <= offsetTop) ? 'top' : false
 
     if (this.affixed === affix) return
+    if (this.unpin) this.$element.css('top', '')
 
     this.affixed = affix
     this.unpin   = affix == 'bottom' ? position.top - scrollTop : null
 
-    this.$element.removeClass(reset).addClass('affix' + (affix ? '-' + affix : ''))
+    this.$element.removeClass(Affix.RESET).addClass('affix' + (affix ? '-' + affix : ''))
+
+    if (affix == 'bottom') {
+      this.$element.offset({ top: document.body.offsetHeight - offsetBottom - this.$element.height() })
+    }
   }
 
 

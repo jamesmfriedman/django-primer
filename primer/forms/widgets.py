@@ -1,10 +1,12 @@
-from django.forms import HiddenInput, TextInput
+from django.forms import HiddenInput, FileInput, MultiWidget, TextInput
 from django.template.loader import render_to_string
 from django.forms.util import flatatt
 from django.utils.safestring import mark_safe
 
 __all__ = (
 	'PillAutoCompleteInput',
+	'AjaxFileInput',
+	'AjaxImageInput',
 )
 
 class PillAutoCompleteInput(HiddenInput):
@@ -21,7 +23,6 @@ class PillAutoCompleteInput(HiddenInput):
 
 
 	def render(self, name, value, attrs=None):
-		
 		
 		attrs = self.build_attrs(attrs, type=self.input_type, name=name)
 		attrs['class'] = 'pill-auto-complete-real-input'
@@ -46,3 +47,29 @@ class PillAutoCompleteInput(HiddenInput):
 			'search' : self.search,
 			'field_id' : field_id,
 			})
+
+
+
+class AjaxFileInput(MultiWidget):
+    """
+    A Widget that splits datetime input into two <input type="text"> boxes.
+    """
+
+    def __init__(self, attrs=None):
+
+    	fileattrs = attrs or {}
+    	fileattrs['class'] = fileattrs.get('class', '') + ' media-upload-field' 
+
+        widgets = (FileInput(attrs=fileattrs),
+                   HiddenInput(attrs=attrs))
+        super(AjaxFileInput, self).__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            #value = to_current_timezone(value)
+            return [value.date(), value.time().replace(microsecond=0)]
+        return [None, None]
+
+
+class AjaxImageInput(AjaxFileInput):
+	pass

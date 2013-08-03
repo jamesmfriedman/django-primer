@@ -15,30 +15,37 @@ body {
 
 /* Custom docs button */
 .btn-bs {
-  color: #b94a48;
+  color: #563d7c;
   background-color: #fff;
   border-color: #e5e5e5;
 }
 .btn-bs:hover,
 .btn-bs:active {
   color: #fff;
-  background-color: #b94a48;
-  border-color: #b94a48;
+  background-color: #563d7c;
+  border-color: #563d7c;
 }
 
+/* Temp CSS until RC2 */
+.bs-customize-placeholder {
+  margin-bottom: -100px;
+  padding: 80px 30px;
+  text-align: center;
+  background-color: #f5f5f5;
+}
 
 
 /* Top nav and header
 -------------------------------------------------- */
 
 .bs-docs-nav {
-  background-color: #b94a48;
+  background-color: #563d7c;
 }
 .bs-docs-nav .navbar-brand {
   color: #fff;
 }
 .bs-docs-nav .navbar-nav > li > a {
-  color: #e6cac8;
+  color: #cdbfe3;
 }
 .bs-docs-nav .navbar-nav > li > a:hover {
   color: #fff;
@@ -46,24 +53,29 @@ body {
 .bs-docs-nav .navbar-nav > .active > a,
 .bs-docs-nav .navbar-nav > .active > a:hover {
   color: #fff;
-  background-color: #993c3a;
+  background-color: #463265;
 }
 .bs-docs-nav .navbar-toggle {
-  border-color: #b94a48;
+  border-color: #563d7c;
 }
 .bs-docs-nav .navbar-toggle:hover {
-  background-color: #993c3a;
-  border-color: #993c3a;
+  background-color: #463265;
+  border-color: #463265;
 }
 
 /* Old docs callout */
 .bs-old-docs {
   padding: 15px 20px;
   color: #777;
+  background-color: #fafafa;
   border-bottom: 1px solid #e5e5e5;
 }
 .bs-old-docs strong {
   color: #555;
+}
+.bs-docs-home .bs-old-docs {
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
 }
 
 
@@ -72,16 +84,12 @@ body {
 
 .bs-masthead {
   position: relative;
-  margin-bottom: 20px;
   padding: 30px 15px;
   text-align: center;
 }
 .bs-masthead h1 {
   font-size: 50px;
   line-height: 1;
-}
-.bs-masthead .bs-social {
-  margin-top: 80px;
 }
 
 /* Download button */
@@ -93,11 +101,16 @@ body {
 }
 
 /* Textual links */
+.bs-social {
+  margin-top: 30px;
+  text-align: center;
+}
 .bs-masthead-links {
   margin-top: 20px;
   margin-bottom: 20px;
   padding-left: 0;
   list-style: none;
+  text-align: center;
 }
 .bs-masthead-links li {
   display: inline;
@@ -118,13 +131,21 @@ body {
 .bs-customizer label {
   margin-top: 10px;
   font-weight: 500;
-  color: #555;
+  color: #444;
+}
+.bs-customizer h2 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  padding-top: 30px;
 }
 .bs-customizer h4 {
   margin-top: 15px;
 }
 .bs-customizer input[type="text"] {
   background-color: #fafafa;
+}
+.bs-customizer .help-block {
+  font-size: 12px;
 }
 
 .bs-customize-download {
@@ -145,7 +166,7 @@ body {
   border-bottom: 1px solid #e5e5e5;
 }
 .bs-header h1 {
-  color: #b94a48;
+  color: #563d7c;
 }
 .bs-header p {
   font-weight: 300;
@@ -153,6 +174,10 @@ body {
 }
 .bs-header .container {
   position: relative;
+}
+
+.bs-docs-section + .bs-docs-section {
+  margin-top: 80px;
 }
 
 /* Ads in page headers */
@@ -191,11 +216,6 @@ body {
   display: none; /* hide what I assume are tracking images */
 }
 
-/* Padding for in-page bookmarks */
-.bs-docs-section {
-  padding-top: 30px;
-}
-
 
 
 /* Docs sidebar
@@ -210,44 +230,45 @@ body {
 .bs-sidenav {
   margin-top: 30px;
   margin-bottom: 30px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top:    10px;
+  padding-bottom: 10px;
   text-shadow: 0 1px 0 #fff;
-  background-color: #f5f5f5;
+  background-color: #f7f5fa;
   border-radius: 5px;
 }
 
 /* All levels of nav */
 .bs-sidebar .nav > li > a {
   display: block;
-  color: #666;
-  padding: 4px 20px;
+  color: #716b7a;
+  padding: 5px 20px;
 }
 .bs-sidebar .nav > li > a:hover,
 .bs-sidebar .nav > li > a:focus {
   text-decoration: none;
-  border-right: 1px solid #d5d5d5;
+  background-color: #e5e3e9;
+  border-right: 1px solid #dbd8e0;
 }
 .bs-sidebar .nav > .active > a,
 .bs-sidebar .nav > .active:hover > a,
 .bs-sidebar .nav > .active:focus > a {
-  font-weight: 500;
-  color: #b94a48;
+  font-weight: bold;
+  color: #563d7c;
   background-color: transparent;
-  border-right: 1px solid #b94a48;
+  border-right: 1px solid #563d7c;
 }
 
 /* Nav: second level (shown on .active) */
 .bs-sidebar .nav .nav {
   display: none;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 .bs-sidebar .nav > .active > ul {
   display: block;
 }
 .bs-sidebar .nav .nav > li > a {
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding-top:    3px;
+  padding-bottom: 3px;
   padding-left: 30px;
   font-size: 90%;
 }
@@ -301,9 +322,8 @@ body {
   padding-bottom: 10px;
   background-color: #eee;
   border: 1px solid #ddd;
-  /* Todo: reconcile these */
-  background-color: rgba(185,74,72,.15);
-  border: 1px solid rgba(185,74,72,.2);
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid rgba(86,61,124,.2);
 }
 
 
@@ -398,9 +418,6 @@ body {
 .bs-example-control-sizing input[type="text"] + input[type="text"] {
   margin-top: 10px;
 }
-.bs-example-form {
-  overflow: hidden;
-}
 .bs-example-form .input-group {
   margin-bottom: 10px;
 }
@@ -411,6 +428,9 @@ body {
 }
 
 /* Navbar examples */
+.bs-example .navbar:last-child {
+  margin-bottom: 0;
+}
 .bs-navbar-top-example,
 .bs-navbar-bottom-example {
   z-index: 1;
@@ -437,7 +457,7 @@ body {
 }
 .bs-navbar-top-example:after {
   top: auto;
-  bottom: -1px;
+  bottom: 15px;
   -webkit-border-radius: 0 4px 0 4px;
      -moz-border-radius: 0 4px 0 4px;
           border-radius: 0 4px 0 4px;
@@ -525,6 +545,37 @@ body {
 /* Responsive docs
 -------------------------------------------------- */
 
+/* Responsive (scrollable) doc tables */
+@media (max-width: 768px) {
+  .bs-table-scrollable {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    border: 1px solid #ddd;
+  }
+  .bs-table-scrollable .table {
+    margin-bottom: 0;
+    border: 0;
+  }
+  .bs-table-scrollable .table th,
+  .bs-table-scrollable .table td {
+    white-space: nowrap;
+  }
+  .bs-table-scrollable .table th:first-child,
+  .bs-table-scrollable .table td:first-child {
+    border-left: 0;
+  }
+  .bs-table-scrollable .table th:last-child,
+  .bs-table-scrollable .table td:last-child {
+    border-right: 0;
+  }
+  .bs-table-scrollable .table tr:last-child th,
+  .bs-table-scrollable .table tr:last-child td {
+    border-bottom: 0;
+  }
+}
+
 /* Related: responsive utilities tables */
 .table code {
   font-size: 13px;
@@ -558,7 +609,7 @@ body {
 ------------------------- */
 .responsive-utilities-test {
   margin-top: 5px;
-  margin-left: 0;
+  padding-left: 0;
   list-style: none;
   overflow: hidden; /* clear floats */
 }
@@ -737,7 +788,6 @@ input.focused {
     right:  15px;
     bottom: 15px;
   }
-
   .bs-header {
     font-size: 21px;
     text-align: left;
@@ -793,12 +843,22 @@ input.focused {
 @media screen and (min-width: 992px) {
 
   /* Widen the fixed sidebar */
-  .bs-sidebar.affix {
-    position: fixed; /* Undo the static from mobile-first approach */
-    top: 50px;
+  .bs-sidebar.affix,
+  .bs-sidebar.affix-bottom {
     width: 213px;
   }
-
+  .bs-sidebar.affix {
+    position: fixed; /* Undo the static from mobile-first approach */
+    top: 80px;
+  }
+  .bs-sidebar.affix-bottom {
+    position: absolute; /* Undo the static from mobile-first approach */
+  }
+  .bs-sidebar.affix-bottom .bs-sidenav,
+  .bs-sidebar.affix .bs-sidenav {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
   .bs-header h1,
   .bs-header p {
     margin-right: 380px;
@@ -818,6 +878,7 @@ input.focused {
 @media screen and (min-width: 1200px) {
 
   /* Widen the fixed sidebar again */
+  .bs-sidebar.affix-bottom,
   .bs-sidebar.affix {
     width: 270px;
   }

@@ -4,7 +4,6 @@ from .utils import merge_settings, merge_primer_settings
 
 settings = sys.modules.get(os.environ['DJANGO_SETTINGS_MODULE'])
 
-
 __all__ = (
     'APP_ROOT',
     'INSTALLED_APPS',
@@ -20,10 +19,11 @@ __all__ = (
 
     'PUSH_SERVICE',
     'PUSH_SERVICE_SETTINGS',
-
-    'SESSION_SAVE_EVERY_REQUEST',
+    
     'PRIMER_ROOT',
     'STATIC_ROOT',
+    'MEDIA_ROOT',
+    'FILE_UPLOAD_TEMP_DIR',
 
     'LESS_ROOT',
     'LESS_CSS_PATHS',
@@ -33,10 +33,11 @@ __all__ = (
     'LOGIN_REDIRECT_URL',
 )
 
-##
-# PRIMER APP INJECTION
+################################################################################################
+# PRIMER INJECTION
 # we will inject our primer installed apps after djangos, but before anyone elses
 # find the index to inject primer at apps at
+################################################################################################
 PRIMER_INSTALLED_APPS = [
     
     # django
@@ -119,32 +120,43 @@ TEMPLATE_LOADERS = merge_primer_settings(settings.TEMPLATE_LOADERS, PRIMER_TEMPL
 LOGIN_URL = getattr(settings, 'LOGIN_URL', '/login/')
 LOGIN_REDIRECT_URL = getattr(settings, 'LOGIN_REDIRECT_URL', '/')
 
-# additional settings used by primer
+################################################################################################
+# Setup file paths
+################################################################################################
 APP_ROOT = os.path.realpath('.')
-STATIC_ROOT = getattr(settings, 'STATIC_ROOT') or os.path.normpath(os.path.realpath('.') + '/static')
-
-
+STATIC_ROOT = getattr(settings, 'STATIC_ROOT') or 'static'
+MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT') or 'media'
 PRIMER_ROOT = os.path.abspath(os.path.dirname(__file__) + '/../')
 
-# update the session after every request
-SESSION_SAVE_EVERY_REQUEST = False
-
+################################################################################################
 # django compressor settings
+################################################################################################
 COMPRESS_URL = getattr(settings, 'COMPRESS_URL', settings.STATIC_URL)
 COMPRESS_ENABLED = getattr(settings, 'COMPRESS_ENABLED', not settings.DEBUG)
 COMPRESS_OFFLINE = getattr(settings, 'COMPRESS_OFFLINE', False)
 COMPRESS_ROOT = getattr(settings, 'COMPRESS_ROOT', STATIC_ROOT)
 
+################################################################################################
+# Push Service Settings
 # should be set to the name of a push service you want to use
 # this can be 'pubnub', 'pusher', or pointing to a custom class
+################################################################################################
 PUSH_SERVICE = getattr(settings, 'PUSH_SERVICE', None)
 PUSH_SERVICE_SETTINGS = getattr(settings, 'PUSH_SERVICE_SETTINGS', {})
 
 
-##
+################################################################################################
 # LESS CSS PATHS TO BE PROCESSED
 # Input LESS file on the left pointing to output CSS on the right
 # they should both be relative paths from the root
+################################################################################################
 LESS_CSS_PATHS = getattr(settings, 'LESS_CSS_PATHS', {})
 LESS_ROOT = getattr(settings, 'LESS_ROOT', APP_ROOT)
 LESS_PROCESSOR_ENABLED = getattr(settings, 'LESS_PROCESSOR_ENABLED', settings.DEBUG)
+
+
+#################################################################################################
+# Media Handling
+#################################################################################################
+FILE_UPLOAD_TEMP_DIR = getattr(settings, 'FILE_UPLOAD_TEMP_DIR', '/tmp')
+

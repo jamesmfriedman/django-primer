@@ -42,10 +42,6 @@ class Command(BaseCommand):
 
         settings.INSTALLED_APPS = installed_apps
         models.get_apps = real_get_apps
-
-        self.out('migrating...')
-
-        management.call_command('migrate')
         
         admins = getattr(settings, 'ADMINS', None)
 
@@ -63,6 +59,10 @@ class Command(BaseCommand):
                 user.is_superuser = True
                 user.is_staff = True
                 user.save()
+
+        self.out('migrating...')
+
+        management.call_command('migrate')
 
         self.out('DING! Good as new :)')
 

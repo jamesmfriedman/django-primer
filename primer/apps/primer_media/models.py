@@ -8,9 +8,10 @@ from django.core.files import File
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.auth.models import User
-
 from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+
 from storages.backends.s3boto import S3BotoStorage
 
 from primer.db.models import PrimerModel
@@ -46,7 +47,9 @@ class MediaManager(models.Manager):
         original_filename = f.name
         base_filename, extension = os.path.splitext(f.name)
         filename = str(uuid.uuid4()) + extension
-        pathname = 'media/%s/%s/' % (filename[0], filename[1])
+        media_dir = settings.MEDIA_ROOT.split(os.path.sep)[-1]
+        print media_dir
+        pathname = '%s/%s/' % (filename[0], filename[1])
         mimetype, extra = mimetypes.guess_type(f.name)
         mimetype = mimetype or 'text/plain'
         extension = extension.replace('.', '').lower()
@@ -262,10 +265,20 @@ class MediaLink(PrimerModel):
     """
     The MediaLink model can be used by any other model using generic relationships.
     """
+
+    class Meta:
+        ordering = ('is_primary',)
+
     content_type = models.ForeignKey(ContentType)
     object_id = models.TextField()
     owner = generic.GenericForeignKey()
-    media = models.ForeignKey(Media, related_name='links')
+    media = models.ForeignKey(Media, related_name = 'links')
+    
+    is_primary = models.BooleanField(default = False, 
+        help_text = 'Useful for marking something as the primary media for an item.') 
+    
+    type = models.CharField(max_length = 64, null = True, blank = True, 
+        help_text = 'An arbitrary text type for grouping.')
 
     objects = MediaLinkManager()
 

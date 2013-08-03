@@ -1,9 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
+
+from .views import UploadView
 
 urlpatterns = patterns('primer.apps.primer_media.views',
 
-	##
-    # prefix: media
-    #
-    url(r'^upload/$', 'upload', name='media-upload'),
+    url(r'^media-upload/$', UploadView.as_view(), name='primer-media-upload'),
 )

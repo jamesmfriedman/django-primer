@@ -8,17 +8,43 @@
 
     var $window = $(window)
 
-    // Disable certain links in docs
+    var navHeight = $('.navbar').outerHeight(true) + 10
+
+    $(document.body).scrollspy({
+      target: '.bs-sidebar',
+      offset: navHeight
+    })
+
     $('[href=#]').click(function (e) {
       e.preventDefault()
     })
 
+    $(document.body).on('click', '.bs-sidenav [href^=#]', function (e) {
+      var $target = $(this.getAttribute('href'))
+
+      e.preventDefault() // prevent browser scroll
+
+      document.body.scrollTop =
+        $target.offset().top -
+        navHeight + 5 // offset scroll by nav
+    })
+
     // back to top
     setTimeout(function () {
-      $('.bs-sidebar').affix({
+      var $sideBar = $('.bs-sidebar')
+
+      $sideBar.affix({
         offset: {
-          top: function () { return $window.width() <= 980 ? 290 : 210 }
-        , bottom: 270
+          top: function () {
+            var offsetTop      = $sideBar.offset().top
+            var sideBarMargin  = parseInt($sideBar.children(0).css('margin-top'), 10)
+            var navOuterHeight = $('.bs-docs-nav').height()
+
+            return (this.top = offsetTop - navOuterHeight - sideBarMargin)
+          }
+        , bottom: function () {
+            return (this.bottom = $('.bs-footer').outerHeight(true))
+          }
         }
       })
     }, 100)
@@ -41,11 +67,8 @@
     })
 
     // popover demo
-    $("a[data-toggle=popover]")
+    $("[data-toggle=popover]")
       .popover()
-      .click(function(e) {
-        e.preventDefault()
-      })
 
     // button state demo
     $('#fat-btn')

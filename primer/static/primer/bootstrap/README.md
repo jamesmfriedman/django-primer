@@ -31,14 +31,15 @@ Bootstrap's documentation, included in this repo in the root directory, is built
 ### Running documentation locally
 
 1. If necessary, [install Jekyll](http://jekyllrb.com/docs/installation) (requires v1.x).
-2. From the `/bootstrap` directory, run `jekyll serve` in the command line.
+2. From the root `/bootstrap` directory, run `jekyll serve` in the command line.
+  - **Windows users:** run `chcp 65001` first to change the command prompt's character encoding ([code page](http://en.wikipedia.org/wiki/Windows_code_page)) to UTF-8 so Jekyll runs without errors.
 3. Open [http://localhost:9001](http://localhost:9001) in your browser, and voilà.
 
 Learn more about using Jekyll by reading their [documentation](http://jekyllrb.com/docs/home/).
 
 ### Documentation for previous releases
 
-Documentation for v2.3.2 has been made available for the time being at [http://getbootstrap.com/2.3.2/docs](http://getbootstrap.com/2.3.2/docs) while folks transition to Bootstrap 3.
+Documentation for v2.3.3 has been made available for the time being at [http://getbootstrap.com/2.3.3/](http://getbootstrap.com/2.3.3/) while folks transition to Bootstrap 3.
 
 [Previous releases](https://github.com/twbs/bootstrap/releases) and their documentation are also available for download.
 
@@ -46,33 +47,36 @@ Documentation for v2.3.2 has been made available for the time being at [http://g
 
 ## Compiling CSS and JavaScript
 
-Bootstrap includes a [makefile](Makefile) with convenient methods for working with the framework. Before getting started, install [the necessary local dependencies](package.json):
+Bootstrap uses [Grunt](http://gruntjs.com/) with convenient methods for working with the framework. It's how we compile our code, run tests, and more. To use it, install the required dependencies as directed and then run some Grunt commands.
 
-```
-$ npm install
-```
+### Install Grunt
 
-When completed, you'll be able to run the various make commands provided.
+From the command line:
+
+1. Install `grunt-cli` globally with `npm install -g grunt-cli`.
+2. Install the [necessary local dependencies](package.json) via `npm install`
+
+When completed, you'll be able to run the various Grunt commands provided from the command line.
 
 **Unfamiliar with `npm`? Don't have node installed?** That's a-okay. npm stands for [node packaged modules](http://npmjs.org/) and is a way to manage development dependencies through node.js. [Download and install node.js](http://nodejs.org/download/) before proceeding.
 
-### Available makefile commands
+### Available Grunt commands
 
-#### Build - `make`
-`make` runs the Recess compiler to rebuild the `/less` files and compile the docs. **Requires recess and uglify-js.**
+#### Build - `grunt`
+Run `grunt` to run tests locally and compile the CSS and JavaScript into `/dist`. **Requires recess and uglify-js.**
 
-#### Compile CSS, JS, and fonts - `make bootstrap`
-`make bootstrap` creates the `/bootstrap` directory with compiled files. **Requires recess and uglify-js.**
+#### Only compile CSS and JavaScript - `grunt dist`
+`grunt dist` creates the `/dist` directory with compiled files. **Requires recess and uglify-js.**
 
-#### Tests - `make test`
+#### Tests - `grunt test`
 Runs jshint and qunit tests headlessly in [phantomjs](http://code.google.com/p/phantomjs/) (used for ci). **Requires phantomjs.**
 
-#### Watch - `make watch`
-This is a convenience method for watching just Less files and automatically building them whenever you save. **Requires the watchr gem.**
+#### Watch - `grunt watch`
+This is a convenience method for watching just Less files and automatically building them whenever you save.
 
 ### Troubleshooting dependencies
 
-Should you encounter problems with installing dependencies or running makefile commands, uninstall all previous dependency versions (global and local). Then, rerun `npm install`.
+Should you encounter problems with installing dependencies or running Grunt commands, uninstall all previous dependency versions (global and local). Then, rerun `npm install`.
 
 
 

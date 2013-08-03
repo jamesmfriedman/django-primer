@@ -12,6 +12,6 @@ urlpatterns = patterns('',
     url(r'^comments/', include('primer.apps.primer_comments.urls', app_name = 'comments')),
 
     # media
-    url(r'^media/', include('primer.apps.primer_media.urls', app_name = 'media')),
+    url(r'', include('primer.apps.primer_media.urls', app_name = 'media')),
 
 )
