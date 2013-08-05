@@ -58,7 +58,7 @@ class AjaxFileInput(MultiWidget):
     def __init__(self, attrs=None):
 
     	fileattrs = attrs or {}
-    	fileattrs['class'] = fileattrs.get('class', '') + ' media-upload-field' 
+    	fileattrs['class'] = fileattrs.get('class', '') + ' file-upload-field' 
 
         widgets = (FileInput(attrs=fileattrs),
                    HiddenInput(attrs=attrs))

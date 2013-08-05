@@ -1,12 +1,14 @@
 !function($){
 
-	$.fn.mediaUploadField = function() {
+	$.fn.fileUploadField = function() {
 
 		this.each(function(){
 			
 			var $this = $(this);
 			var hiddenInput = $(this).next();
 			var timeout;
+			var filelist = [];
+			var maxUploads = $this.data('maxuploads') || 1;
 
 			/**
 			 * Construct
@@ -22,7 +24,7 @@
 					dropZone: $this,
 					add: add,
 					progress: progress,
-					done: done
+					done: done,
 				});
 
 				$(document).bind('dragover', dragEffect);
@@ -31,9 +33,9 @@
 			/**
 			 * Triggered when files get added to the uploader
 			 */
-			function add(e,data) {
+			function add(e, data) {
 				$(data.files).each(function(){
-					console.log(this);
+					filelist.push(this);
 				});
 				data.submit();
 			}
@@ -43,7 +45,6 @@
 			 * Triggered when it is done uploading
 			 */
 			function done(e, data) {
-				console.log(data);
 				var list = $.parseJSON(data.jqXHR.responseText);
 				if (hiddenInput.val().length) {
 					var prevList = hiddenInput.val().split(',');	
@@ -117,7 +118,7 @@
 
 	$(function(){
 		var initUploaders = function() {
-			$('.media-upload-field').mediaUploadField();
+			$('.file-upload-field').fileUploadField();
 		};
 
 		$(window).on('ajaxPageLoaded', initUploaders);

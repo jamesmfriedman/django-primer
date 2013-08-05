@@ -86,6 +86,7 @@ class AjaxFileField(MultiValueField):
 
         attrs = {
             'data-handleurl' : self.handle_url,
+            'data-maxuploads' : self.max_uploads,
         }
 
         if self.multiple:
