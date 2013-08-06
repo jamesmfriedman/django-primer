@@ -124,12 +124,13 @@ var BetterForms = function($){
 		var displayInput = $(this);
 
 		// escape out if its been setup already
-		if (displayInput.hasClass('bound')) return;
+		if (displayInput.data('datepicker')) return;
+		displayInput.data('datepicker', true);
 
 		var settings = {
-			altField : 'input[data-displayfield='+ displayInput.attr('data-datefield') +']',
-			altFormat: api.ALT_DATE_FORMAT,
-			dateFormat: api.DATE_FORMAT
+			altField : displayInput.prev(),
+			altFormat: displayInput.data('altformat'),
+			dateFormat: displayInput.data('format')
 		};
 
 		//extend the options into the settings
@@ -148,20 +149,10 @@ var BetterForms = function($){
 	function __init__() {
 
 		//auto init datepickers
-		$(document.body).on('focus', '.widget-date-input', function(){
+		$(document.body).on('focus', '[data-datepicker]', function(){
 			$(this).setupDatepicker();
 		});
 	};
-
-
-	/*******************************************************************************************
-	 * The public interface
-	 ******************************************************************************************/
-	// a jquery date format for datepickers
-	api.DATE_FORMAT = 'm/d/yy';
-
-	//the alternate format for the hidden field
-	api.ALT_DATE_FORMAT = 'yy-mm-dd';
 
 
 	// fire the on dom ready
