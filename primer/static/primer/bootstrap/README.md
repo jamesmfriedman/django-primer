@@ -1,4 +1,4 @@
-# [Bootstrap v3.0.0](http://getbootstrap.com) [![Build Status](https://secure.travis-ci.org/twitter/bootstrap.png)](http://travis-ci.org/twitter/bootstrap)
+# [Bootstrap v3.0.0](http://getbootstrap.com) [![Build Status](https://secure.travis-ci.org/twbs/bootstrap.png)](http://travis-ci.org/twbs/bootstrap)
 
 Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and easier web development, created and maintained by [Mark Otto](http://twitter.com/mdo) and [Jacob Thornton](http://twitter.com/fat).
 
@@ -10,7 +10,7 @@ To get started, check out [http://getbootstrap.com](http://getbootstrap.com)!
 
 Three quick start options are available:
 
-* [Download the latest release](https://github.com/twbs/bootstrap/zipball/master).
+* [Download the latest release](https://github.com/twbs/bootstrap/zipball/3.0.0-wip).
 * Clone the repo: `git clone git://github.com/twbs/bootstrap.git`.
 * Install with [Bower](http://bower.io): `bower install bootstrap`.
 
@@ -39,7 +39,7 @@ Learn more about using Jekyll by reading their [documentation](http://jekyllrb.c
 
 ### Documentation for previous releases
 
-Documentation for v2.3.3 has been made available for the time being at [http://getbootstrap.com/2.3.3/](http://getbootstrap.com/2.3.3/) while folks transition to Bootstrap 3.
+Documentation for v2.3.2 has been made available for the time being at [http://getbootstrap.com/2.3.2/](http://getbootstrap.com/2.3.2/) while folks transition to Bootstrap 3.
 
 [Previous releases](https://github.com/twbs/bootstrap/releases) and their documentation are also available for download.
 
