@@ -1,6 +1,6 @@
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
- * http://twbs.github.com/bootstrap/javascript.html#affix
+ * http://twbs.github.com/bootstrap/javascript.html#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
@@ -64,7 +64,7 @@
         var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focus'
         var eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
 
-        this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
+        this.$element.on(eventIn  + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
         this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
       }
     }
@@ -91,37 +91,43 @@
     return options
   }
 
-  Tooltip.prototype.enter = function (obj) {
-    var defaults = this.getDefaults()
+  Tooltip.prototype.getDelegateOptions = function () {
     var options  = {}
+    var defaults = this.getDefaults()
 
     this._options && $.each(this._options, function (key, value) {
       if (defaults[key] != value) options[key] = value
     })
 
+    return options
+  }
+
+  Tooltip.prototype.enter = function (obj) {
     var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget)[this.type](options).data('bs.' + this.type)
+      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
 
     clearTimeout(self.timeout)
 
+    self.hoverState = 'in'
+
     if (!self.options.delay || !self.options.delay.show) return self.show()
 
-    self.hoverState = 'in'
-    self.timeout    = setTimeout(function () {
+    self.timeout = setTimeout(function () {
       if (self.hoverState == 'in') self.show()
     }, self.options.delay.show)
   }
 
   Tooltip.prototype.leave = function (obj) {
     var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget)[this.type](this._options).data('bs.' + this.type)
+      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
 
     clearTimeout(self.timeout)
 
+    self.hoverState = 'out'
+
     if (!self.options.delay || !self.options.delay.hide) return self.hide()
 
-    self.hoverState = 'out'
-    self.timeout    = setTimeout(function () {
+    self.timeout = setTimeout(function () {
       if (self.hoverState == 'out') self.hide()
     }, self.options.delay.hide)
   }
@@ -179,7 +185,7 @@
           .addClass(placement)
       }
 
-      var calculatedOffset = this.getCalcuatedOffset(placement, pos, actualWidth, actualHeight)
+      var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
 
       this.applyPlacement(calculatedOffset, placement)
       this.$element.trigger('shown.bs.' + this.type)
@@ -254,7 +260,9 @@
     var $tip = this.tip()
     var e    = $.Event('hide.bs.' + this.type)
 
-    function complete() { $tip.detach() }
+    function complete() {
+      if (that.hoverState != 'in') $tip.detach()
+    }
 
     this.$element.trigger(e)
 
@@ -292,7 +300,7 @@
     }, this.$element.offset())
   }
 
-  Tooltip.prototype.getCalcuatedOffset = function (placement, pos, actualWidth, actualHeight) {
+  Tooltip.prototype.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
     return placement == 'bottom' ? { top: pos.top + pos.height,   left: pos.left + pos.width / 2 - actualWidth / 2  } :
            placement == 'top'    ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2  } :
            placement == 'left'   ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth } :
@@ -339,7 +347,7 @@
   }
 
   Tooltip.prototype.toggle = function (e) {
-    var self = e ? $(e.currentTarget)[this.type](this._options).data('bs.' + this.type) : this
+    var self = e ? $(e.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type) : this
     self.tip().hasClass('in') ? self.leave(self) : self.enter(self)
   }
 

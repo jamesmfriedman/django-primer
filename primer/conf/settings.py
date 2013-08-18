@@ -40,9 +40,6 @@ __all__ = (
 ################################################################################################
 PRIMER_INSTALLED_APPS = [
     
-    # django
-    'django.contrib.comments',
-
     # 3rd party
     'compressor',
     'crispy_forms', 

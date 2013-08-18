@@ -3,16 +3,17 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
-from django.contrib.comments import signals
-from django.contrib.comments.models import Comment
-from django.contrib.comments.views.comments import CommentPostBadRequest
+from django.http import HttpResponseBadRequest
 from django.utils.html import escape
 
 from primer.utils import paginate
 from primer.apps.primer_likes.models import Like
 from primer.views.generic import PrimerView
 
-from forms import get_comment_form
+from . import signals
+from .forms import get_comment_form
+from .models import Comment
+
 
 MAX_COMMENTS_PER_PAGE = 50
 
@@ -89,23 +90,23 @@ class PostView(PrimerView):
         ctype = data.get('content_type')
         object_pk = data.get('object_pk')
         if ctype is None or object_pk is None:
-            return CommentPostBadRequest("Missing content_type or object_pk field.")
+            return HttpResponseBadRequest("Missing content_type or object_pk field.")
         try:
             model = models.get_model(*ctype.split(".", 1))
             target = model._default_manager.using(using).get(pk=object_pk)
         except TypeError:
-            return CommentPostBadRequest(
+            return HttpResponseBadRequest(
                 "Invalid content_type value: %r" % escape(ctype))
         except AttributeError:
-            return CommentPostBadRequest(
+            return HttpResponseBadRequest(
                 "The given content-type %r does not resolve to a valid model." % \
                     escape(ctype))
         except ObjectDoesNotExist:
-            return CommentPostBadRequest(
+            return HttpResponseBadRequest(
                 "No object matching content-type %r and object PK %r exists." % \
                     (escape(ctype), escape(object_pk)))
         except (ValueError, ValidationError), e:
-            return CommentPostBadRequest(
+            return HttpResponseBadRequest(
                 "Attempting go get content-type %r and object PK %r exists raised %s" % \
                     (escape(ctype), escape(object_pk), e.__class__.__name__))
 
@@ -115,7 +116,7 @@ class PostView(PrimerView):
 
         # Check security information
         if form.security_errors():
-            return CommentPostBadRequest(
+            return HttpResponseBadRequest(
                 "The comment form failed security verification: %s" % \
                     escape(str(form.security_errors())))
 
@@ -139,7 +140,7 @@ class PostView(PrimerView):
 
         for (receiver, response) in responses:
             if response == False:
-                return CommentPostBadRequest(
+                return HttpResponseBadRequest(
                     "comment_will_be_posted receiver %r killed the comment" % receiver.__name__)
 
         # Save the comment and signal that it was saved

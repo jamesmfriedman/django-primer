@@ -2,16 +2,12 @@
 
 {% block body %}
 	<header class="header">
-		<div class="navbar {% block navbar_class %}navbar-fixed-top {% endblock navbar_class %}">
-			<div class="navbar-inner">
-				<div class="container">
-					{# THIS BLOCK SHOULD BE USED TO OVERRIDE THE ENTIRE CONTENTS OF THE TOP NAVBAR #}
-					{% block navbar %}
-						<a class="brand" href="/primer/">Primer</a>
-					{% endblock navbar %}
-				</div>
-			</div>
-	  	</div>
+		<nav class="navbar {% block navbar_class %}navbar-fixed-top {% endblock navbar_class %}">
+			{# THIS BLOCK SHOULD BE USED TO OVERRIDE THE ENTIRE CONTENTS OF THE TOP NAVBAR #}
+			{% block navbar %}
+				<a class="brand" href="/primer/">Primer</a>
+			{% endblock navbar %}
+	  	</nav>
 	</header>
 
 	<div id="main">

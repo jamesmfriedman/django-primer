@@ -13,16 +13,10 @@ port:             9001
 # Custom vars
 repo:             https://github.com/twbs/bootstrap
 download:         https://github.com/twbs/bootstrap/archive/3.0.0-wip.zip
-download_dist:    http://getbootstrap.com/bs-v3.0.0-rc1-dist.zip
-
-examples:         http://examples.getbootstrap.com
-examples_repo:    https://github.com/twbs/bootstrap-examples
-
-glyphicons:       http://glyphicons.getbootstrap.com
-glyphicons_repo:  https://github.com/twbs/bootstrap-glyphicons
+download_dist:    http://getbootstrap.com/bs-v3.0.0-rc.2-dist.zip
 
 blog:             http://blog.getbootstrap.com
 expo:             http://expo.getbootstrap.com
 
-cdn_css:          //netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css
-cdn_js:           //netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js
+cdn_css:          //netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css
+cdn_js:           //netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js

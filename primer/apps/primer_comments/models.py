@@ -1,83 +1,223 @@
-from django.db import models
-from django.contrib.comments.models import Comment
-from django.template.loader import select_template
-from django.conf import settings
-from django.contrib.comments.managers import CommentManager
-from django.contrib.contenttypes import generic
 from jsonfield import JSONField
 
-from primer.db.models import UUIDField
-from forms import PrimerCommentForm
+from django.db import models
+from django.template.loader import select_template
+from django.conf import settings
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
+from django.core import urlresolvers
+from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
+
+from primer.db.models import PrimerModel
+
+from .forms import PrimerCommentForm
+from .managers import CommentManager
 
 
-def get_css_class(self):
-    return 'comment-' + self.type.replace('_', '-')
+COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
-def set_comment_template_dir(self, template_dir):
-    self._comments_template_dir = template_dir
 
-def get_comment_template(self):
+class BaseCommentAbstractModel(PrimerModel):
+    """
+    An abstract base class that any custom comment models probably should
+    subclass.
+    """
+
+    # Content-object fielddb_
+    content_type = models.ForeignKey(ContentType,
+            verbose_name=_('content type'),
+            related_name="content_type_set_for_%(class)s")
+    object_pk = models.TextField(_('object ID'))
+    content_object = generic.GenericForeignKey(ct_field="content_type", fk_field="object_pk")
+
+    # Metadata about the comment
+    site = models.ForeignKey(Site)
+
+    class Meta:
+        abstract = True
+
+    def get_content_object_url(self):
+        """
+        Get a URL suitable for redirecting to the content object.
+        """
+        return urlresolvers.reverse(
+            "comments-url-redirect",
+            args=(self.content_type_id, self.object_pk)
+        )
+
+
+@python_2_unicode_compatible
+class Comment(BaseCommentAbstractModel):
+    """
+    A user comment about some object.
+    """
+
+    # Who posted this comment? If ``user`` is set then it was an authenticated
+    # user; otherwise at least user_name should have been set and the comment
+    # was posted by a non-authenticated user.
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'),
+                    blank=True, null=True, related_name="%(class)s_comments")
     
-    return select_template([
-        'comments/%s/%s.html' % (self._comments_template_dir, self.type),
-        'comments/%s/default.html' % self._comments_template_dir,
-        'comments/comments/default.html'
-        ]).name
+    comment = models.TextField(_('comment'), max_length=COMMENT_MAX_LENGTH)
 
-def get_reply_form(self):
-    return PrimerCommentForm(self, comments_type = 'comments')
+    # Metadata about the comment
+    submit_date = models.DateTimeField(_('date/time submitted'), default=None)
+    is_public = models.BooleanField(_('is public'), default=True,
+                    help_text=_('Uncheck this box to make the comment effectively ' \
+                                'disappear from the site.'))
+    is_removed = models.BooleanField(_('is removed'), default=False,
+                    help_text=_('Check this box if the comment is inappropriate. ' \
+                                'A "This comment has been removed" message will ' \
+                                'be displayed instead.'))
 
+    likes = generic.GenericRelation('primer_likes.Like')
+    type = models.CharField(max_length = 255, blank = True, null = True)
+    data = JSONField(blank = True, null = True)
 
-class PrimerCommentManager(CommentManager):
-    """
-    A custom default manager that adds a visible method to
-    just show comments that are visible
-    """
-    use_for_related_fields = True
+    # Manager
+    objects = CommentManager()
 
-    def visible(self, *args, **kwargs):
+    class Meta:
+        ordering = ('submit_date',)
+        permissions = [("can_moderate", "Can moderate comments")]
+        verbose_name = _('comment')
+        verbose_name_plural = _('comments')
+
+    def __str__(self):
+        return "%s: %s..." % (self.name, self.comment[:50])
+
+    def save(self, *args, **kwargs):
+        if self.submit_date is None:
+            self.submit_date = timezone.now()
+        super(Comment, self).save(*args, **kwargs)
+
+    def _get_userinfo(self):
+        """
+        Get a dictionary that pulls together information about the poster
+        safely for both authenticated and non-authenticated comments.
+
+        This dict will have ``name``, ``email``, and ``url`` fields.
+        """
+        if not hasattr(self, "_userinfo"):
+            userinfo = {
+                "name": self.user_name,
+                "email": self.user_email,
+                "url": self.user_url
+            }
+            if self.user_id:
+                u = self.user
+                if u.email:
+                    userinfo["email"] = u.email
+
+                # If the user has a full name, use that for the user name.
+                # However, a given user_name overrides the raw user.username,
+                # so only use that if this comment has no associated name.
+                if u.get_full_name():
+                    userinfo["name"] = self.user.get_full_name()
+                elif not self.user_name:
+                    userinfo["name"] = u.get_username()
+            self._userinfo = userinfo
+        return self._userinfo
+    userinfo = property(_get_userinfo, doc=_get_userinfo.__doc__)
+
+    def _get_name(self):
+        return self.userinfo["name"]
+
+    def _set_name(self, val):
+        if self.user_id:
+            raise AttributeError(_("This comment was posted by an authenticated "\
+                                   "user and thus the name is read-only."))
+        self.user_name = val
+    name = property(_get_name, _set_name, doc="The name of the user who posted this comment")
+
+    def _get_email(self):
+        return self.userinfo["email"]
+
+    def _set_email(self, val):
+        if self.user_id:
+            raise AttributeError(_("This comment was posted by an authenticated "\
+                                   "user and thus the email is read-only."))
+        self.user_email = val
+    email = property(_get_email, _set_email, doc="The email of the user who posted this comment")
+
+    def _get_url(self):
+        return self.userinfo["url"]
+
+    def _set_url(self, val):
+        self.user_url = val
+    url = property(_get_url, _set_url, doc="The URL given by the user who posted this comment")
+
+    def get_absolute_url(self, anchor_pattern="#c%(id)s"):
+        return self.get_content_object_url() + (anchor_pattern % self.__dict__)
+
+    def get_as_text(self):
+        """
+        Return this comment as plain text.  Useful for emails.
+        """
+        d = {
+            'user': self.user or self.name,
+            'date': self.submit_date,
+            'comment': self.comment,
+            'domain': self.site.domain,
+            'url': self.get_absolute_url()
+        }
+        return _('Posted by %(user)s at %(date)s\n\n%(comment)s\n\nhttp://%(domain)s%(url)s') % d
+
+    def get_css_class(self):
+        return 'comment-' + self.type.replace('_', '-')
+
+    def set_comment_template_dir(self, template_dir):
+        self._comments_template_dir = template_dir
+
+    def get_comment_template(self):
         
-        qs = self.get_query_set().filter(is_public = True)
+        return select_template([
+            'comments/%s/%s.html' % (self._comments_template_dir, self.type),
+            'comments/%s/default.html' % self._comments_template_dir,
+            'comments/comments/default.html'
+            ]).name
 
-        if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
-            qs = qs.filter(is_removed = False)
-
-        return qs
-
-
-    def visible_count(self, *args, **kwargs):
-        """
-        A custom count function to be called by a related manager in a template
-        Since we have a prefetch related cache, it doesnt cost us another db hit
-        to count these vs doing a count db call
-        """
-        comments = []
-        for comment in self.get_query_set():
-            if getattr(settings, 'COMMENTS_HIDE_REMOVED', True):
-                if not comment.is_removed and comment.is_public:
-                    comments.append(comment)
-            elif comment.is_public:
-                comments.append(comment)
-
-        return len(comments)
-
-    
-
-# add additional fields onto the comment model
-Comment.add_to_class('uuid', UUIDField())
-Comment.add_to_class('created', models.DateTimeField(auto_now_add=True, editable = False, blank = True, null = True))
-Comment.add_to_class('modified', models.DateTimeField(auto_now=True, blank = True, null = True))
-Comment.add_to_class('likes', generic.GenericRelation('primer_likes.Like'))
-Comment.add_to_class('type', models.CharField(max_length = 255, blank = True, null = True))
-Comment.add_to_class('data', JSONField(blank = True, null = True))
+    def get_reply_form(self):
+        return PrimerCommentForm(self, comments_type = 'comments')
 
 
-# additional methods
-Comment.add_to_class('template', get_comment_template)
-Comment.add_to_class('get_css_class', get_css_class)
-Comment.add_to_class('set_comment_template_dir', set_comment_template_dir)
-Comment.add_to_class('get_reply_form', get_reply_form)
-Comment.add_to_class('_default_manager', PrimerCommentManager())
+@python_2_unicode_compatible
+class CommentFlag(models.Model):
+    """
+    Records a flag on a comment. This is intentionally flexible; right now, a
+    flag could be:
 
+        * A "removal suggestion" -- where a user suggests a comment for (potential) removal.
 
+        * A "moderator deletion" -- used when a moderator deletes a comment.
 
+    You can (ab)use this model to add other flags, if needed. However, by
+    design users are only allowed to flag a comment with a given flag once;
+    if you want rating look elsewhere.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), related_name="comment_flags")
+    comment = models.ForeignKey(Comment, verbose_name=_('comment'), related_name="flags")
+    flag = models.CharField(_('flag'), max_length=30, db_index=True)
+    flag_date = models.DateTimeField(_('date'), default=None)
+
+    # Constants for flag types
+    SUGGEST_REMOVAL = "removal suggestion"
+    MODERATOR_DELETION = "moderator deletion"
+    MODERATOR_APPROVAL = "moderator approval"
+
+    class Meta:
+        unique_together = [('user', 'comment', 'flag')]
+        verbose_name = _('comment flag')
+        verbose_name_plural = _('comment flags')
+
+    def __str__(self):
+        return "%s flag of comment ID %s by %s" % \
+            (self.flag, self.comment_id, self.user.get_username())
+
+    def save(self, *args, **kwargs):
+        if self.flag_date is None:
+            self.flag_date = timezone.now()
+        super(CommentFlag, self).save(*args, **kwargs)

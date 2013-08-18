@@ -22,6 +22,8 @@ Read the [Getting Started page](http://getbootstrap.com/getting-started/) for in
 
 Have a bug or a feature request? [Please open a new issue](https://github.com/twbs/bootstrap/issues). Before opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/necolas/issue-guidelines), written by [Nicolas Gallagher](https://github.com/necolas/).
 
+You may use [this JS Bin](http://jsbin.com/aFacAf/1/edit) as a template for your bug reports.
+
 
 
 ## Documentation
@@ -63,13 +65,13 @@ When completed, you'll be able to run the various Grunt commands provided from t
 ### Available Grunt commands
 
 #### Build - `grunt`
-Run `grunt` to run tests locally and compile the CSS and JavaScript into `/dist`. **Requires recess and uglify-js.**
+Run `grunt` to run tests locally and compile the CSS and JavaScript into `/dist`. **Requires [recess](https://github.com/twitter/recess) and [uglify-js](https://github.com/mishoo/UglifyJS).**
 
 #### Only compile CSS and JavaScript - `grunt dist`
-`grunt dist` creates the `/dist` directory with compiled files. **Requires recess and uglify-js.**
+`grunt dist` creates the `/dist` directory with compiled files. **Requires [recess](https://github.com/twitter/recess) and [uglify-js](https://github.com/mishoo/UglifyJS).**
 
 #### Tests - `grunt test`
-Runs jshint and qunit tests headlessly in [phantomjs](http://code.google.com/p/phantomjs/) (used for ci). **Requires phantomjs.**
+Runs jshint and qunit tests headlessly in [phantomjs](https://github.com/ariya/phantomjs/) (used for CI). **Requires [phantomjs](https://github.com/ariya/phantomjs/).**
 
 #### Watch - `grunt watch`
 This is a convenience method for watching just Less files and automatically building them whenever you save.
