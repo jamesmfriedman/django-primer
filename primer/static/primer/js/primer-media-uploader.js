@@ -1,4 +1,4 @@
-!function($){
+! function($){
 
 	$.fn.fileUploadField = function() {
 
@@ -125,4 +125,4 @@
 		initUploaders();
 	});
 
-}(jQuery)
+}(jQuery);

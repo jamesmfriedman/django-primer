@@ -32,6 +32,7 @@
 
 	{% compress js %}	
 
+		{% block primer_scripts %}
 		{# JQUERY + UI #}
 		<script src="{{ STATIC_URL }}primer/js/vendors/jquery.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/vendors/jquery-ui.js"></script>
@@ -82,6 +83,7 @@
 		<script src="{{ STATIC_URL }}primer/js/primer-pushclient.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/primer-notifications-widget.js"></script>
 		<script src="{{ STATIC_URL }}primer/js/primer-media-uploader.js"></script>
+		{% endblock primer_scripts %}
 
 		{% block header_scripts %}
 		{% endblock header_scripts %}
