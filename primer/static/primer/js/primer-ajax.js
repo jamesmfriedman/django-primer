@@ -22,6 +22,13 @@
 		var resp = jQueryAjax(options);
 
 		resp.fail(function(jqXHR, textStatus, errorThrown){
+				
+			// handle error redirects
+			if (jqXHR.status == 401 && jqXHR.getResponseHeader('Redirect')) {
+				window.location = jqXHR.getResponseHeader('Redirect');
+			}	
+
+			// handle json errors
 			var json = null;
 
 			try {
@@ -30,8 +37,7 @@
 			
 			if (json && ('_primer' in json)) {
 				
-				if ('form_errors' in json['_primer']) handleFormErrors(json['_primer']['form_errors']);
-				
+				if ('form_errors' in json['_primer']) handleFormErrors(json['_primer']['form_errors']);				
 			}
 
 		});

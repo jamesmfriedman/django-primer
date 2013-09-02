@@ -18,6 +18,7 @@ class LoginRequiredMixin(object):
     """
     Taken from django-braces
     View mixin which verifies that the user is authenticated.
+    Modified slightly for ajax redirects as well
 
     NOTE:
         This should be the left-most mixin of a view
@@ -31,8 +32,16 @@ class LoginRequiredMixin(object):
             if self.raise_exception:
                 raise PermissionDenied  # return a forbidden response
             else:
-                return redirect_to_login(request.get_full_path(),
-                    self.get_login_url(), self.get_redirect_field_name())
+                response = redirect_to_login(request.get_full_path(),
+                        self.get_login_url(), self.get_redirect_field_name())
+                
+                
+                if request.is_ajax():
+                    response.status_code = 401
+                    response['Redirect'] = response['Location']
+                
+                return response
+                    
 
         return super(LoginRequiredMixin, self).dispatch(request, *args,
             **kwargs)
