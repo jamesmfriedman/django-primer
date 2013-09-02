@@ -58,6 +58,7 @@ var Modal;
 			createWindow();
 
 			modal.on('click', '.modal-footer button[type=submit]', submitHandler);
+			modal.on('hidden.bs.modal', modal.remove);
 
 			return modal;
 		};

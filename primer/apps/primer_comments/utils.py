@@ -20,10 +20,10 @@ def get_content_types_list(objects):
 
         obj_list.append({
             'app_label' : ctype.app_label,
-            'content_type': ctype.name,
+            'content_type': ctype.model,
             'object_pk' : object_pk
         })
-   
+       
     return obj_list
         
 

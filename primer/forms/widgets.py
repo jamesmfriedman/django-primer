@@ -58,7 +58,7 @@ class PillAutoCompleteInput(forms.HiddenInput):
 
 
 
-class AjaxFileInput(forms.MultiWidget):
+class AjaxFileInput(forms.MultiWidget, forms.ClearableFileInput):
     """
     A widget for uploading files via ajax
     """

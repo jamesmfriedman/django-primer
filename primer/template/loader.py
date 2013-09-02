@@ -70,11 +70,11 @@ def _build_form_errors(data):
     status = 200
 
     if isinstance(data, dict):
-        data['_primer'] = data.get('_primer', {})
-
+    
         for key, item in data.items():
 
             if isinstance(item, (forms.Form, forms.ModelForm)):
+                data['_primer'] = data.get('_primer', {})
                 form = item
                 if not form.is_valid():
 

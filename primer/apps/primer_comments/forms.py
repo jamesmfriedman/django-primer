@@ -169,9 +169,6 @@ class CommentDetailsForm(CommentSecurityForm):
         return dict(
             content_type = ContentType.objects.get_for_model(self.target_object),
             object_pk    = force_text(self.target_object._get_pk_val()),
-            user_name    = self.cleaned_data["name"],
-            user_email   = self.cleaned_data["email"],
-            user_url     = self.cleaned_data["url"],
             comment      = self.cleaned_data["comment"],
             submit_date  = timezone.now(),
             site_id      = settings.SITE_ID,
@@ -183,18 +180,20 @@ class CommentDetailsForm(CommentSecurityForm):
         """
         Check that a submitted comment isn't a duplicate. This might be caused
         by someone posting a comment twice. If it is a dup, silently return the *previous* comment.
+
+        This was a changed a bit from the default django one to allow duplicate comments to be posted
+        after 1 minute has passed, instead of an entire day...
         """
         possible_duplicates = self.get_comment_model()._default_manager.using(
             self.target_object._state.db
         ).filter(
             content_type = new.content_type,
             object_pk = new.object_pk,
-            user_name = new.user_name,
-            user_email = new.user_email,
-            user_url = new.user_url,
+            user = new.user
         )
         for old in possible_duplicates:
-            if old.submit_date.date() == new.submit_date.date() and old.comment == new.comment:
+            
+            if (new.submit_date -  old.submit_date).total_seconds() < 60 and old.comment == new.comment:
                 return old
 
         return new
@@ -248,7 +247,7 @@ class PrimerCommentForm(CommentForm):
         widget = forms.Textarea(
             attrs = {
                 'placeholder' : 'Write Something...',
-                'class' : 'autogrow'
+                # 'class' : 'autogrow'
             },
         ),
         max_length = COMMENT_MAX_LENGTH,
@@ -305,7 +304,10 @@ class PrimerCommentForm(CommentForm):
         data = self.cleaned_data.copy()
         remove_list = ['comment', 'name', 'url', 'timestamp', 'object_pk', 'security_hash', 'content_type', 'honeypot', 'email', 'formclass', 'comments_type']
         for key in remove_list:
-            del data[key]
+            try:
+                del data[key]
+            except KeyError:
+                pass
         if not len(data.keys()):
             data = None
 
@@ -348,31 +350,6 @@ class PrimerCommentForm(CommentForm):
         For templates that cant access builtins
         """
         return self.__class__.__name__
-
-
-    def check_for_duplicate_comment(self, new):
-        """
-        Check that a submitted comment isn't a duplicate. This might be caused
-        by someone posting a comment twice. If it is a dup, silently return the *previous* comment.
-
-        This was a changed a bit from the default django one to allow duplicate comments to be posted
-        after 1 minute has passed, instead of an entire day...
-        """
-        possible_duplicates = self.get_comment_model()._default_manager.using(
-            self.target_object._state.db
-        ).filter(
-            content_type = new.content_type,
-            object_pk = new.object_pk,
-            user_name = new.user_name,
-            user_email = new.user_email,
-            user_url = new.user_url,
-        )
-        for old in possible_duplicates:
-            
-            if (new.submit_date -  old.submit_date).total_seconds() < 60 and old.comment == new.comment:
-                return old
-
-        return new
 
 
 #################################################################################################################

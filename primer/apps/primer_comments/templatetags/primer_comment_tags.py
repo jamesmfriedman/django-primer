@@ -1,7 +1,6 @@
 from django import template
 from django.template.loader import render_to_string
 
-from primer.utils import get_request
 from ..forms import CommentForm, StatusForm, TimelineForm, get_comment_form
 from ..utils import get_content_types_hash, get_content_types_list
 
@@ -16,24 +15,24 @@ def comments(context, target, **kwargs):
         see setup_comment_data
     """
     
-    comment_data = setup_comment_data('comments', target, **kwargs)
+    comment_data = setup_comment_data(context, 'comments', target, **kwargs)
     return render_to_string('comments/base_comments.html', comment_data, context)
 
 
 @register.simple_tag(takes_context=True)
 def wall(context, target, **kwargs):
-    comment_data = setup_comment_data('wall', target, **kwargs)
+    comment_data = setup_comment_data(context, 'wall', target, **kwargs)
     return render_to_string('comments/base_comments.html', comment_data, context)
 
 
 @register.simple_tag(takes_context=True)
 def timeline(context, target, position='center', **kwargs):
     kwargs['css_class_name'] = 'comments-timeline-%s' % position
-    comment_data = setup_comment_data('timeline', target, **kwargs)
+    comment_data = setup_comment_data(context, 'timeline', target, **kwargs)
     return render_to_string('comments/base_comments.html', comment_data, context)
 
 
-def setup_comment_data(comments_type, target, placeholder = None, stream = [], limit = 10, reversed = 0, read_only = 0, forms = None, tab_class = 'nav-pills', login_required = True, css_class_name=''):
+def setup_comment_data(context, comments_type, target, placeholder = None, stream = [], limit = 10, reversed = 0, read_only = 0, forms = None, tab_class = 'nav-pills', login_required = True, css_class_name=''):
     """
     Sets up comment data for walls, comment lists, timelines, etc
     Arguments
@@ -67,14 +66,14 @@ def setup_comment_data(comments_type, target, placeholder = None, stream = [], l
         reversed = False
 
     # optionally overwrite the placeholder text that gets passed in
-    if placeholder:
-        comment_form.fields['comment'].widget.attrs['placeholder'] = placeholder
+    #if placeholder:
+    #    comment_form.fields['comment'].widget.attrs['placeholder'] = placeholder
 
     # add this set of data to the session and get
     # the comment hash
     stream = list(stream)
     stream.extend([target])
-    comment_hash = add_to_session(stream, read_only)
+    comment_hash = add_to_session(context['request'], stream, read_only)
 
     return {
         'target' : target,
@@ -90,7 +89,7 @@ def setup_comment_data(comments_type, target, placeholder = None, stream = [], l
     }
 
 
-def add_to_session(target, read_only):
+def add_to_session(request, target, read_only):
     """
     This adds a hash that identifies the contents of a wall of comments_list in the session
     This hash will get checked against when loading more comments, to make sure
@@ -101,9 +100,6 @@ def add_to_session(target, read_only):
     Arguments
         target: the target(s) that are getting hashed
     """
-
-    # for security, store a hash of this comments conetents in the users session
-    request = get_request()
 
     # create our list if nonexistant
     if not 'primer_comment_hashes' in request.session:
@@ -116,8 +112,7 @@ def add_to_session(target, read_only):
     # add it to the session
     request.session['primer_comment_hashes'][comment_hash] = {
         'content_types' : target_list,
-        'read_only' : bool(read_only),
-        'blah' : 'foo'
+        'read_only' : bool(read_only)
     }
 
     request.session.save()

@@ -32,6 +32,17 @@
 	var currentPath = window.location.pathname + window.location.search + window.location.hash;
 	var currentRequest = null;
 	var hasHistorySupport = !history.emulate;
+	var stateDefaults = {
+		url : null,
+		container : null,
+		data : {},
+		title : document.title,
+		layout : null,
+		callback : $.noop,
+		scroll : false,
+		load : true,
+		force: false,
+	};
 
 	/**
 	 * Constructor
@@ -40,6 +51,11 @@
 
 		$(document).on('click.history', 'a[data-ajax]', handleAjaxLinks);
 		$(window).on('popstate', onStateChange);
+
+		//push our current state into the stack
+		if (hasHistorySupport) {
+			history.replaceState(buildStateData(stateDefaults), stateDefaults.title, currentPath);	
+		}
 	}
 
 
@@ -64,10 +80,11 @@
 	 * Triggered from a pop state event
 	 */
 	function onStateChange(e) {
+
 		var state = history.state;
 		var url = window.location.pathname + window.location.search + window.location.hash;
 		var title = document.title;
-		
+
 		// check to see that our path actually changed. This means a real page load
 		// and not just a hash that is getting added
 		if ((currentPath.split('#')[0] != url.split('#')[0] && state && state.load) || state && state.force) {
@@ -143,23 +160,11 @@
 	 */
 	function pushState(options, callback){
 
-		var defaults = {
-			url : null,
-			container : null,
-			data : {},
-			title : document.title,
-			layout : null,
-			callback : $.noop,
-			scroll : false,
-			load : true,
-			force: false,
-		}
-
 		//handle optionally passing load page just a url
 		if (typeof(options) == 'string') {
-			var config = $.extend({}, defaults, {url: options, callback: callback || $.noop});
+			var config = $.extend({}, stateDefaults, {url: options, callback: callback || $.noop});
 		} else {
-			var config = $.extend({}, defaults, options);
+			var config = $.extend({}, stateDefaults, options);
 		}
 
 		//return if we dont have a url
@@ -170,36 +175,42 @@
 
 		//if we have history support, we can use pushstate,
 		//otherwise we will just redirect
-		if (hasHistorySupport) {
-			
-			config.data['layout'] = config.layout;
-
-			if (!config.container) {
-				if (config.layout == 'app') {
-					config.container = '#main';
-				} else {
-					config.container = '#body';
-				}	
-			}
-
-			//set data for for pushState
-			config.data['container'] = $(config.container).selector;
-			config.data['layout'] = config.layout;
-			config.data['scroll'] = config.scroll;
-			config.data['load'] = config.load;
-			config.data['force'] = config.force;
-			config.data['success'] = false;
-			config.data['beforeSend'] = false;
-
-			
-			history.pushState(config.data, config.title, config.url);
+		if (hasHistorySupport) {	
+		
+			history.pushState(buildStateData(config), config.title, config.url);
 			$(window).trigger('popstate');
+			
 
 		} else {
 			window.location = config.url;
 		}
 		
 	};
+
+	function buildStateData(config) {
+		var data = {};
+
+		data['layout'] = config.layout;
+
+		if (!config.container) {
+			if (config.layout == 'app') {
+				config.container = '#main';
+			} else {
+				config.container = '#body';
+			}	
+		}
+
+		//set data for for pushState
+		data['container'] = $(config.container).selector;
+		data['layout'] = config.layout;
+		data['scroll'] = config.scroll;
+		data['load'] = config.load;
+		data['force'] = config.force;
+		data['success'] = false;
+		data['beforeSend'] = false;
+
+		return data;
+	}
 
 
 	/***********************************************************************************

@@ -20,7 +20,7 @@ MAX_COMMENTS_PER_PAGE = 50
 
 class DeleteView(PrimerView):
 
-    def get(self, request):
+    def post(self, request):
         """
         Delete a comment. We dont actually delete it, we just set is removed
         This view will only let the comment author delete it
@@ -158,7 +158,7 @@ class PostView(PrimerView):
 
         return self.to_template({
             'comment' : comment
-        }, comment.template()) 
+        }, comment.template) 
 
 
 class LoadView(PrimerView):

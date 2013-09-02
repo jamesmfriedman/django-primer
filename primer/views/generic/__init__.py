@@ -190,7 +190,6 @@ class PrimerView(View):
         
         app_template = select_template(app_templates).name
 
-
         # View Templates ############################################
         view_templates = [
             '%s/%s.html' % (self.app_name, self.view_name),
@@ -203,7 +202,7 @@ class PrimerView(View):
         view_template = view_templates
         
         self.request.primer['skeleton_template'] = skeleton_template
-        self.request.primer['site_template']     = site_template
         self.request.primer['base_template']     = base_template
+        self.request.primer['site_template']     = site_template
         self.request.primer['app_template']      = app_template
         self.request.primer['view_template']     = view_template

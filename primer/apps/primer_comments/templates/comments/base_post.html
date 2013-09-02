@@ -1,7 +1,7 @@
 {% load crispy_forms_tags %}
 {% load url from future %}
 <div 
-    class="comment {{comment.get_css_class}} {% block comment_class %}{% endblock comment_class %} fade" 
+    class="comment {{comment.css_class}} {% block comment_class %}{% endblock comment_class %} fade" 
     data-pk="{{ comment.pk }}" 
     data-liked="{{ comment.likes.current_user_has_liked|lower }}"
     data-page="1" 
@@ -14,7 +14,7 @@
         {% block comment_icon_wrapper %}
         <div class="comment-icon pull-left">
             {% block comment_icon %}
-                {{ comment.user.get_avatar }}
+                {{ comment.user.avatar }}
             {% endblock comment_icon %}
         </div>
         {% endblock comment_icon_wrapper %}
