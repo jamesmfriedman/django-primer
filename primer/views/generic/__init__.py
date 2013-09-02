@@ -8,6 +8,8 @@ from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from primer.shortcuts import render_to_template, render_to_json, render_to_xml, render_to_debug
 
@@ -57,6 +59,19 @@ class LoginRequiredMixin(object):
                 "cls": self.__class__.__name__})
 
         return self.redirect_field_name
+
+
+class CsrfExemptMixin(object):
+    """
+    Exempts the view from CSRF requirements.
+
+    NOTE:
+        This should be the left-most mixin of a view.
+    """
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(CsrfExemptMixin, self).dispatch(*args, **kwargs)
 
 
 class PrimerView(View):
