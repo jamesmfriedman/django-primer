@@ -54,7 +54,7 @@
 
 		//push our current state into the stack
 		if (hasHistorySupport) {
-			history.replaceState(buildStateData(stateDefaults), stateDefaults.title, currentPath);	
+			history.replaceState(buildStateData( $.extend({}, stateDefaults)) , stateDefaults.title, currentPath);	
 		}
 	}
 
@@ -176,7 +176,6 @@
 		//if we have history support, we can use pushstate,
 		//otherwise we will just redirect
 		if (hasHistorySupport) {	
-		
 			history.pushState(buildStateData(config), config.title, config.url);
 			$(window).trigger('popstate');
 			
@@ -191,8 +190,8 @@
 		var data = {};
 
 		data['layout'] = config.layout;
-
 		if (!config.container) {
+
 			if (config.layout == 'app') {
 				config.container = '#main';
 			} else {

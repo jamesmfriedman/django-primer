@@ -115,7 +115,9 @@ class PrimerDatePickerInput(forms.DateInput):
         del final_attrs['id']
 
         if value and value != '':
-            display_date = datetime.strptime(value, self.format).strftime(self.alt_format)
+            if isinstance(value, unicode):
+                value = datetime.strptime(value, self.format)
+            display_date = value.strftime(self.alt_format)
             final_attrs['value'] = force_text(display_date)
 
         widget += format_html('<input{0} />', flatatt(final_attrs))
