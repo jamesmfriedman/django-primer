@@ -87,7 +87,7 @@ class Comment(BaseCommentAbstractModel):
         verbose_name_plural = _('comments')
 
     def __str__(self):
-        return "%s: %s..." % (self.name, self.comment[:50])
+        return "%s: %s..." % (self.user.get_full_name(), self.comment[:50])
 
     def save(self, *args, **kwargs):
         if self.submit_date is None:

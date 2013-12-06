@@ -1,9 +1,7 @@
 import json
-from dict2xml import dict2xml
 from django import forms
 from django.shortcuts import render as django_render
 from django.template.context import RequestContext
-from django import forms
 
 def render(request, data = {}, view_template = None, context_instance = None, content_type = None, status = 200):
     """
@@ -41,6 +39,7 @@ def render_to_json(request, data = {}, status = 200):
     return resp
 
 def render_to_xml(request, data = {}, status = 200):
+    from dict2xml import dict2xml
     status = _build_form_errors(data)
     resp = render(request, {'xml_data' : dict2xml(data)}, 'primer/format_xml.html', status = status)
     resp['Content-Type'] = 'application/xhtml+xml' 
