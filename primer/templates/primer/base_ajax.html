@@ -1,9 +1,5 @@
 {% load compress %}
 
-{# WE INCLUDE MULTIPLE TAGS HERE TO SUPPORT MULTIPLE LAYERS OF AJAXING IN PAGES #}
-{% block ajax_content %}
-{% endblock ajax_content %}
-
 {% compress js %}
 	{% block ajax_scripts %}
 	{% endblock ajax_scripts %}
@@ -11,5 +7,10 @@
 
 {% block external_scripts %}
 {% endblock external_scripts %}
+
+{% block ajax_content %}
+{% endblock ajax_content %}
+
+
 
 <input type="hidden" id="primer-css-namespace" value="{{ css_namespace }}"/>

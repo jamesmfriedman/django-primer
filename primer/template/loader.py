@@ -33,8 +33,14 @@ def render_to_template(*args, **kwargs):
     return render(*args, **kwargs)
 
 def render_to_json(request, data = {}, status = 200):
-    status = _build_form_errors(data)
-    resp = render(request, {'json_data' : json.dumps(data)}, 'primer/format_json.html', status = status)
+    if issubclass(data.__class__, list) or issubclass(data.__class__, dict):
+        status = _build_form_errors(data)
+        json_data = json.dumps(data)
+    else:
+        # pass through for possibly already json serialized strings
+        json_data = data
+    
+    resp = render(request, {'json_data' : json_data}, 'primer/format_json.html', status = status)
     resp['Content-Type'] = 'application/json' 
     return resp
 
