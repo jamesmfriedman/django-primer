@@ -4,5 +4,6 @@ from .views import UploadView
 
 urlpatterns = patterns('primer.apps.primer_media.views',
 
+	url(r'^media-upload/([\S]+?)/$', UploadView.as_view(), name='primer-media-upload'),
     url(r'^media-upload/$', UploadView.as_view(), name='primer-media-upload'),
 )

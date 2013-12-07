@@ -1,3 +1,4 @@
+import base64
 import uuid
 import os
 
@@ -8,8 +9,16 @@ from django.conf import settings
 from primer.shortcuts import render_to_json
 from .signals import files_uploaded
 
-class UploadView(View):
-    
+class UploadView(View):    
+    def get(self, request, tmp_names):
+        tmp_names = tmp_names.split(',')
+        file_data = {}
+        for tmp_name in tmp_names:
+            pathname = '%s/%s' % (settings.FILE_UPLOAD_TEMP_DIR, tmp_name)
+            f = open(pathname, 'rb')
+            file_data[tmp_name] = base64.b64encode(f.read())
+        return render_to_json(request, file_data)
+
     def post(self, request):    
 
         return_paths = []

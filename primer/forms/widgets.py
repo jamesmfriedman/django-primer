@@ -80,7 +80,11 @@ class AjaxFileInput(forms.MultiWidget, forms.ClearableFileInput):
 
 
 class AjaxImageInput(AjaxFileInput):
-    pass
+    def __init__(self, attrs=None):
+        attrs = attrs or {}
+        attrs['class'] = attrs.get('class', '') + ' file-image-field' 
+        super(AjaxImageInput, self).__init__(attrs)
+        
 
 ######################################################################################################
 # DateTime Widgets

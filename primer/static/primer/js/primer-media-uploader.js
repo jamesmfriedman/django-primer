@@ -9,12 +9,12 @@
 			var timeout;
 			var filelist = [];
 			var maxUploads = $this.data('maxuploads') || 1;
+			var isImageField = $this.hasClass('file-image-field');
 
 			/**
 			 * Construct
 			 */
-			function __init__() {
-
+			function init() {
 				//safe escape out if it has been bound already
 				if ($this.data('mediaUploader')) return;
 				$this.data('mediaUploader', true);
@@ -28,14 +28,39 @@
 				});
 
 				$(document).bind('dragover', dragEffect);
+
+				if (isImageField) {
+					var names = hiddenInput.val();
+					$.get($this.data('handleurl') + names, function(data){
+						for (key in data) {
+							var dataUri = 'data:image/jpeg;base64,' + data[key];
+							addImage(dataUri);
+						}
+					});
+				}
+			}
+
+			function addImage(dataUri) {
+				var image = $('<a href="#" class="thumbnail file-image-field-thumbnail"><img class="" src="'+ dataUri +'"/></a>')
+				hiddenInput.parent().append(image);
 			}
 
 			/**
 			 * Triggered when files get added to the uploader
 			 */
 			function add(e, data) {
+				console.log(data);
 				$(data.files).each(function(){
 					filelist.push(this);
+
+					if (isImageField) {
+						var reader = new FileReader();
+						reader.onload = function (e) {
+							addImage(e.target.result);
+						}
+						reader.readAsDataURL(this);	
+					}
+					
 				});
 				data.submit();
 			}
@@ -110,7 +135,7 @@
 			}
 
 
-			__init__();
+			init();
 		});
 
 		return this;
@@ -118,7 +143,7 @@
 
 	$(function(){
 		var initUploaders = function() {
-			$('.file-upload-field').fileUploadField();
+			$('.file-upload-field:not([type="hidden"])').fileUploadField();
 		};
 
 		$(window).on('ajaxPageLoaded', initUploaders);
