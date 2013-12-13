@@ -1,5 +1,5 @@
 /*
- * jQuery File Upload Plugin JS Example 8.3.0
+ * jQuery File Upload Plugin JS Example 8.9.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9,14 +9,14 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-/*jslint nomen: true, regexp: true */
-/*global $, window, blueimp */
+/* global $, window */
 
 $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({
+        disableImageResize: false,
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
         url: 'server/php/'
@@ -50,7 +50,7 @@ $(function () {
                 url: '//jquery-file-upload.appspot.com/',
                 type: 'HEAD'
             }).fail(function () {
-                $('<span class="alert alert-error"/>')
+                $('<div class="alert alert-danger"/>')
                     .text('Upload server currently unavailable - ' +
                             new Date())
                     .appendTo('#fileupload');
@@ -69,7 +69,7 @@ $(function () {
             $(this).removeClass('fileupload-processing');
         }).done(function (result) {
             $(this).fileupload('option', 'done')
-                .call(this, null, {result: result});
+                .call(this, $.Event('done'), {result: result});
         });
     }
 

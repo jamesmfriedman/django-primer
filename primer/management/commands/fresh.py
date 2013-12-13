@@ -102,7 +102,7 @@ class Command(BaseCommand):
                 import psycopg as Database
             elif engine == 'postgresql_psycopg2':
                 import psycopg2 as Database
-    
+            
             if settings.DATABASES['default']['NAME'] == '':
                 from django.core.exceptions import ImproperlyConfigured
                 raise ImproperlyConfigured, "You need to specify DATABASE_NAME in your Django settings file."

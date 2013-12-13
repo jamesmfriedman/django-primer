@@ -73,17 +73,26 @@ class AjaxFileInput(forms.MultiWidget, forms.ClearableFileInput):
         super(AjaxFileInput, self).__init__(widgets, attrs)
 
     def decompress(self, value):
-        if value:
-            value = to_current_timezone(value)
-            return [value.date(), value.time().replace(microsecond=0)]
         return [None, None]
 
+class AjaxMediaInput(AjaxFileInput):
+    field_class = 'file-upload-field-media'
 
-class AjaxImageInput(AjaxFileInput):
     def __init__(self, attrs=None):
         attrs = attrs or {}
-        attrs['class'] = attrs.get('class', '') + ' file-image-field' 
-        super(AjaxImageInput, self).__init__(attrs)
+        attrs['class'] = attrs.get('class', '') + ' ' + self.field_class 
+        super(AjaxMediaInput, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):
+        string = super(AjaxMediaInput, self).render(name, value, attrs)
+        string += mark_safe(u'<div class="file-upload-media-container"></div>')
+        return string
+
+class AjaxImageInput(AjaxMediaInput):
+    field_class = 'file-upload-field-image'
+
+    
+
         
 
 ######################################################################################################
