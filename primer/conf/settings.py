@@ -156,4 +156,5 @@ LESS_PROCESSOR_ENABLED = getattr(settings, 'LESS_PROCESSOR_ENABLED', settings.DE
 # Media Handling
 #################################################################################################
 FILE_UPLOAD_TEMP_DIR = getattr(settings, 'FILE_UPLOAD_TEMP_DIR', '/tmp')
+MEDIA_PREFIX = getattr(settings, 'MEDIA_PREFIX', '')
 

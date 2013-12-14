@@ -19,7 +19,7 @@ from primer.utils import get_current_user
 
 
 def get_upload_path(instance, filename):
-        return os.path.join(instance.pathname, instance.filename)
+        return os.path.join(settings.MEDIA_PREFIX, instance.pathname, instance.filename)
 
 
 class MediaLinkManager(models.Manager):
@@ -47,8 +47,6 @@ class MediaManager(models.Manager):
         original_filename = f.name
         base_filename, extension = os.path.splitext(f.name)
         filename = str(uuid.uuid4()) + extension
-        media_dir = settings.MEDIA_ROOT.split(os.path.sep)[-1]
-        print media_dir
         pathname = '%s/%s/' % (filename[0], filename[1])
         mimetype, extra = mimetypes.guess_type(f.name)
         mimetype = mimetype or 'text/plain'
