@@ -16,7 +16,8 @@
 				url: $this.data('handleurl'),
 				dropZone: $this,
 				progress: progress,
-				done: done
+				done: done,
+				add: add
 			};
 
 			/**
@@ -28,28 +29,6 @@
 				$this.data('mediaUploader', true);
 
 				var uploadConfig = $.extend({}, uploaderOptions);
-
-				if (isImageField) {
-					uploadConfig = $.extend({}, uploaderOptions, {
-						processQueue: [{
-		            		action: 'addImagePreview',
-		        		}],
-		        	});
-
-		        	$.blueimp.fileupload.prototype.processActions = {
-				        addImagePreview: function (data, options) {
-			        		var reader = new FileReader();
-			        		var id = String.random();
-			        		$(data.fileInput).data('uniqueId', id);
-							reader.onload = function (e) {
-								addImage(e.target.result, id);
-							}
-							reader.readAsDataURL(data.files[0]);
-
-				        }
-				    };
-				}
-
 				$this.fileupload(uploadConfig);
 
 			
@@ -72,12 +51,27 @@
 						removeItemFromList(thumb.data('id'));
 						thumb.remove();
 					});
+
+					mediaContainer.sortable({
+						tolerance : 'pointer',
+						stop : function() {
+							var ids = [];
+							mediaContainer.find('.thumbnail[data-id]').each(function(){
+								ids.push($(this).data('id'));
+							});
+							console.log(ids);
+							console.log(ids.join(','));
+							hiddenInput.val(ids.join(','));
+						}
+					});
 				}
 			}
 
 			function addImage(dataUri, id) {
 				var image = $('<div class="thumbnail file-image-field-thumbnail" data-id="'+ id +'"><a href="#" title="Delete" class="close">&times;</a><img class="" src="'+ dataUri +'"/></div>')
 				mediaContainer.append(image);
+				mediaContainer.removeClass('empty');
+				return image;
 			}
 
 			function removeItemFromList(name) {
@@ -88,6 +82,25 @@
 				}
 			}
 
+			function add(e, data) {
+			    if (data.autoUpload || (data.autoUpload !== false &&
+			            $(this).fileupload('option', 'autoUpload'))) {
+			        data.process().done(function () {
+			            
+			            if (isImageField) {
+			            	var reader = new FileReader();
+			        		var id = String.random();
+			        		data.context = addImage('', id);
+							reader.onload = function (e) {
+								data.context.find('img').attr('src', e.target.result);
+							}
+							reader.readAsDataURL(data.files[0]);
+			            }
+
+			            data.submit();
+			        });
+			    }
+			}
 	
 			/**
 			 * Triggered when it is done uploading
@@ -96,8 +109,7 @@
 				var list = $.parseJSON(data.jqXHR.responseText);
 
 				if (isImageField) {
-					var thumb = mediaContainer.find('[data-id='+ $(data.fileInput).data('uniqueId') +']');	
-					thumb.attr('data-id', list[0]);
+					data.context.attr('data-id', list[0]);
 				}
 				
 				

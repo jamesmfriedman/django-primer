@@ -85,7 +85,7 @@ class AjaxMediaInput(AjaxFileInput):
 
     def render(self, name, value, attrs=None):
         string = super(AjaxMediaInput, self).render(name, value, attrs)
-        string += mark_safe(u'<div class="file-upload-media-container"></div>')
+        string += mark_safe(u'<div class="file-upload-media-container empty"></div>')
         return string
 
 class AjaxImageInput(AjaxMediaInput):

@@ -82,7 +82,7 @@ class AjaxFileField(MultiValueField):
 
     def widget_attrs(self, widget):
         if not self.handle_url:
-            self.handle_url = reverse('primer-media-upload')
+            self.handle_url = '/media-upload/'
 
         attrs = {
             'data-handleurl' : self.handle_url,

@@ -20,31 +20,50 @@
 	position: absolute;
 }
 
-// file uploader
-.file-image-field-thumbnail {
-	display: inline-block;
-	position: relative;
-	margin-bottom: 5px;
-	margin-right: 5px;
-	img {
-		height: 192px;
+/****************************************************
+ * file uploader
+ ****************************************************/
+.file-upload-media-container {
+
+	background: @input-group-addon-bg;
+	padding: @thumbnail-padding;
+	padding-bottom:0;
+	border-radius: @border-radius-base;
+	margin-top: 10px;
+	line-height: 0;
+
+	&.empty {
+		display: none;
 	}
 
-	.close {
-		.opacity(.8);
-		position: absolute;
-		background:black;
-		width: 30px;
-		height:30px;
-		font-weight: normal;
-		line-height: 25px;
-		right:@thumbnail-padding;
-		top:@thumbnail-padding;
-		text-align: center;
-		color:white;
-	}
+	.file-image-field-thumbnail {
+		display: inline-block;
+		position: relative;
+		margin-bottom: @thumbnail-padding;
+		margin-right: @thumbnail-padding;
+		.transition(none);
+		.dragCursor();
 
-	.close:hover {
-		.opacity(1);
+		img {
+			height: 142px;
+		}
+
+		.close {
+			.opacity(.8);
+			position: absolute;
+			background:black;
+			width: 30px;
+			height:30px;
+			font-weight: normal;
+			line-height: 25px;
+			right:@thumbnail-padding;
+			top:@thumbnail-padding;
+			text-align: center;
+			color:white;
+		}
+
+		.close:hover {
+			.opacity(1);
+		}
 	}
 }

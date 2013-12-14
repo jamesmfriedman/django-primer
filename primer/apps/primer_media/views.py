@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import base64
 import uuid
 import os
@@ -12,7 +13,7 @@ from .signals import files_uploaded
 class UploadView(View):    
     def get(self, request, tmp_names):
         tmp_names = tmp_names.split(',')
-        file_data = {}
+        file_data = OrderedDict()
         for tmp_name in tmp_names:
             pathname = '%s/%s' % (settings.FILE_UPLOAD_TEMP_DIR, tmp_name)
             f = open(pathname, 'rb')
