@@ -184,7 +184,6 @@ class PrimerView(View):
         # Base templates ############################################
         base_templates = [
             'base.html',
-            'primer/base.html'
         ]
 
         if self.view_name == 'login': 
@@ -194,21 +193,10 @@ class PrimerView(View):
         
         base_template = select_template(base_templates).name
 
-
-        # Site Templates ############################################
-        site_templates = [
-            '%s/site.html' % self.current_site.name,
-            'site.html',
-            base_template
-        ]
-
-        site_template = select_template(site_templates).name
-
-
         # App Templates ############################################
         app_templates = [
             '%s/base.html' % self.app_name,
-            site_template
+            base_template
         ]
 
         
@@ -227,6 +215,5 @@ class PrimerView(View):
         
         self.request.primer['skeleton_template'] = skeleton_template
         self.request.primer['base_template']     = base_template
-        self.request.primer['site_template']     = site_template
         self.request.primer['app_template']      = app_template
         self.request.primer['view_template']     = view_template

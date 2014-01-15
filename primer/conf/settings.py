@@ -24,6 +24,7 @@ __all__ = (
     'STATIC_ROOT',
     'MEDIA_ROOT',
     'FILE_UPLOAD_TEMP_DIR',
+    'MEDIA_PREFIX',
 
     'LESS_ROOT',
     'LESS_CSS_PATHS',
